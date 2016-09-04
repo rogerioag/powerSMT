@@ -441,9 +441,7 @@ else if (!mystricmp(TECH_FACTOR, "TECH_070"))
 
 }
 
-fprintf(stderr,"POWERINIT:TECH_FACTOR: %s\n",TECH_FACTOR);
-fprintf(stderr,"POWERINIT:TECH_LENGTH: %g\n",TECH_LENGTH);
-
+fprintf(stderr,"*** Technology process considered: %s (%g)\n",TECH_FACTOR, TECH_LENGTH);
 
 /*
  * CMOS 0.8um model parameters
@@ -685,14 +683,13 @@ fprintf(stderr,"POWERINIT:TECH_LENGTH: %g\n",TECH_LENGTH);
  
  
  /* Added by PowerSMT */
- /* FIX ME, I don't have details about this values */
+ /* FIXME: I don't have details about this values */
  I_MULT 			=	(I_MULT16);
  I_DIV 				=	(I_MULT);
  F_DIV 				=	(F_MULT);
  F_DIV_MULT 		=	(F_DIV + F_MULT);
  
- /* FIX */
- /* FIX ME, I don't have details about this values */
+ /* FIXME: I don't have details about this values */
  RD_PORT 			= (0.0);
  WR_PORT 			= (0.0);
  F_CMP 				= (0.0);

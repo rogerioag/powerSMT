@@ -197,6 +197,8 @@
 /* added for Wattch Power Model */
 #include "power.h"
 
+#include "log.h"
+
 /*
  * This file implements a very detailed out-of-order issue superscalar
  * processor with a two-level memory system and speculative execution support.
@@ -325,7 +327,10 @@ static int ptrace_nelt = 0;
 static char *ptrace_opts[2];
 
 /* instruction fetch queue size (in insts) */
-static int ruu_ifq_size;
+/* PowerSMT Added */
+// static int ruu_ifq_size;
+int ruu_ifq_size;
+/* PowerSMT Added */
 
 /* extra branch mis-prediction latency */
 static int ruu_branch_penalty;
@@ -374,14 +379,17 @@ int ras_size = 8;
 static int btb_nelt = 2;
 int btb_config[2] = { /* nsets */512, /* assoc */4 };
 
-/* instruction fetch width */
-static int ruu_fetch_width;
+/* instruction fetch width for each slot */
+/* PowerSMT Added */
+// static int ruu_fetch_width;
+int ruu_fetch_width;
+/* PowerSMT Added */
 
-/* instruction decode B/W (insts/cycle) is the same for each slot */
+/* instruction decode B/W (insts/cycle) is just one for all slots */
 // static int ruu_decode_width;
 int ruu_decode_width;
 
-/* instruction issue B/W (insts/cycle) is the same for each slot */
+/* instruction issue B/W (insts/cycle) is just one for all slots */
 // static int ruu_issue_width;
 int ruu_issue_width;
 
@@ -392,7 +400,7 @@ static int ruu_inorder_issue;
 // static int ruu_include_spec;
 int ruu_include_spec;
 
-/* instruction commit B/W (insts/cycle) is the same for each slot */
+/* instruction commit B/W (insts/cycle) is just one for all slots */
 int ruu_commit_width;
 
 /* register update unit (RUU) size is the same for each slot */
@@ -463,6 +471,11 @@ static int tlb_miss_lat;
 /* options for Wattch Power Model */
 int data_width = 64;
 
+/* Cache data output for CACTI */
+int il1_output_width = 64;
+int dl1_output_width = 64;
+int dl2_output_width = 64;
+
 /* static power model results */
 extern power_result_type power;
 
@@ -508,6 +521,11 @@ counter_t dcache2_access[MAX_SLOTS] = { 0 };
  */
 counter_t fus_num_access[MAX_SLOTS] = { 0 };
 counter_t fus_access[MAX_SLOTS][NUM_FU_CLASSES] = { {0} };
+
+/* Count instruction fetch queue access (fetch_data) */
+counter_t ifq_access[MAX_SLOTS] = { 0 };
+/* Count reorder buffer access ROB */
+counter_t reorder_access[MAX_SLOTS] = { 0 };
 /* PowerSMT Added */
 
 counter_t resultbus_access[MAX_SLOTS] = { 0 };
@@ -1023,11 +1041,15 @@ void sim_reg_options(struct opt_odb_t *odb) {
 	char opt_name[64]; /* to contain the option name */
 
 	opt_reg_header(odb,
+	               "PowerSMT: This simulator implements evaluating Power Consumption in SMT Architectures\n"
+	               "Developed using:\n"
 	               "SS_SMT: This simulator implements a SMT processor architecture that\n"
 		               "has many pipelines totally independents. Each pipeline is a very detailed\n"
 		               "out-of-order issue superscalar processor with a two-level memory system\n"
 		               "and speculative execution support. This simulator is a performance simulator\n"
-		               "and was developed from SimpleScalar 3.0 Tool.\n");
+		               "and was developed from SimpleScalar 3.0 Tool.\n"
+		             "Sim-wattch 1.02 (Power Model modified)\n"
+		             "CACTI 4.0\n");
 
 	opt_reg_string(odb,
 	               "-fu:type",
@@ -1657,6 +1679,33 @@ void sim_reg_options(struct opt_odb_t *odb) {
 	             TRUE,
 	             NULL,
 	             0);
+	
+	/* PowerSMT Added */
+	opt_reg_int(odb, "-cache:il1_output_width",
+				     "instruction cache level 1 data output width for CACTI",
+				     &il1_output_width, 
+				     /* default */64,
+				     /* print */TRUE, /* format */
+				     NULL,
+				     0);
+	opt_reg_int(odb, "-cache:dl1_output_width",
+					 "data cache level 1 data output width for CACTI",
+					 &dl1_output_width, 
+					 /* default */64,
+					 /* print */TRUE, /* format */
+					 NULL,
+					 0);
+	opt_reg_int(odb, "-cache:dl2_output_width",
+					 "data cache level 2 data output width for CACTI",
+					 &dl2_output_width, 
+					 /* default */64,
+					 /* print */TRUE, /* format */
+					 NULL,
+					 0);
+	
+	/* TODO: Colocar outros parametros para a cache utilizados pela CACTI. 
+	 * RWP, ERP, EWP */	
+	/* PowerSMT Added */
 }
 
 void check_cache_sizes(int csize,
@@ -1877,7 +1926,8 @@ void sim_check_options(struct opt_odb_t *odb, /* options database */
 
 				nsets = (csize*1024)/(l1bsize*assoc);
 
-				fprintf(stderr, "\ndl1 -> nsets = %d\n",nsets);
+				fprintf(stderr,"*** Calculating dl1 nsets parameter: ");
+				fprintf(stderr, "dl1->nsets = %d\n",nsets);
 
 				for (bank=0;bank<dl1_banks_num;bank++)
 				{	sprintf(aux_name, "%s_%s",name, itoa[bank]);
@@ -1911,7 +1961,8 @@ void sim_check_options(struct opt_odb_t *odb, /* options database */
 					 * */
 					nsets = (csize*1024)/(l2bsize*assoc);
 
-					fprintf(stderr, "\ndl2 -> nsets = %d\n",nsets);
+					fprintf(stderr,"*** Calculating dl2 nsets parameter: ");
+					fprintf(stderr, "dl2->nsets = %d\n",nsets);
 
 					for (bank=0;bank<l2_banks_num;bank++)
 					{	sprintf(aux_name, "%s_%s",name, itoa[bank]);
@@ -1963,7 +2014,8 @@ void sim_check_options(struct opt_odb_t *odb, /* options database */
 				 */
 				nsets = (csize*1024) / (l1bsize*assoc);
 
-				fprintf(stderr, "\nil1 -> nsets = %d\n",nsets);
+				fprintf(stderr,"*** Calculating il1 nsets parameter: ");
+				fprintf(stderr, "il1->nsets = %d\n",nsets);
 
 				for (bank=0;bank<IL1_BANKS_TOTAL;bank++)
 				{	int module, aux_bank;
@@ -1999,7 +2051,8 @@ void sim_check_options(struct opt_odb_t *odb, /* options database */
 					if (l2bsize < l1bsize)
 						fatal(0,"l1 bsize must fit inside l2 bsize");
 
-					fprintf(stderr, "\nil2 nsets = dl2 nsets \n");
+					fprintf(stderr,"*** Calculating il2 nsets parameter: ");
+					fprintf(stderr, "il2 nsets = dl2 nsets \n");
 
 					for (bank=0;bank<l2_banks_num;bank++)
 						cache_il2[bank] = cache_dl2[bank];
@@ -2027,7 +2080,8 @@ void sim_check_options(struct opt_odb_t *odb, /* options database */
 
 					nsets = (csize*1024) / (l2bsize*assoc);
 
-					fprintf(stderr, "\nil2 -> nsets = %d\n",nsets);
+					fprintf(stderr,"*** Calculating il2 nsets parameter: ");
+					fprintf(stderr, "il2 -> nsets = %d\n",nsets);
 
 					for (bank=0;bank<l2_banks_num;bank++)
 					{	sprintf(aux_name, "%s_%s",name, itoa[bank]);
@@ -2054,7 +2108,8 @@ void sim_check_options(struct opt_odb_t *odb, /* options database */
 
 				nsets = (csize*1024) / (l1bsize*assoc);
 
-				fprintf(stderr, "\nitlb -> nsets = %d\n",nsets);
+				fprintf(stderr,"*** Calculating itlb nsets parameter: ");
+				fprintf(stderr, "itlb->nsets = %d\n",nsets);
 
 				for (sn=0;sn<process_num;sn++)
 				{	sprintf(aux_name, "%s_%s",name, itoa[sn]);
@@ -2079,7 +2134,8 @@ void sim_check_options(struct opt_odb_t *odb, /* options database */
 
 				nsets = (csize*1024) / (l1bsize*assoc);
 
-				fprintf(stderr, "\ndtlb -> nsets = %d\n",nsets);
+				fprintf(stderr,"*** Calculating dtlb nsets parameter: ");
+				fprintf(stderr, "dtlb->nsets = %d\n",nsets);
 
 				for (sn=0;sn<process_num;sn++)
 				{	sprintf(aux_name, "%s_%s",name, itoa[sn]);
@@ -3170,10 +3226,8 @@ typedef unsigned int INST_SEQ_TYPE;
 					struct bpred_update_t dir_update; /* bpred direction update info */
 					int spec_mode; /* non-zero if issued in spec_mode */
 					md_addr_t addr; /* effective address for ld/st's */
-					INST_TAG_TYPE tag; /* RUU slot tag, increment to
-					 squash operation */
-					INST_SEQ_TYPE seq; /* instruction sequence, used to
-					 sort the ready list and tag inst */
+					INST_TAG_TYPE tag; /* RUU slot tag, increment to squash operation */
+					INST_SEQ_TYPE seq; /* instruction sequence, used to sort the ready list and tag inst */
 					unsigned int ptrace_seq; /* pipetrace sequence number */
 
 					/* instruction status */
@@ -3499,11 +3553,13 @@ typedef unsigned int INST_SEQ_TYPE;
 					}
 				}
 
-				/* service all functional unit release events, this function is called
-				 once per cycle, and it used to step the BUSY timers attached to each
-				 functional unit in the function unit resource pool, as long as a functional
-				 unit's BUSY count is > 0, it cannot be issued an operation */
+/* service all functional unit release events, this function is called
+	 once per cycle, and it used to step the BUSY timers attached to each
+	 functional unit in the function unit resource pool, as long as a functional
+	 unit's BUSY count is > 0, it cannot be issued an operation 
+*/
 				static void ruu_release_fu(void) {
+					LOG(stderr, "ruu_release_fu\n");
 					int i;
 
 					/* walk all resource units, decrement busy counts by one */
@@ -3512,6 +3568,7 @@ typedef unsigned int INST_SEQ_TYPE;
 						if (fu_pool->resources[i].busy > 0)
 							fu_pool->resources[i].busy--;
 					}
+					LOG(stderr, "~ruu_release_fu\n");
 				}
 
 				/*
@@ -3828,6 +3885,7 @@ static struct CV_link CVLINK_NULL = { NULL, 0 };
 	 RUU and LSQ to the architected reg file, stores in the LSQ will commit
 	 their store data to the data cache at this point as well */
 static void ruu_commit(void) {
+	LOG(stderr, "ruu_commit\n");
 	int i, sn, lat, events, n_committed;
 	static int next_slot = -1;
 	int not_done;
@@ -3854,13 +3912,18 @@ static void ruu_commit(void) {
 
 		if ((RUU_num[sn] > 0) && (!committed[sn])){
 			struct RUU_station *rs = &(RUU[sn][RUU_head[sn]]);
-
+			
+			/* PowerSMT Added */
+			/* Simulating reorder buffer commit. */
+			reorder_access[sn]++;			
+			/* PowerSMT Added */
+			
 			if (!rs->completed) {
 				/* at least RUU entry must be complete */
 				not_done--;
 				committed[sn] = TRUE;
 			} 
-			else {
+			else { /* completed */
 				int broke= FALSE;
 				/* default commit events */
 				events = 0;
@@ -4049,6 +4112,8 @@ static void ruu_commit(void) {
 		sn++;
 		sn = sn % process_num;
 	} /*  while (not_done) */
+	
+	LOG(stderr, "~ruu_commit\n");
 }
 
 /*
@@ -4174,12 +4239,14 @@ static void ruu_writeback(void) {
 			 * 1) Writeback result to resultbus
 			 * 2) Write result to phys. regs (RUU)
 			 * 3) Access wakeup logic
+			 * 4) PowerSMT: reorder buffer access.
 			 */
 			if (!(MD_OP_FLAGS(rs->op) & F_CTRL)) {
 				window_access[sn]++;
 				window_preg_access[sn]++;
 				window_wakeup_access[sn]++;
 				resultbus_access[sn]++;
+				
 			#ifdef DYNAMIC_AF
 				window_total_pop_count_cycle[sn] += pop_count(rs->val_rc);
 				window_num_pop_count_cycle[sn]++;
@@ -4195,7 +4262,12 @@ static void ruu_writeback(void) {
 						
 			#endif
 			}
-			/* End Wattch Region */			
+			/* End Wattch Region */
+			
+			/* PowerSMT Added */
+			/* Simulating reorder buffer updating. */
+			reorder_access[sn]++;
+			/* PowerSMT Added */
 
 			/* does this operation reveal a mis-predicted branch? */
 			if (rs->recover_inst) {
@@ -4667,9 +4739,8 @@ static void ruu_issue(void) {
 							else /* !load && !store */{
 								/* fprintf(stderr, "\nruu_issue passou 14 \n"); */
 								
-								/* Wattch -- ALU access Wattch-FIXME 
-									 (different op types) 
-									 also spread out power of multi-cycle ops 
+								/* Wattch -- ALU access Wattch-FIXME: (different op types)
+								 * also spread out power of multi-cycle ops 
 								*/
 								
 								/* PowerSMT Added */
@@ -5988,7 +6059,7 @@ static void ruu_dispatch(void) {
 					
 					/* Wattch -- Dispatch + RAT lookup stage */
 					rename_access[sn]++;
-
+					
 					/* fill in RUU reservation station */
 					rs = &RUU[sn][RUU_tail[sn]];
 
@@ -6078,6 +6149,11 @@ static void ruu_dispatch(void) {
 						RUU_num[sn]++;
 						LSQ_tail[sn] = (LSQ_tail[sn] + 1) % LSQ_size;
 						LSQ_num[sn]++;
+						
+						/* PowerSMT Added */
+						/* Simulating reorder buffer insertion. */
+						reorder_access[sn]++;
+						/* PowerSMT Added */
 
 						if (OPERANDS_READY(rs))
 						{
@@ -6471,7 +6547,7 @@ static void ruu_fetch(int sn,
 				/* fprintf(stderr,"\npassou 2 ....... \n"); */
 
 				/* access the I-cache */
-				lat =cache_access(cache_il1[il1bank],
+				lat = cache_access(cache_il1[il1bank],
 				                  Read,
 				                  IACOMPRESS(addr),
 				                  NULL,
@@ -6490,7 +6566,7 @@ static void ruu_fetch(int sn,
 
 				/* fprintf(stderr,"\npassou 3 ....... \n"); */
 
-				tlb_lat =cache_access(itlb[sn],
+				tlb_lat = cache_access(itlb[sn],
 				                      Read,
 				                      IACOMPRESS(addr),
 				                      NULL,
@@ -6568,12 +6644,18 @@ static void ruu_fetch(int sn,
 		}
 		/* fprintf(stderr,"\npassou 4 ....... \n"); */
 
+		/* PowerSMT Added */
+		/* Instruction Fetch Queue access */
+		ifq_access[sn]++;
+		/* PowerSMT Added */
+		
 		/* commit this instruction to the IFETCH -> DISPATCH queue */
 		fetch_data[sn][fetch_tail[sn]].IR = inst;
 		fetch_data[sn][fetch_tail[sn]].regs_PC = fetch_regs_PC[sn];
 		fetch_data[sn][fetch_tail[sn]].pred_PC = fetch_pred_PC[sn];
 		fetch_data[sn][fetch_tail[sn]].stack_recover_idx = stack_recover_idx;
 		fetch_data[sn][fetch_tail[sn]].ptrace_seq = ptrace_seq[sn]++;
+		
 
 		/* for pipe trace */
 		ptrace_newinst(fetch_data[sn][fetch_tail[sn]].ptrace_seq,
@@ -6757,10 +6839,13 @@ void DESCARTA(void) {
 }
 
 void CONCLUSAO(void) {
+	LOG(stderr, "CONCLUSAO\n");
 	ruu_commit();
+	LOG(stderr, "~CONCLUSAO\n");
 }
 
 void TERMINO(void) {
+	LOG(stderr, "TERMINO\n");
 
 	/* service function unit release events */
 	ruu_release_fu();
@@ -6768,6 +6853,8 @@ void TERMINO(void) {
 	/* service result completions, also readies dependent operations */
 	/* ==> inserts operations into ready queue --> register deps resolved */
 	ruu_writeback();
+	
+	LOG(stderr, "~TERMINO\n");
 }
 
 void REMESSA(void) {
@@ -6898,6 +6985,9 @@ void BUSCA(void) {
 
 /* start simulation, program loaded, processor precise state initialized */
 void sim_main(void) {
+	
+	LOG(stderr, "sim_main\n");
+
 	int sn; /* slot's number */
 
 	int exit_code;
@@ -6908,11 +6998,9 @@ void sim_main(void) {
 
 	fprintf(stderr, "\nStarting sim_main ....\n");
 
-	fprintf(stderr,"\nil1_banks_num = %d dl1_banks_num = %d l2_banks_num = %d\n",
-	il1_banks_num, dl1_banks_num, l2_banks_num);
+	fprintf(stderr,"il1_banks_num = %d dl1_banks_num = %d l2_banks_num = %d\n", il1_banks_num, dl1_banks_num, l2_banks_num);
 
-	fprintf(stderr,"\nIL1WIDTH = %d IL2WIDTH = %d  DL1WIDTH = %d DL2WIDTH = %d\n",
-	IL1_BANK_WIDTH, IL2_BANK_WIDTH, DL1_BANK_WIDTH, DL2_BANK_WIDTH);
+	fprintf(stderr,"IL1WIDTH = %d IL2WIDTH = %d  DL1WIDTH = %d DL2WIDTH = %d\n\n", IL1_BANK_WIDTH, IL2_BANK_WIDTH, DL1_BANK_WIDTH, DL2_BANK_WIDTH);
 
 	/* ignore any floating point exceptions, they may occur on mis-speculated
 	 execution paths */
@@ -6952,7 +7040,7 @@ void sim_main(void) {
 		fetch_pred_PC[sn] = regs[sn]->regs_PC;
 		regs[sn]->regs_PC = regs[sn]->regs_PC - sizeof(md_inst_t);
 	}
-
+	
 	/* set up a non-local exit point. When one instruction "exit" is executed */
 	/* for an application, the computation return to here. From here on it is */
 	/* posible those remainder slots to dispatch in this current cycle. Also, */
@@ -6971,18 +7059,8 @@ void sim_main(void) {
 		for (;;) /* Loop Forever that simulates the machine cycles */
 		{
 			/* Each cycle, here is done some integrity checks for all slots */
-			
-			/*if(sim_cycle % 1000000 == 0){
-				fprintf(stdout,"sim_cycle: %d\n", sim_cycle);
-			}	*/
-
 			for (sn=0; sn<process_num; sn++)
 			{
-				/*if(sim_cycle % 1000000 == 0){
-					fprintf(stdout,"Processo: %d\n", sn);
-					fprintf(stdout," |-sim_total_insn: %d\n", sim_total_insn[sn]);
-				}*/
-
 				/* to restore the error integrity */
 				errno = aux_errno[sn];
 
@@ -7040,29 +7118,6 @@ void sim_main(void) {
 			/* update buffer occupancy stats for all slots */
 			for (sn=0; sn<process_num; sn++){
 				
-//				if(sim_cycle % 1000000 == 0){
-//					fprintf(stdout,"Processo: %d\n", sn);
-//					fprintf(stdout," |-rename_access: %lld\n", rename_access[sn]);
-//					fprintf(stdout," |-bpred_access: %lld\n", bpred_access[sn]);
-//					fprintf(stdout," |-window_access: %lld\n", window_access[sn]);
-//					fprintf(stdout," |-lsq_access: %lld\n", lsq_access[sn]);
-//					fprintf(stdout," |-regfile_access: %lld\n", regfile_access[sn]);
-//					fprintf(stdout," |-icache_access: %lld\n", icache_access[sn]);
-//					fprintf(stdout," |-dcache_access: %lld\n", dcache_access[sn]);
-//					fprintf(stdout," |-dcache2_access: %lld\n", dcache2_access[sn]);
-//					fprintf(stdout," |-alu_access: %lld\n", alu_access[sn]);
-//					fprintf(stdout," |-ialu_access: %lld\n", ialu_access[sn]);
-//					fprintf(stdout," |-falu_access: %lld\n", falu_access[sn]);
-//					fprintf(stdout," |-resultbus_access: %lld\n", resultbus_access[sn]);
-//					fprintf(stdout," |-window_preg_access: %lld\n", window_preg_access[sn]);
-//					fprintf(stdout," |-window_selection_access: %lld\n", window_selection_access[sn]);
-//					fprintf(stdout," |-window_wakeup_access: %lld\n", window_wakeup_access[sn]);
-//					fprintf(stdout," |-lsq_store_data_access: %lld\n", lsq_store_data_access[sn]);
-//					fprintf(stdout," |-lsq_load_data_access: %lld\n", lsq_load_data_access[sn]);
-//					fprintf(stdout," |-lsq_preg_access: %lld\n", lsq_preg_access[sn]);
-//					fprintf(stdout," |-lsq_wakeup_access: %lld\n", lsq_wakeup_access[sn]);
-//				}
-				
 				/* Added by Wattch to update per-cycle power statistics */
 				update_power_stats(sn);
 				
@@ -7093,13 +7148,17 @@ void sim_main(void) {
 
 			/* finish early? If there is one slot at least that had finished, then the simulation finishes, but after all remainder slots had executed this same cycle */
 
-			if (max_cycles && sim_cycle >= max_cycles)
+			if (max_cycles && sim_cycle >= max_cycles){
+				LOG(stderr, "~sim_main\n");
 				finished = TRUE;
+			}
 
 			/* just after all slot have completed the same cycle, the simulation can be file_analysed */
 
-			if (finished)
+			if (finished){
+				LOG(stderr, "~sim_main\n");
 				return;
+			}
 
 			/* if (sim_cycle > 100000)
 			 fprintf(stderr, "\n cycle = %d ...\n", (int)sim_cycle); */
@@ -7205,6 +7264,8 @@ void sim_init_declarations(void) {
 void sim_init(void) {
 	int sn; /* slot's number */
 	char mem_name[128];
+	
+	LOG(stderr, "sim_init\n");
 
 	/* allocate and initialize all register file and memory space and more */
 	for (sn=0; sn<process_num; sn++) {
@@ -7227,5 +7288,7 @@ void sim_init(void) {
 				
 	/* compute static power estimates */
 	calculate_power(&power);
+	
+	LOG(stderr, "~sim_init\n");
 	
 }

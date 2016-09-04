@@ -374,6 +374,7 @@ void compute_device_widths(int C,int B,int A,int fullyassoc, int Ndwl,int Ndbl,d
         cols = (CHUNKSIZE*B)+tagbits;
 	}
 
+	// fprintf(stdout," |CACTI_4.0: cols: %d\n", cols);
 	    /* calculate some layout info */
 		
 
@@ -514,7 +515,13 @@ void compute_tag_device_widths(int C,int B,int A,int Ntspd,int Ntwl,int Ntbl,dou
 	else {
 		tagbits = force_tag_size;
 	}
+	
+	// fprintf(stdout," |CACTI_4.0: Tagbits: %d\n", tagbits);	
+	
 	cols = tagbits * A * Ntspd/Ntwl;
+	
+	// fprintf(stdout," |CACTI_4.0: cols: %d\n", cols);
+	
 
     // capacitive load on the wordline - C_int + C_memCellLoad * NCells
 	Cline = (gatecappass(Wmemcella,(BitWidth-2*Wmemcella)/2.0)+
@@ -855,9 +862,12 @@ void subbank_routing_length (int C,int B,int A,
 		  tagbits = force_tag_size;
 	  }
 
-      cols_tag_subarray = tagbits * A * Ntspd / Ntwl;
+    cols_tag_subarray = tagbits * A * Ntspd / Ntwl;
 
-      if (Ntwl * Ntbl == 1)
+    // fprintf(stdout," |CACTI_4.0: tagbits: %d\n", tagbits);
+    // fprintf(stdout," |CACTI_4.0: cols: %d\n", cols_tag_subarray);
+
+  if (Ntwl * Ntbl == 1)
 	{
 	  sub_v = rows_tag_subarray;
 	  sub_h = cols_tag_subarray;
@@ -4192,7 +4202,7 @@ void dumpVarsValuesCACTI(){
 void calculate_time (result_type *result,arearesult_type *arearesult,area_type *arearesult_subbanked,parameter_type *parameters,
 		double *NSubbanks)
 {
-	printf("CACTI_4.0:TIME:CALCULATE_TIME\n");
+	// fprintf(stderr,"CACTI_4.0:TIME:CALCULATE_TIME\n");
 	
   arearesult_type arearesult_temp;
   area_type arearesult_subbanked_temp;
@@ -4533,7 +4543,7 @@ void calculate_time (result_type *result,arearesult_type *arearesult,area_type *
 						compute_tag_device_widths(parameters->cache_size, parameters->block_size, parameters->tag_associativity,
 						  											Ntspd,Ntwl,Ntbl,(*NSubbanks));
 
-				      area_subbanked (ADDRESS_BITS, BITOUT,
+				    area_subbanked (ADDRESS_BITS, BITOUT,
 						      parameters->num_readwrite_ports,
 						      parameters->num_read_ports,
 						      parameters->num_write_ports,
@@ -5874,5 +5884,5 @@ void calculate_time (result_type *result,arearesult_type *arearesult,area_type *
 	}
     }
   
-  dumpVarsValuesCACTI();
+  // dumpVarsValuesCACTI();
 }

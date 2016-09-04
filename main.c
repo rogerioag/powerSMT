@@ -148,6 +148,8 @@
 #include "loader.h"
 #include "sim.h"
 
+#include "log.h"
+
 /* stats signal handler */
 static void signal_sim_stats(int sigtype) {
 	sim_dump_stats = TRUE;
@@ -235,14 +237,41 @@ static int orphan_fn(int i, int argc, char **argv) {
 
 static void banner(FILE *fd, int argc, char **argv) {
 	fprintf(fd,
-					"SS-SMT: SMT Simulator by Ronaldo A. L. Goncalves using\n"
-						"Sim-Outorder/SimpleScalar/%s Tool Set version %d.%d of %s.\n"
-						"Copyright (c) 1994-1998 by Todd M. Austin.  All Rights Reserved.\n"
-						"\n",
+					"\n"
+					"PowerSMT: SMT Power Consumption Simulator by Rogerio A. Goncalves\n"
+					"Version: %d.%d of %s\n"
+					"-[Using]--------------------------------------------------------------------------------------\n"
+					" |+ SS-SMT: SMT Simulator by Ronaldo A. L. Goncalves Version: %d.%d of %s. All Rights Reserved\n"
+					"    |+ Sim-Outorder/SimpleScalar/%s Tool Set version %d.%d of %s.\n"
+					"       Copyright (c) 1994-1998 by Todd M. Austin.  All Rights Reserved.\n"
+					" |+ Sim-Wattch: Wattch Simulator by David Brooks Version: %d.%d of %s. All Rights Reserved.\n"
+					"    |+ Sim-Outorder/SimpleScalar/%s Tool Set version %d.%d of %s.\n"
+					"    |+ CACTI Version: 1.0 of 1994\n"
+					"       Copyright 1994 Digital Equipment Corporation and Steve Wilton. All Rights Reserved\n"
+					" |+ CACTI Version: %d.%d of %s\n"
+					"    Copyright 2005 Hewlett-Packard Development Corporation. All Rights Reserved\n"
+					"----------------------------------------------------------------------------------------------\n"
+					"\n",
+					POWER_SMT_VER_MAJOR,
+					POWER_SMT_VER_MINOR,
+					POWER_SMT_VER_UPDATE,
+					SS_SMT_VER_MAJOR,
+					SS_SMT_VER_MINOR,
+					SS_SMT_VER_UPDATE,
 					VER_TARGET,
 					VER_MAJOR,
 					VER_MINOR,
-					VER_UPDATE);
+					VER_UPDATE,
+					SW_VER_MAJOR,
+					SW_VER_MINOR,
+					SW_VER_UPDATE,
+					VER_TARGET,
+					VER_MAJOR,
+					VER_MINOR,
+					VER_UPDATE,
+					CACTI_VER_MAJOR,
+					CACTI_VER_MINOR,
+					CACTI_VER_UPDATE);
 }
 
 static void usage(FILE *fd, int argc, char **argv) {
@@ -610,9 +639,9 @@ int main(int argc, char **argv, char **envp) {
 			exit_now(0);
 
 		running = TRUE;
-
+		
 		sim_main();
-
+		
 		/* simulation finished early */
 		exit_now(0);
 

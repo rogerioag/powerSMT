@@ -9,7 +9,7 @@
 /opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/vpr.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/net.in /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/arch.in /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/place.out /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/dum.out -nodisp -place_only -init_t 5 -exit_t 0.005 -alpha_t 0.9412 -inner_num 2
 
 #3 Integer
-/opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/cc1.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/200.i -o ./cc1_200.s
+/opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/cc1.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/200.i -o /home/rogerio/mestrado/pesquisa/simulacoes/resultados/ss_smt/08112007144013/cc1_200.s
 
 #4 Integer
 /opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/mcf.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/mcf_inp.in
@@ -72,16 +72,16 @@
 /opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/vpr.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/net.in /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/arch.in /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/place.in /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/route.out -nodisp -route_only -route_chan_width 15 -pres_fac_mult 2 -acc_fac 1 -first_iter_pres_fac 4 -initial_pres_fac 8
 
 #24 Integer
-/opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/cc1.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/integrate.i -o ./cc1_integrate.s
+/opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/cc1.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/integrate.i -o /home/rogerio/mestrado/pesquisa/simulacoes/resultados/ss_smt/08112007144013/cc1_integrate.s
 
 #25 Integer
-/opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/cc1.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/166.i -o ./cc1_166.s
+/opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/cc1.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/166.i -o /home/rogerio/mestrado/pesquisa/simulacoes/resultados/ss_smt/08112007144013/cc1_166.s
 
 #26 Integer
-/opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/cc1.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/scilab.i -o ./cc1_scilab.s
+/opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/cc1.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/scilab.i -o /home/rogerio/mestrado/pesquisa/simulacoes/resultados/ss_smt/08112007144013/cc1_scilab.s
 
 #27 Integer
-/opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/cc1.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/expr.i -o ./cc1_expr.s
+/opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/cc1.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/expr.i -o /home/rogerio/mestrado/pesquisa/simulacoes/resultados/ss_smt/08112007144013/cc1_expr.s
 
 #28 Integer
 /opt/simuladores/benchmarks/SPEC/SPEC2000/SPEC2000-SS/spec2k.bin/vortex.ss-little.O3 /opt/simuladores/benchmarks/SPEC/SPEC2000/inputs-spec2000/lendian2.raw

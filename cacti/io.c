@@ -766,13 +766,13 @@ total_result_type cacti_interface(
    parameters.nr_bits_out = bits_output;
    /*dt: testing sequential access mode*/
    if(seq_access) {
-	parameters.tag_associativity = A;
-	parameters.data_associativity = 1;
-	parameters.sequential_access = 1;
+  	 parameters.tag_associativity = A;
+  	 parameters.data_associativity = 1;
+  	 parameters.sequential_access = 1;
    }
    else {
-	parameters.tag_associativity = parameters.data_associativity = A;
-	parameters.sequential_access = 0;
+  	 parameters.tag_associativity = parameters.data_associativity = A;
+  	 parameters.sequential_access = 0;
    }
    if(fast_access) {
 	   parameters.fast_access = 1;
@@ -796,10 +796,10 @@ total_result_type cacti_interface(
    ratioofbankstoports = NSubbanks/(RWP + ERP + EWP);
    if(ratioofbankstoports >= 1.0){
 	   //We assume that each bank has 1 RWP port.
-	   parameters.num_readwrite_ports = 1;
-       parameters.num_read_ports = 0;
-       parameters.num_write_ports = 0;
-       parameters.num_single_ended_read_ports = 0;
+  	 parameters.num_readwrite_ports = 1;
+     parameters.num_read_ports = 0;
+     parameters.num_write_ports = 0;
+     parameters.num_single_ended_read_ports = 0;
 	}
 
    if (parameters.number_of_sets < 1) {

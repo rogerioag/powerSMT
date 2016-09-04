@@ -13,7 +13,8 @@
 -commit:width 16
 
 # RUU and LSQ
--ruulsq:type shared 
+# -ruulsq:type shared 
+-ruulsq:type distributed
 -ruu:size 16 
 -lsq:size 8 
 
@@ -30,10 +31,10 @@
 # -res:memport 3 
 
 # System Cache Modules 
--imodules:num 1
+-imodules:num 2
 
 # Instruction Caches.
--cache:il1 il1:1:32:64:4:l 
+-cache:il1 il1:2:32:64:4:l 
 -cache:il2 dl2
 
 # Data Caches. 
@@ -45,5 +46,7 @@
 -tlb:dtlb dtlb:512:4096:8:l 
 
 # process technology.
--technology TECH_070
+-technology TECH_800
 
+# data_width
+-data:width 64

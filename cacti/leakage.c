@@ -776,7 +776,7 @@ void init_tech_params(double technology) {
 
 	Cpdiffarea = Cpdiffarea * FUDGEFACTOR;//Since this is a F/micron2 capacitance, this will scale up by FUDGEFACTOR
 	
-    Cndiffside = Cndiffside;//Since this is a F/micron capacitance, this doesn't scale
+  Cndiffside = Cndiffside;//Since this is a F/micron capacitance, this doesn't scale
 
 	Cpdiffside = Cpdiffside;//Since this is a F/micron capacitance, this doesn't scale
 
@@ -784,38 +784,38 @@ void init_tech_params(double technology) {
 
 	Cpdiffovlp = Cpdiffovlp;//Since this is a F/micron capacitance, this doesn't scale
 
-      Cnoxideovlp = Cnoxideovlp;//Since this is a F/micron capacitance, this doesn't scale
+  Cnoxideovlp = Cnoxideovlp;//Since this is a F/micron capacitance, this doesn't scale
 
 	Cpoxideovlp = Cpoxideovlp;//Since this is a F/micron capacitance, this doesn't scale
 
-      Leff = 0.8/FUDGEFACTOR;//Presently the tech parameters are based off a 0.8 micron process
+  Leff = 0.8/FUDGEFACTOR;//Presently the tech parameters are based off a 0.8 micron process
 	//If the technology node changes, then the 0.8 should be replaced appropriately. 
 
-      inv_Leff = inv_Leff * FUDGEFACTOR;//Since this is inverse of transistor length
+  inv_Leff = inv_Leff * FUDGEFACTOR;//Since this is inverse of transistor length
     
 	Cgate = Cgate * FUDGEFACTOR;//Since this is a F/micron2 capacitance, this will scale up by FUDGEFACTOR
 
 	Cgatepass = Cgatepass * FUDGEFACTOR;//Since this is a F/micron2 capacitance, this will scale up by FUDGEFACTOR
 
-      Cpolywire = Cpolywire * FUDGEFACTOR;//Since this is a F/micron2 capacitance, this will scale up by FUDGEFACTOR		 
+  Cpolywire = Cpolywire * FUDGEFACTOR;//Since this is a F/micron2 capacitance, this will scale up by FUDGEFACTOR		 
 
-      Rnchannelstatic	= Rnchannelstatic / FUDGEFACTOR;//Since this is an ohm-micron resistance, this will scale down by FUDGEFACTOR
+  Rnchannelstatic	= Rnchannelstatic / FUDGEFACTOR;//Since this is an ohm-micron resistance, this will scale down by FUDGEFACTOR
 
-      Rpchannelstatic	= Rpchannelstatic / FUDGEFACTOR;//Since this is an ohm-micron resistance, this will scale down by FUDGEFACTOR
+  Rpchannelstatic	= Rpchannelstatic / FUDGEFACTOR;//Since this is an ohm-micron resistance, this will scale down by FUDGEFACTOR
 
-      Rnchannelon	= Rnchannelon / FUDGEFACTOR;//Since this is an ohm-micron resistance, this will scale down by FUDGEFACTOR
+  Rnchannelon	= Rnchannelon / FUDGEFACTOR;//Since this is an ohm-micron resistance, this will scale down by FUDGEFACTOR
 
-      Rpchannelon	= Rpchannelon / FUDGEFACTOR;//Since this is an ohm-micron resistance, this will scale down by FUDGEFACTOR
+  Rpchannelon	= Rpchannelon / FUDGEFACTOR;//Since this is an ohm-micron resistance, this will scale down by FUDGEFACTOR
 
 	Wdecdrivep = 450 * FEATURESIZE;//this was 360 micron for the 0.8 micron process
 
-      Wdecdriven = 300 * FEATURESIZE;//this was 240 micron for the 0.8 micron process
+  Wdecdriven = 300 * FEATURESIZE;//this was 240 micron for the 0.8 micron process
 
-	  Wworddrivemax = 125 * FEATURESIZE; //this was 100 micron for the 0.8 micron process
+	Wworddrivemax = 125 * FEATURESIZE; //this was 100 micron for the 0.8 micron process
 
 	Wmemcella = 1.125 * FEATURESIZE;//this was 0.9 micron for the 0.8 micron process
 
-      Wmemcellpmos = 0.8125 * FEATURESIZE;//this was 0.65 micron for the 0.8 micron process
+  Wmemcellpmos = 0.8125 * FEATURESIZE;//this was 0.65 micron for the 0.8 micron process
 
 	Wmemcellnmos = 2.5 * FEATURESIZE;//this was 2 micron for the 0.8 micron process
     //v4.2
@@ -985,7 +985,5 @@ void init_tech_params(double technology) {
   FAWidthIncrPer_later_rw_or_w_port = 12*FEATURESIZE; //Was 9.6 micron for the 0.8 micron process
   FAWidthIncrPer_first_r_port = 15*FEATURESIZE; //Was 12 micron for the 0.8 micron process
   FAWidthIncrPer_later_r_port = 12*FEATURESIZE; //Was 9.6 micron for the 0.8 micron process
-
-
 
 }

@@ -63,16 +63,22 @@
 /*
  * Address bits in a word, and number of output bits from the cache 
  */
-
-#define ADDRESS_BITS 64
-#define BITOUT 64
+/* TODO: Verificar se usa esse endereçamento ou o da CACTI */
+/* PowerSMT Added */
+// #define ADDRESS_BITS 64
+/* CACTI 4.0 now: I'm using 42 bits as in the Power4, 
+since that's bigger then the 36 bits on the Pentium 4 
+and 40 bits on the Opteron 
+*/
+// #define ADDRESS_BITS 42
+// #define BITOUT 64
 
 /* limits on the various N parameters */
 
-#define MAXN 8            /* Maximum for Ndwl,Ntwl,Ndbl,Ntbl */
-#define MAXSUBARRAYS 8    /* Maximum subarrays for data and tag arrays */
-#define MAXSPD 8          /* Maximum for Nspd, Ntspd */
-
+// #define MAXN 8            /* Maximum for Ndwl,Ntwl,Ndbl,Ntbl */
+// #define MAXSUBARRAYS 8    /* Maximum subarrays for data and tag arrays */
+// #define MAXSPD 8          /* Maximum for Nspd, Ntspd */
+/* PowerSMT Added */
 /*===================================================================*/
 
 /*
@@ -103,7 +109,15 @@
  */
 
 /* Tech 0.8um */
-#define FUDGEFACTOR 1.0
+/* PowerSMT Added */
+/* When the Wattch Power Model was using CACTI 1.0 FUDGEFACTOR
+ * defined here was ignored, the CACTI lib used FUDGEFACTOR defined
+ * in def.h.
+ * Using CACTI 4.0 the FUDGEFACTOR is calculated dynamicly and it isn't defined 
+ * in def.h or here. 
+ */
+// #define FUDGEFACTOR 1.0
+/* PowerSMT Added */
 
 /*===================================================================*/
 /*
@@ -271,23 +285,31 @@ typedef struct {
   
   
   // Decoder of DECODE to RUU.
-  // DECODE >> RUU.
-  double decode_ruu_selector;
-  // Decoder of ISSUE << RUU. 
-  double issue_ruu_selector;		
-  		
-  // Decoder of ISSUE >> RS.
-  // double issue_readyqueue_selector;
-  	
-  // Decoder of WRITEBACK >> RUU.
-  double writeback_ruu_selector;
+  // DECODE >> RUU, ISSUE << RUU, WRITEBACK >> RUU.
+  double ruu_selector;
+  
+  // RegFile selector.
+  double regfile_selector;
   
   // ROB selector.
-  double rob_selector;
+  double reorder_selector;
+  // itlb selector.
   double itlb_selector;
+  // dtlb selector.
   double dtlb_selector;
+  // Branch Target Buffer selector.
   double btb_selector;
   
+  // Instruction Fetch Queue (ifq -> fetch_data).
+  double ifq_decoder;
+  double ifq_wordline;
+  double ifq_bitline;
+  double ifq_senseamp;
+  double ifq_power;
+  double ifq_power_nobit;
+  
+  double reorder_power;
+  double reorder_power_nobit;
   /* PowerSMT Added */
 
 } power_result_type;
@@ -388,16 +410,16 @@ typedef struct {
 }area_type;
 
 typedef struct {
-        area_type dataarray_area,datapredecode_area;
-        area_type datacolmuxpredecode_area,datacolmuxpostdecode_area;
+    area_type dataarray_area,datapredecode_area;
+    area_type datacolmuxpredecode_area,datacolmuxpostdecode_area;
 		area_type datawritesig_area;
-        area_type tagarray_area,tagpredecode_area;
-        area_type tagcolmuxpredecode_area,tagcolmuxpostdecode_area;
-        area_type tagoutdrvdecode_area;
-        area_type tagoutdrvsig_area;
-        double totalarea, subbankarea;
+    area_type tagarray_area,tagpredecode_area;
+    area_type tagcolmuxpredecode_area,tagcolmuxpostdecode_area;
+    area_type tagoutdrvdecode_area;
+    area_type tagoutdrvsig_area;
+    double totalarea, subbankarea;
 		double total_dataarea;
-        double total_tagarea;
+    double total_tagarea;
 		double max_efficiency, efficiency;
 		double max_aspect_ratio_total, aspect_ratio_total;
 		double perc_data, perc_tag, perc_cont, sub_eff, total_eff;

@@ -78,3 +78,24 @@
 #define VER_MINOR		0
 
 #define VER_UPDATE	        "September, 1998"
+
+
+/* SS_SMT */
+#define SS_SMT_VER_MAJOR			1
+#define SS_SMT_VER_MINOR			0
+#define SS_SMT_VER_UPDATE			"2000"
+
+/* Sim-Wattch */
+#define SW_VER_MAJOR			1
+#define SW_VER_MINOR			2
+#define SW_VER_UPDATE			"2000"
+
+/* CACTI */
+#define CACTI_VER_MAJOR			4
+#define CACTI_VER_MINOR			0
+#define CACTI_VER_UPDATE		"2005"
+
+/* PowerSMT */
+#define POWER_SMT_VER_MAJOR		1
+#define POWER_SMT_VER_MINOR		0
+#define POWER_SMT_VER_UPDATE "August, 2008"

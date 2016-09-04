@@ -394,6 +394,7 @@ subarraytag_area (int baddr,int C,int B,int A,int Ntdbl,int Ntdwl,int Ntspd,doub
   else {
 	    Tagbits = force_tag_size;
 	}
+  
  
   //Commented by Shyam Tagbits =
     //baddr - (int) (logtwo_area ((double) (C))) +
@@ -432,7 +433,7 @@ decodetag_row (int baddr,int C,int B,int A,int Ntdbl,int Ntspd,int Ntdwl,double 
     //logtwo_area ((double) (NSubbanks));
   Tagbits = (int) (baddr - logtwo_area ((double) (C)) + logtwo_area ((double) (A)) + 2 -
     logtwo_area ((double) (NSubbanks)) + EPSILON);
-
+  
   //v4.1: using integer casting below 
   //numstack =
     //ceil ((1.0 / 3.0) *
