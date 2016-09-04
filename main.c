@@ -531,7 +531,6 @@ int main(int argc, char **argv, char **envp) {
 		/* else, exec_index points to simulated program arguments */
 
 		/* check simulator-specific options */
-
 		sim_check_options(sim_odb, argc, argv);
 
 #ifndef _MSC_VER

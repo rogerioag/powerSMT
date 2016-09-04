@@ -414,10 +414,17 @@
 #define F_MULT         ((1.307-.452)*POWER_SCALE)
 
 /* Added by PowerSMT */
-#define F_DIV_MULT     ((1.307-.452)*POWER_SCALE)
 #define I_MULT         I_MULT16
-#define HOMO           
+#define I_DIV          I_MULT
+#define F_DIV          F_MULT
+#define F_DIV_MULT     (F_DIV + F_MULT)
+
+/* Instructions classes treat  by Homogeneous FU: IntALU, IntMULT, IntDIV, FloatADD, FloatCMP, FloatCVT, FloatMULT, FloatDIV, FloatSQRT, RdPort, WrPort */
+/* Uma média */
+#define HOMO           ((I_ADD + I_MULT + I_DIV + F_ADD + F_MULT + F_DIV) /6 )           
 /* Added by PowerSMT */
+
+
 
 #define I_ADD_CLOCK    (.091*POWER_SCALE)
 #define I_MULT_CLOCK   (.095*POWER_SCALE)

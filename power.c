@@ -127,6 +127,7 @@ extern int res_memport;
 extern int res_imult;
 extern int res_fpmult;
 extern int res_divmult;
+extern int res_homo;
 /* Added by PowerSMT */
 
 int nvreg_width;
@@ -2597,12 +2598,8 @@ void calculate_power(power)
 	/* Others PowerSMT functional units */
 	power->imult_power = res_imult * I_MULT;
 	power->fpmult_power = res_fpmult * F_MULT;
-	
-	/* DIVMULT calcute as MULT */
 	power->divmult_power = res_divmult * F_DIV_MULT;
-	
-	/* IMPLEMENTAR */
-	// power->homo_power = res_homo * 
+	power->homo_power = res_homo * HOMO; 
 	
 	
 	nvreg_width = (int)ceil(logtwo((double)MD_NUM_IREGS));
@@ -2633,14 +2630,14 @@ void calculate_power(power)
 	power->dcl_pencode = 0;
 	power->inst_decoder_power = ruu_decode_width
 			* simple_array_decoder_power(opcode_length, 1, 1, 1, cache);
-	power->wakeup_tagdrive =cam_tagdrive(	RUU_size,
-																				npreg_width,
-																				ruu_issue_width,
-																				ruu_issue_width);
-	power->wakeup_tagmatch =cam_tagmatch(	RUU_size,
-																				npreg_width,
-																				ruu_issue_width,
-																				ruu_issue_width);
+	power->wakeup_tagdrive =cam_tagdrive(RUU_size,
+										 npreg_width,
+										 ruu_issue_width,
+										 ruu_issue_width);
+	power->wakeup_tagmatch =cam_tagmatch(RUU_size,
+										 npreg_width,
+										 ruu_issue_width,
+										 ruu_issue_width);
 	power->wakeup_ormatch =0;
 	
 	power->selection = selection_power(RUU_size);

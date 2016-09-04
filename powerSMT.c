@@ -530,10 +530,10 @@ char *fu_pool_type = "hetero";
 /* hetero resource pool definition, NOTE: update FU_*_INDEX defs if you change this.See sim_init for initialization */
 
 struct res_desc fu_hetero_config[5] = { { "integer-ALU", 4, 0,
-																					{ 
-																						{ IntALU, 1,1 } 
-																					} 
-																				},
+											{ 
+												{ IntALU, 1,1 } 
+											} 
+										},
                                         { "integer-MULT/DIV", 1, 0,
                                           { 
                                         			{ IntMULT, 3, 1 },
@@ -996,7 +996,15 @@ void sim_reg_options(struct opt_odb_t *odb) {
 	               /* print */TRUE, /* format */
 	               NULL,
 	               0);
-
+	
+	opt_reg_note(odb,
+		             "  Atention: The -fu:type parameter indicates which -res:{parameter} are valids\n"
+	               "            according the Functional Units organization:\n"
+	               "             *hetero: -res:ialu, -res:memport, -res:fpalu, -res:imult, -res:fpmult.\n"
+	               "             *compact: -res:ialu, -res:memport, -res:fpalu, -res:divmult.\n"
+	               "             *homo: -res:homo.\n",
+		             0);
+	
 	/* instruction limit. It is the same for all slots */
 
 	opt_reg_uint(odb,
@@ -1516,16 +1524,20 @@ void sim_reg_options(struct opt_odb_t *odb) {
 	            0);
 
 	/* hetero resource configuration. Remember those functional units are shared */
+	/* Checking variables used to each fu:type.
+	 * 
+	 *  hetero: res_ialu, res_memport, res_fpalu, res_imult, res_fpmult.
+	 * compact: res_ialu, res_memport, res_fpalu, res_divmult.
+	 *    homo: res_homo.
+	 * comparisons this type don't work: if ((!mystricmp(fu_pool_type, "hetero") || !mystricmp(fu_pool_type, "compact")) && (res_ialu < 1))
+	 * Because, options are initialized before, and options are registred to default value hetero.
+	 */
+	
 	/* if fu:type hetero */
 	
-	int teste = mystricmp("hetero", "hetero");
-	
-	
-	if(!mystricmp(fu_pool_type, "hetero")){
-
 			opt_reg_int(odb,
 			            "-res:ialu",
-			            "total number of integer ALU's available",
+			            "total number of integer ALU's available (valid when -fu:type is \"hetero\" or \"compact\")",
 			            &res_ialu, /* default */
 			            fu_hetero_config[FU_IALU_INDEX].quantity,
 			            /* print */TRUE, /* format */
@@ -1534,7 +1546,7 @@ void sim_reg_options(struct opt_odb_t *odb) {
 		
 			opt_reg_int(odb,
 			            "-res:imult",
-			            "total number of integer multiplier/dividers available",
+			            "total number of integer multiplier/dividers available (valid when fu:type is \"hetero\")",
 			            &res_imult, /* default */
 			            fu_hetero_config[FU_IMULT_INDEX].quantity,
 			            /* print */TRUE, /* format */
@@ -1543,7 +1555,7 @@ void sim_reg_options(struct opt_odb_t *odb) {
 		
 			opt_reg_int(odb,
 			            "-res:memport",
-			            "total number of memory system ports available (to CPU)",
+			            "total number of memory system ports available (to CPU) (valid when fu:type is \"hetero\" or \"compact\")",
 			            &res_memport, /* default */
 			            fu_hetero_config[FU_MEMPORT_INDEX].quantity,
 			            /* print */TRUE, /* format */
@@ -1552,7 +1564,7 @@ void sim_reg_options(struct opt_odb_t *odb) {
 		
 			opt_reg_int(odb,
 			            "-res:fpalu",
-			            "total number of floating point ALU's available",
+			            "total number of floating point ALU's available (valid when fu:type is \"hetero\" or \"compact\")",
 			            &res_fpalu, /* default */
 			            fu_hetero_config[FU_FPALU_INDEX].quantity,
 			            /* print */TRUE, /* format */
@@ -1561,68 +1573,36 @@ void sim_reg_options(struct opt_odb_t *odb) {
 		
 			opt_reg_int(odb,
 			            "-res:fpmult",
-			            "total number of floating point multiplier/dividers available",
+			            "total number of floating point multiplier/dividers available (valid when fu:type is \"hetero\")",
 			            &res_fpmult, /* default */
 			            fu_hetero_config[FU_FPMULT_INDEX].quantity,
 			            /* print */TRUE, /* format */
 			            NULL,
 			            0);
-	}
 	
 	/* homo resource configuration. Remember those functional units are shared */
 	/* If fu:type homo*/
-	if(!mystricmp(fu_pool_type, "homo")){
 			opt_reg_int(odb,
 				            "-res:homo",
-				            "total number of homogeneous functional units available",
+				            "total number of homogeneous functional units available (valid when fu:type is \"homo\")",
 				            &res_homo, /* default */
 				            fu_homo_config[FU_HOMO_INDEX].quantity,
 				            /* print */TRUE, /* format */
 				            NULL,
 				            0);
-	}
 
 	/* compact resource configuration. Remember those functional units are shared and the 
 	 * variables res_ialu, res_fpalu, res_memport are used in this configuration */
-	if(!mystricmp(fu_pool_type, "compact")){
-		/* compact configuration: use res_ialu, res_divmult, res_memport, res_fpalu. */
+		/* compact configuration: use res_ialu, res_memport, res_fpalu (defined by hetero) and res_divmult. */
 
 		opt_reg_int(odb,
-		            "-res:ialu",
-		            "total number of integer ALU's available",
-		            &res_ialu, /* default */
-		            fu_compact_config[FU_IALU_INDEX].quantity,
-		            /* print */TRUE, /* format */
-		            NULL,
-		            0);
-							 				
-		opt_reg_int(odb,
-		            "-res:memport",
-		            "total number of memory system ports available (to CPU)",
-		            &res_memport, /* default */
-		            fu_compact_config[FU_MEMPORT_INDEX].quantity,
-		            /* print */TRUE, /* format */
-		            NULL,
-		            0);
-							 				
-		opt_reg_int(odb,
-		            "-res:fpalu",
-		            "total number of floating point ALU's available",
-		            &res_fpalu, /* default */
-		            fu_compact_config[FU_FPALU_INDEX].quantity,
-		            /* print */TRUE, /* format */
-		            NULL,
-		            0);
-		
-		opt_reg_int(odb,
 			            "-res:divmult",
-			            "total number of div/mult functional unit available",
+			            "total number of div/mult functional unit available (valid when fu:type is \"compact\")",
 			            &res_divmult, /* default */
 			            fu_compact_config[FU_DIVMULT_INDEX].quantity,
 			            /* print */TRUE, /* format */
 			            NULL,
 			            0);
-	}
 
 	opt_reg_string_list(odb,
 	                    "-pcstat",
@@ -1916,7 +1896,7 @@ void sim_check_options(struct opt_odb_t *odb, /* options database */
 				fatal(0,"the l1 inst cache must defined if the l2 cache is defined");
 
 				for (bank=0;bank<l2_banks_num;bank++)
-				cache_il2[bank] = NULL;
+				  cache_il2[bank] = NULL;
 			}
 			else if (!mystricmp(cache_il1_opt, "dl1"))
 			{
@@ -2104,48 +2084,49 @@ void sim_check_options(struct opt_odb_t *odb, /* options database */
 			 *  hetero: res_ialu, res_memport, res_fpalu, res_imult, res_fpmult.
 			 * compact: res_ialu, res_memport, res_fpalu, res_divmult.
 			 *    homo: res_homo.
-			 * 
+			 * comparisons this type don't work: if ((!mystricmp(fu_pool_type, "hetero") || !mystricmp(fu_pool_type, "compact")) && (res_ialu < 1))
+			 * Because, options are initialized before, and options are registred to default value hetero.
 			 */
 			
 			/* hetero and compact requeriments */
 
-			if ((!mystricmp(fu_pool_type, "hetero") || !mystricmp(fu_pool_type, "compact")) && (res_ialu < 1))
+			if (res_ialu < 1)
 				fatal(sn,"number of integer ALU's must be greater than zero");
 
-			if ((!mystricmp(fu_pool_type, "hetero") || !mystricmp(fu_pool_type, "compact")) && (res_ialu > MAX_INSTS_PER_CLASS))
+			if (res_ialu > MAX_INSTS_PER_CLASS)
 				fatal(sn,"number of integer ALU's must be <= MAX_INSTS_PER_CLASS");
 
-			if ((!mystricmp(fu_pool_type, "hetero") || !mystricmp(fu_pool_type, "compact")) && (res_memport < 1))
+			if (res_memport < 1)
 				fatal(sn,"number of memory system ports must be greater than zero");
 
-			if ((!mystricmp(fu_pool_type, "hetero") || !mystricmp(fu_pool_type, "compact")) && (res_memport > MAX_INSTS_PER_CLASS))
+			if (res_memport > MAX_INSTS_PER_CLASS)
 				fatal(sn,"number of memory system ports must be <= MAX_INSTS_PER_CLASS");
 			
-			if ((!mystricmp(fu_pool_type, "hetero") || !mystricmp(fu_pool_type, "compact")) && (res_fpalu < 1))
+			if (res_fpalu < 1)
 				fatal(sn,"number of floating point ALU's must be greater than zero");
 
-			if ((!mystricmp(fu_pool_type, "hetero") || !mystricmp(fu_pool_type, "compact")) && (res_fpalu > MAX_INSTS_PER_CLASS))
+			if (res_fpalu > MAX_INSTS_PER_CLASS)
 				fatal(sn,"number of floating point ALU's must be <= MAX_INSTS_PER_CLASS");
 			
 			/* Only hetero requeriments */			
-			if ((!mystricmp(fu_pool_type, "hetero")) && (res_imult < 1))
+			if (res_imult < 1)
 				fatal(sn,"number of integer multiplier/dividers must be greater than zero");
 
-			if ((!mystricmp(fu_pool_type, "hetero")) && (res_imult > MAX_INSTS_PER_CLASS))
+			if (res_imult > MAX_INSTS_PER_CLASS)
 				fatal(sn,"number of integer mult/div's must be <= MAX_INSTS_PER_CLASS");
 
-			if ((!mystricmp(fu_pool_type, "hetero")) && (res_fpmult < 1))
+			if (res_fpmult < 1)
 				fatal(sn,"number of floating point multiplier/dividers must be > zero");
 
-			if ((!mystricmp(fu_pool_type, "hetero")) && (res_fpmult > MAX_INSTS_PER_CLASS))
+			if (res_fpmult > MAX_INSTS_PER_CLASS)
 				fatal(sn,"number of FP mult/div's must be <= MAX_INSTS_PER_CLASS");
 
 			
 			/* Only compact requeriments */
-			if ((!mystricmp(fu_pool_type, "compact")) && (res_divmult < 1))
+			if (res_divmult < 1)
 				fatal(sn,"number of divmult functional units must be greater than zero");
 
-			if ((mystricmp(fu_pool_type, "compact")) && (res_divmult > MAX_INSTS_PER_CLASS))
+			if (res_divmult > MAX_INSTS_PER_CLASS)
 				fatal(sn,"number of divmult functional units must be <= MAX_INSTS_PER_CLASS");
 
 			
@@ -2177,10 +2158,10 @@ void sim_check_options(struct opt_odb_t *odb, /* options database */
 						fu_homo_config[FU_HOMO_INDEX].quantity = res_homo;
 					else fatal(0,"invalid type of functional units (-fu:type)");
 
-					if ((!mystricmp(fu_pool_type, name)) && (res_homo < 1))
+					if (res_homo < 1)
 						fatal(sn,"number of homogeneous functional units must be greater than zero");
 
-					if ((!mystricmp(fu_pool_type, name)) && (res_homo > MAX_INSTS_PER_CLASS))
+					if (res_homo > MAX_INSTS_PER_CLASS)
 						fatal(sn,"number of homogeneous functional units must be <= MAX_INSTS_PER_CLASS");
 				}
 
@@ -6811,6 +6792,7 @@ void BUSCA(void) {
 
 			not_done--;
 			sn++;
+			/* Round Robin entre os slots do modulo */
 			sn = (sn % (IL1_MODULE_WIDTH)) + (FIRST_SLOT_OF_MOD(module));
 		}
 
@@ -7177,7 +7159,6 @@ void sim_init_declarations(void) {
 
 	/* from libexo.c */
 	libexo_init_declarations();
-	
 	
 
 }
