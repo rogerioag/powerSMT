@@ -1,4 +1,16 @@
 /* 
+ * powerSMT.c - power consumption simulator for a SMT architecture
+ * 
+ * This simulator was developed by Rogerio A. Goncalves using the
+ * SS_SMT simulator 1.0 and Sim-Wattch 1.02 Power Model.
+ * 
+ * This work was done as part of his Master Thesis under guidance of
+ * Dr. Ronaldo A. L. Goncalves professor at Informatics Department in 
+ * the State University of Maringa - Parana - Brazil.
+ * 
+ * The original SS_SMT.C was modified with adding of Wattch Power Model modified, 
+ * Wattch is a framework was developed by David Brooks 
+ * 
  * SS_SMT.C - simulador for a SMT architecture
  *
  * This simulator was developed by Ronaldo A. L. Goncalves using 
@@ -503,7 +515,7 @@ static int bugcompat_mode;
 char *fu_pool_type = "hetero";
 
 /* resource pool indices, NOTE: update these if you change FU_CONFIG */
-#define FU_IALU_INDEX			0
+#define FU_IALU_INDEX				0
 #define FU_IMULT_INDEX			1
 #define FU_MEMPORT_INDEX		2
 #define FU_FPALU_INDEX			3
@@ -517,158 +529,92 @@ char *fu_pool_type = "hetero";
 
 /* hetero resource pool definition, NOTE: update FU_*_INDEX defs if you change this.See sim_init for initialization */
 
-struct res_desc fu_hetero_config[5] = { { "integer-ALU",
-                                           4,
-                                           0,
-                                            { { IntALU,
-                                                 1,
-                                                 1 } } },
-                                         { "integer-MULT/DIV",
-                                           1,
-                                           0,
-                                            { { IntMULT,
-                                                 3,
-                                                 1 },
-                                               { IntDIV,
-                                                 20,
-                                                 19 } } },
-                                         { "memory-port",
-                                           2,
-                                           0,
-                                            { { RdPort,
-                                                 1,
-                                                 1 },
-                                               { WrPort,
-                                                 1,
-                                                 1 } } },
-                                         { "FP-ALU",
-                                           4,
-                                           0,
-                                            { { FloatADD,
-                                                 2,
-                                                 1 },
-                                               { FloatCMP,
-                                                 2,
-                                                 1 },
-                                               { FloatCVT,
-                                                 2,
-                                                 1 } } },
-                                         { "FP-MULT/DIV",
-                                           1,
-                                           0,
-                                            { { FloatMULT,
-                                                 4,
-                                                 1 },
-                                               { FloatDIV,
-                                                 12,
-                                                 12 },
-                                               { FloatSQRT,
-                                                 24,
-                                                 24 } } }, 
+struct res_desc fu_hetero_config[5] = { { "integer-ALU", 4, 0,
+																					{ 
+																						{ IntALU, 1,1 } 
+																					} 
+																				},
+                                        { "integer-MULT/DIV", 1, 0,
+                                          { 
+                                        			{ IntMULT, 3, 1 },
+                                              { IntDIV, 20, 19 } 
+                                          } 
+                                        },
+                                        { "memory-port", 2, 0,
+                                          { 
+                                         			{ RdPort, 1, 1 },
+                                         			{ WrPort, 1, 1 }
+                                          }
+                                         },
+                                         { "FP-ALU", 4, 0,
+                                           { 
+                                        	 		{ FloatADD, 2, 1 },
+                                        	 		{ FloatCMP,	2, 1 },
+                                        	 		{ FloatCVT, 2, 1 }
+                                        	 	}
+                                         },
+                                         { "FP-MULT/DIV", 1, 0,
+                                        	 { 
+                                        	 		{ FloatMULT, 4, 1 },
+                                              { FloatDIV, 12, 12 },
+                                              { FloatSQRT, 24, 24 } 
+                                           }
+                                         }, 
 };
 
-/* homo resource pool definition, NOTE: update FU_*_INDEX defs if you change this.See sim_init for initialization */
-struct res_desc fu_homo_config[1] = { { "homogeneous",
-                                         4,
-                                         0,
-                                          { { IntALU,
-                                               1,
-                                               1 },
-                                             { IntMULT,
-                                               3,
-                                               1 },
-                                             { IntDIV,
-                                               20,
-                                               19 },
-                                             { FloatADD,
-                                               2,
-                                               1 },
-                                             { FloatCMP,
-                                               2,
-                                               1 },
-                                             { FloatCVT,
-                                               2,
-                                               1 },
-                                             { FloatMULT,
-                                               4,
-                                               1 },
-                                             { FloatDIV,
-                                               12,
-                                               12 },
-                                             { FloatSQRT,
-                                               24,
-                                               24 },
-                                             { RdPort,
-                                               1,
-                                               1 },
-                                             { WrPort,
-                                               1,
-                                               1 } }, 
-}
+/* homo resource pool definition, NOTE: update FU_*_INDEX defs if you change this.
+ * See sim_init for initialization */
+struct res_desc fu_homo_config[1] = { { "homogeneous", 4, 0,
+																				{
+																					{ IntALU, 1, 1 },
+																					{ IntMULT, 3, 1 },
+																					{ IntDIV, 20, 19 },
+																					{ FloatADD, 2, 1 },
+																					{ FloatCMP, 2, 1 },
+																					{ FloatCVT, 2, 1 },
+																					{ FloatMULT, 4, 1 },
+																					{ FloatDIV, 12, 12 },
+																					{ FloatSQRT, 24, 24 },
+																					{ RdPort, 1, 1 },
+																					{ WrPort, 1, 1 } 
+																				}, 
+																		}
 };
 
 /* compact resource pool definition, NOTE: update FU_*_INDEX defs if you change this.
  * See sim_init for initialization */
 
-struct res_desc fu_compact_config[4] = { { "Integer-ALU",
-                                            1,
-                                            0,
-                                             { { IntALU,
-                                                  1,
-                                                  1 } } },
-                                          { "Div/Mult",
-                                            1,
-                                            0,
-                                             { { IntALU,
-                                                  1,
-                                                  1 },
-
-                                                { FloatADD,
-                                                  2,
-                                                  1 },
-                                                { FloatCMP,
-                                                  2,
-                                                  1 },
-                                                { FloatCVT,
-                                                  2,
-                                                  1 },
-
-                                                { IntMULT,
-                                                  3,
-                                                  1 },
-                                                { IntDIV,
-                                                  20,
-                                                  19 },
-                                                { FloatMULT,
-                                                  4,
-                                                  1 },
-                                                { FloatDIV,
-                                                  12,
-                                                  12 },
-                                                { FloatSQRT,
-                                                  24,
-                                                  24 } } },
-                                          { "Memory-Port",
-                                            1,
-                                            0,
-                                             { { RdPort,
-                                                  1,
-                                                  1 },
-                                                { WrPort,
-                                                  1,
-                                                  1 } } },
-                                          { "FP-ALU",
-                                            1,
-                                            0,
-                                             { { FloatADD,
-                                                  2,
-                                                  1 },
-                                                { FloatCMP,
-                                                  2,
-                                                  1 },
-                                                { FloatCVT,
-                                                  2,
-                                                  1 } } }, 
+struct res_desc fu_compact_config[4] = { { "Integer-ALU", 1, 0,
+																					 {
+																							{ IntALU, 1, 1 }
+																					 }
+																				 },
+                                         { "Div/Mult", 1, 0,
+																					 { 
+                                        	 		{ IntALU, 1, 1 },
+                                        	 		{ FloatADD, 2, 1 },
+                                        	 		{ FloatCMP, 2, 1 },
+                                        	 		{ FloatCVT, 2, 1 },
+                                        	 		{ IntMULT, 3, 1 },
+                                              { IntDIV, 20, 19 },
+                                              { FloatMULT, 4, 1 },
+                                              { FloatDIV, 12, 12 },
+                                              { FloatSQRT, 24, 24 } 
+                                            }
+                                         },
+                                         { "Memory-Port", 1, 0,
+                                        	 {
+                                        	 		{ RdPort, 1, 1 },
+                                        	 		{ WrPort, 1,1 }
+                                        	 	}
+                                         },
+                                         { "FP-ALU", 1, 0,
+                                        	 {
+                                        	 		{ FloatADD, 2, 1 },
+                                        	 		{ FloatCMP, 2, 1 },
+                                        	 		{ FloatCVT, 2, 1 } 
+                                        	 }
+                                         }, 
 };
 
 /* total number of integer ALU's available */
@@ -676,7 +622,8 @@ struct res_desc fu_compact_config[4] = { { "Integer-ALU",
 int res_ialu;
 
 /* total number of integer multiplier/dividers available */
-static int res_imult;
+// static int res_imult;
+int res_imult;
 
 /* total number of memory system ports available (to CPU) */
 // static int res_memport;
@@ -687,13 +634,16 @@ int res_memport;
 int res_fpalu;
 
 /* total number of floating point multiplier/dividers available */
-static int res_fpmult;
+// static int res_fpmult;
+int res_fpmult;
 
 /* total number of homogenoeus functional units available */
-static int res_homo;
+// static int res_homo;
+int res_homo;
 
 /* total number of div/mult funcitional units available */
-static int res_divmult;
+// static int res_divmult;
+int res_divmult;
 
 /*
  * simulator stats. These variables must be replicated for all SMT's pipeline. So, their initializations must be done in the "sim_init" function because process_num is variable
@@ -2188,7 +2138,7 @@ void sim_check_options(struct opt_odb_t *odb, /* options database */
 			/* initialize dlite_active */
 
 			for (sn=0;sn<process_num;sn++)
-			dlite_active[sn] = dlite_initial;
+				dlite_active[sn] = dlite_initial;
 
 		}
 

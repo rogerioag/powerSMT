@@ -123,6 +123,15 @@ extern int res_ialu;
 extern int res_fpalu;
 extern int res_memport;
 
+/* Added by PowerSMT */
+extern int res_imult;
+extern int res_fpmult;
+extern int res_divmult;
+
+/* Added by PowerSMT */
+
+
+
 int nvreg_width;
 int npreg_width;
 
@@ -413,12 +422,11 @@ double compute_af(counter_t num_pop_count_cycle,
 	
 	af_b = 1.0 - af;
 	
-	
 	/*printf("af == %f%%, af_b == %f%%, total_pop == %d, num_pop == %d\n",100*af,100*af_b,total_pop_count_cycle,num_pop_count_cycle);*/
 
-	// return (af_b);
+	return (af_b);
 	// Teste funcional com retorno de af fixo em 1.
-	return (1.0);
+	// return (1.0);
 }
 
 /* compute power statistics on each cycle, for each conditional clocking style.  Obviously
@@ -443,14 +451,14 @@ void update_power_stats(int sn, signed long long nrCycle)
 	resultbus_af_b = compute_af(resultbus_num_pop_count_cycle[sn], resultbus_total_pop_count_cycle[sn], data_width);
 #endif
 	
-	if(nrCycle % 1000000 == 0){
+	/*if(nrCycle % 1000000 == 0){
 		fprintf(stdout,"\nProcesso: %d\n", sn);
 		fprintf(stdout,"Ciclo: %d\n", nrCycle);
 		fprintf(stdout,"window_af_b: %g\n", window_af_b);
 		fprintf(stdout,"lsq_af_b: %g\n", lsq_af_b);
 		fprintf(stdout,"regfile_af_b: %g\n", regfile_af_b);
 		fprintf(stdout,"resultbus_af_b: %g\n", resultbus_af_b);
-	}
+	}*/
 	
 	// fprintf(stdout,"window_num_pop_count_cycle: %g\n", window_num_pop_count_cycle[sn]);
 	// fprintf(stdout,"window_total_pop_count_cycle: %g\n", window_total_pop_count_cycle[sn]);
@@ -473,8 +481,17 @@ void update_power_stats(int sn, signed long long nrCycle)
 	icache_power[sn] += power.icache_power + power.itlb;
 	dcache_power[sn] += power.dcache_power + power.dtlb;
 	dcache2_power[sn] += power.dcache2_power;
-	alu_power[sn] += power.ialu_power + power.falu_power;
-	falu_power[sn] += power.falu_power;
+	
+	
+	/* PowerSMT alteration, because variability fu architecture */
+	// alu_power[sn] += power.ialu_power + power.falu_power;
+	// falu_power[sn] += power.falu_power;
+	alu_power[sn] += power.ialu_power + power.falu_power + power.imult_power;
+	falu_power[sn] += power.falu_power + power.divmult_power + power.fpmult_power;
+	
+	/* IMPLEMENTAR */
+	/* Como vai ser a atualização quando for heterogenea ou homogenea */
+		
 	resultbus_power[sn] += power.resultbus;
 	clock_power[sn] += power.clock_power;
 	
@@ -520,7 +537,7 @@ void update_power_stats(int sn, signed long long nrCycle)
 	
 #ifdef STATIC_AF
 	if(window_preg_access[sn]) {
-		if(window_preg_access[sn] <= 3*ruu_issue_width)
+		if(window_preg_access[sn] <= 3 * ruu_issue_width)
 			window_power_cc1[sn] += power.rs_power;
 		else
 			window_power_cc1[sn] += ((double)window_preg_access[sn]/(3.0*(double)ruu_issue_width))*power.rs_power;
@@ -529,7 +546,7 @@ void update_power_stats(int sn, signed long long nrCycle)
 		window_power_cc3[sn] += ((double)window_preg_access[sn]/(3.0*(double)ruu_issue_width))*power.rs_power;
 	}
 	else
-		window_power_cc3[sn] += turnoff_factor*power.rs_power;
+		window_power_cc3[sn] += turnoff_factor * power.rs_power;
 #elif defined(DYNAMIC_AF)
 	
 	// fprintf(stdout,"window_preg_access: %g\n", window_preg_access[sn]);
@@ -537,7 +554,7 @@ void update_power_stats(int sn, signed long long nrCycle)
 	// fprintf(stdout,"power.rs_bitline: %g\n", power.rs_bitline);
 	
 	if (window_preg_access[sn]) {
-		if (window_preg_access[sn] <= 3*ruu_issue_width)
+		if (window_preg_access[sn] <= 3 * ruu_issue_width)
 			window_power_cc1[sn] += power.rs_power_nobit + window_af_b * power.rs_bitline;
 		else
 			window_power_cc1[sn] += ((double)window_preg_access[sn]/(3.0*(double)ruu_issue_width))
@@ -548,7 +565,7 @@ void update_power_stats(int sn, signed long long nrCycle)
 		window_power_cc3[sn] += ((double)window_preg_access[sn]/(3.0*(double)ruu_issue_width))
 				*(power.rs_power_nobit + window_af_b*power.rs_bitline);
 	} else
-		window_power_cc3[sn] += turnoff_factor*power.rs_power;
+		window_power_cc3[sn] += turnoff_factor * power.rs_power;
 #else
 	panic("no AF-style defined\n");
 #endif
@@ -572,15 +589,12 @@ void update_power_stats(int sn, signed long long nrCycle)
 		if (window_wakeup_access[sn] <= ruu_issue_width)
 			window_power_cc1[sn] += power.wakeup_power;
 		else
-			window_power_cc1[sn] +=((double)window_wakeup_access[sn]/((double)ruu_issue_width))
-				*power.wakeup_power;
+			window_power_cc1[sn] += ((double)window_wakeup_access[sn]/((double)ruu_issue_width))*power.wakeup_power;
 		
-		window_power_cc2[sn]+=((double)window_wakeup_access[sn]/((double)ruu_issue_width))
-				*power.wakeup_power;
-		window_power_cc3[sn]+=((double)window_wakeup_access[sn]/((double)ruu_issue_width))
-				*power.wakeup_power;
+		window_power_cc2[sn] += ((double)window_wakeup_access[sn]/((double)ruu_issue_width))*power.wakeup_power;
+		window_power_cc3[sn] += ((double)window_wakeup_access[sn]/((double)ruu_issue_width))*power.wakeup_power;
 	} else
-		window_power_cc3[sn]+=turnoff_factor*power.wakeup_power;
+		window_power_cc3[sn] += turnoff_factor*power.wakeup_power;
 	
 	if (lsq_wakeup_access[sn]) {
 		if (lsq_wakeup_access[sn] <= res_memport)
@@ -659,8 +673,8 @@ void update_power_stats(int sn, signed long long nrCycle)
 	
 	if (dcache_access[sn]) {
 		if (dcache_access[sn] <= res_memport)
-			dcache_power_cc1[sn] += power.dcache_power+power.dtlb;
-		else
+			dcache_power_cc1[sn] += power.dcache_power + power.dtlb;
+		else 
 			dcache_power_cc1[sn] += ((double)dcache_access[sn]/(double)res_memport)
 					*(power.dcache_power +power.dtlb);
 			dcache_power_cc2[sn] += ((double)dcache_access[sn]/(double)res_memport)
@@ -722,12 +736,12 @@ void update_power_stats(int sn, signed long long nrCycle)
 			resultbus_power_cc1[sn] += resultbus_af_b*power.resultbus;
 		} else {
 			resultbus_power_cc1[sn] += ((double)resultbus_access[sn]/(double)ruu_issue_width)
-					*resultbus_af_b*power.resultbus;
+					* resultbus_af_b * power.resultbus;
 		}
 		resultbus_power_cc2[sn] += ((double)resultbus_access[sn]/(double)ruu_issue_width)
-				*resultbus_af_b*power.resultbus;
+				* resultbus_af_b * power.resultbus;
 		resultbus_power_cc3[sn] += ((double)resultbus_access[sn]/(double)ruu_issue_width)
-				*resultbus_af_b*power.resultbus;
+				* resultbus_af_b * power.resultbus;
 	} else
 		resultbus_power_cc3[sn] += turnoff_factor*power.resultbus;
 #endif
@@ -736,17 +750,17 @@ void update_power_stats(int sn, signed long long nrCycle)
 			+ regfile_power[sn] + icache_power[sn] + dcache_power[sn] +alu_power[sn]
 			+ resultbus_power[sn];
 	
-	total_cycle_power_cc1[sn] = rename_power_cc1[sn] + bpred_power_cc1[sn] +window_power_cc1[sn]
-			+ lsq_power_cc1[sn] + regfile_power_cc1[sn] +icache_power_cc1[sn] + dcache_power_cc1[sn]
-			+ alu_power_cc1[sn] +resultbus_power_cc1[sn];
+	total_cycle_power_cc1[sn] = rename_power_cc1[sn] + bpred_power_cc1[sn] + window_power_cc1[sn] + 
+															lsq_power_cc1[sn] + regfile_power_cc1[sn] + icache_power_cc1[sn] + 
+	                            dcache_power_cc1[sn] + alu_power_cc1[sn] + resultbus_power_cc1[sn];
 	
-	total_cycle_power_cc2[sn] =  rename_power_cc2[sn] + bpred_power_cc2[sn] +window_power_cc2[sn]
-			+ lsq_power_cc2[sn] + regfile_power_cc2[sn] +icache_power_cc2[sn] + dcache_power_cc2[sn]
-			+ alu_power_cc2[sn] +resultbus_power_cc2[sn];
+	total_cycle_power_cc2[sn] = rename_power_cc2[sn] + bpred_power_cc2[sn] + window_power_cc2[sn] + 
+															lsq_power_cc2[sn] + regfile_power_cc2[sn] + icache_power_cc2[sn] + 
+															dcache_power_cc2[sn] + alu_power_cc2[sn] + resultbus_power_cc2[sn];
 	
-	total_cycle_power_cc3[sn] = rename_power_cc3[sn] + bpred_power_cc3[sn] +window_power_cc3[sn]
-			+ lsq_power_cc3[sn] + regfile_power_cc3[sn] +icache_power_cc3[sn] + dcache_power_cc3[sn]
-			+ alu_power_cc3[sn] +resultbus_power_cc3[sn];
+	total_cycle_power_cc3[sn] = rename_power_cc3[sn] + bpred_power_cc3[sn] + window_power_cc3[sn] + 
+															lsq_power_cc3[sn] + regfile_power_cc3[sn] + icache_power_cc3[sn] + 
+															dcache_power_cc3[sn] + alu_power_cc3[sn] + resultbus_power_cc3[sn];
 	
 	clock_power_cc1[sn] += power.clock_power*(total_cycle_power_cc1[sn]/total_cycle_power[sn]);
 	clock_power_cc2[sn] += power.clock_power*(total_cycle_power_cc2[sn]/total_cycle_power[sn]);
@@ -756,22 +770,19 @@ void update_power_stats(int sn, signed long long nrCycle)
 	total_cycle_power_cc2[sn] += clock_power_cc2[sn];
 	total_cycle_power_cc3[sn] +=  clock_power_cc3[sn];
 	
-	current_total_cycle_power_cc1[sn] = total_cycle_power_cc1[sn]
-			-last_single_total_cycle_power_cc1[sn];
-	current_total_cycle_power_cc2[sn] =  total_cycle_power_cc2[sn]
-			-last_single_total_cycle_power_cc2[sn];
-	current_total_cycle_power_cc3[sn] = total_cycle_power_cc3[sn]
-			-last_single_total_cycle_power_cc3[sn];
+	current_total_cycle_power_cc1[sn] = total_cycle_power_cc1[sn] - last_single_total_cycle_power_cc1[sn];
+	current_total_cycle_power_cc2[sn] = total_cycle_power_cc2[sn] - last_single_total_cycle_power_cc2[sn];
+	current_total_cycle_power_cc3[sn] = total_cycle_power_cc3[sn] - last_single_total_cycle_power_cc3[sn];
 	
-	max_cycle_power_cc1[sn] = MAX(max_cycle_power_cc1[sn],current_total_cycle_power_cc1[sn]);
-	max_cycle_power_cc2[sn] =  MAX(max_cycle_power_cc2[sn],current_total_cycle_power_cc2[sn]);
-	max_cycle_power_cc3[sn] = MAX(max_cycle_power_cc3[sn],current_total_cycle_power_cc3[sn]);
+	max_cycle_power_cc1[sn] = MAX(max_cycle_power_cc1[sn], current_total_cycle_power_cc1[sn]);
+	max_cycle_power_cc2[sn] = MAX(max_cycle_power_cc2[sn], current_total_cycle_power_cc2[sn]);
+	max_cycle_power_cc3[sn] = MAX(max_cycle_power_cc3[sn], current_total_cycle_power_cc3[sn]);
 	
 	last_single_total_cycle_power_cc1[sn] = total_cycle_power_cc1[sn];
-	last_single_total_cycle_power_cc2[sn] =  total_cycle_power_cc2[sn];
+	last_single_total_cycle_power_cc2[sn] = total_cycle_power_cc2[sn];
 	last_single_total_cycle_power_cc3[sn] = total_cycle_power_cc3[sn];
 	
-	if(nrCycle % 1000000 == 0){
+	/*if(nrCycle % 1000000 == 0){
 		fprintf(stdout,"alu_power_cc1: %f\n", alu_power_cc1[sn]);
 		fprintf(stdout,"alu_power_cc2: %f\n", alu_power_cc2[sn]);
 		fprintf(stdout,"alu_power_cc3: %f\n", alu_power_cc3[sn]);
@@ -819,8 +830,7 @@ void update_power_stats(int sn, signed long long nrCycle)
 		fprintf(stdout,"window_power_cc1: %f\n", window_power_cc1[sn]);
 	  fprintf(stdout,"window_power_cc2: %f\n", window_power_cc2[sn]);
 	  fprintf(stdout,"window_power_cc3: %f\n", window_power_cc3[sn]);
-	 
-	} 
+	}*/ 
 		
 }
 
@@ -1666,7 +1676,7 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 			// struct stat_stat_t *stat;
 			// for (stat=sdb->stats; stat != NULL; stat=stat->next)
 			//  stat_print_stat(sdb, stat, stdout);
-			/*Teste*/
+		/*Teste*/
 	}
 	
 }
@@ -1695,7 +1705,6 @@ int squarify(	int rows,
 	while (rows > cols) {
 		rows = rows/2;
 		cols = cols*2;
-		
 		
 		/*
 		 printf("rows == %d\n",rows);
@@ -2587,6 +2596,17 @@ void calculate_power(power)
 	 types of operations */
 	power->ialu_power = res_ialu * I_ADD;
 	power->falu_power = res_fpalu * F_ADD;
+		
+	/* Others PowerSMT functional units */
+	power->imult_power = res_imult * I_MULT16;
+	power->fpmult_power = res_fpmult * F_MULT;
+	
+	/* DIVMULT calcute as MULT */
+	power->divmult_power = res_divmult * F_MULT;
+	
+	/* IMPLEMENTAR */
+	// power->homo_power = res_homo * 
+	
 	
 	nvreg_width = (int)ceil(logtwo((double)MD_NUM_IREGS));
 	npreg_width = (int)ceil(logtwo((double)RUU_size));

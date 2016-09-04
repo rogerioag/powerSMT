@@ -503,6 +503,14 @@ typedef struct {
 	double total_power_nodcache2;
 	double ialu_power;
 	double falu_power;
+	
+	/* Others PowerSMT Functional Units consumption */
+	double imult_power;
+	double fpmult_power;
+	double homo_power;
+	double divmult_power;
+	/* Others PowerSMT Functional Units consumption */
+	
 	double bpred_power;
 	double rename_power;
 	double rat_power;
