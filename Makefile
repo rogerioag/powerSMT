@@ -128,6 +128,7 @@
 ##
 CC = gcc
 OFLAGS = -O0 -g -Wall
+# OFLAGS = -O0 -g -Wnonnull
 MFLAGS = `./sysprobe -flags`
 MLIBS  = `./sysprobe -libs` -lm
 ENDIAN = `./sysprobe -s`

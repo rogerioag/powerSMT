@@ -300,29 +300,51 @@ extern double  F_MULT    ;
 
 
 /* Added by PowerSMT */
-extern double I_MULT;
-extern double I_DIV;
-extern double F_DIV;
-extern double F_DIV_MULT;
+extern double I_MULT;					/* integer multiply */
+extern double I_DIV;						/* integer divide */
+extern double F_DIV;						/* floating point divider */
+extern double F_DIV_MULT;			/* floating point divide and multiply */
 
-/* Instructions classes treat  by Homogeneous FU: IntALU, IntMULT, IntDIV, FloatADD, FloatCMP, FloatCVT, FloatMULT, FloatDIV, FloatSQRT, RdPort, WrPort */
-/* Uma média */
-extern double HOMO;           
+extern double RD_PORT;					/* memory read port */
+extern double WR_PORT;					/* memory write port */
+extern double F_CMP;						/* floating point comparator */
+extern double F_CVT;						/* floating point<->integer converter */
+extern double F_SQRT;					/* floating point square root */
 /* Added by PowerSMT */
 
-extern double  I_ADD_CLOCK   ; 
-extern double  I_MULT_CLOCK   ; 
-extern double  I_SHIFT_CLOCK ; 
-extern double  I_LOGIC_CLOCK   ; 
-extern double  F_ADD_CLOCK    ; 
-extern double  F_MULT_CLOCK   ;
+extern double I_ADD_CLOCK; 
+extern double I_MULT_CLOCK; 
+extern double I_SHIFT_CLOCK; 
+extern double I_LOGIC_CLOCK; 
+extern double F_ADD_CLOCK; 
+extern double F_MULT_CLOCK; 
 
 /* Added by PowerSMT */
 extern double I_DIV_CLOCK;
 extern double F_DIV_CLOCK;
 extern double F_MULT_CLOCK;
 extern double F_DIV_MULT_CLOCK;
+extern double RD_PORT_CLOCK;
+extern double WR_PORT_CLOCK;
+extern double F_CMP_CLOCK;
+extern double F_CVT_CLOCK;
+extern double F_SQRT_CLOCK;
+ /* Added by PowerSMT */
+
 /* Added by PowerSMT */
+extern int il1_banks_num;
+extern int dl1_banks_num;
+
+extern int l2_banks_num;
+
+extern int il1_modules_num;
+
+extern char *ruulsq_opt;
+
+
+/* Added by PowerSMT */
+
+
 
 
 /* set scale for crossover (vdd->gnd) currents */
@@ -433,8 +455,24 @@ static double regfile_power[MAX_SLOTS] = { 0 };
 static double icache_power[MAX_SLOTS] = { 0 };
 static double dcache_power[MAX_SLOTS] = { 0 };
 static double dcache2_power[MAX_SLOTS] = { 0 };
-static double alu_power[MAX_SLOTS] = { 0 };
-static double falu_power[MAX_SLOTS] = { 0 };
+
+/* PowerSMT Added */
+// static double alu_power[MAX_SLOTS] = { 0 };
+// static double falu_power[MAX_SLOTS] = { 0 };
+
+static double ialu_power[MAX_SLOTS] = { 0 };				/* integer-ALU, instructions classes treated (ICT): IntALU */
+static double imult_div_power[MAX_SLOTS] = { 0 };		/* integer-MULT/DIV, integer multiplier/divider, ICT: IntMULT, IntDIV */
+static double mem_port_power[MAX_SLOTS] = { 0 };		/* memory-port, ICT: RdPort, WrPort */
+static double fpalu_power[MAX_SLOTS] = { 0 };				/* FP-ALU, floating point adder/subtractor, ITC: FloatADD, FloatCMP, FloatCVT */
+static double fpmult_div_power[MAX_SLOTS] = { 0 };	/* FP-MULT/DIV, floating point multiplier/divider, ICT: FloatMULT, FloatDIV, 
+ 														 FloatSQRT */
+static double divmult_power[MAX_SLOTS] = { 0 };			/* DIV/MULT, divider/multiplier, ICT: IntALU, FloatADD, FloatCMP, FloatCVT, 
+ 														 IntMULT, IntDIV, FloatMULT, FloatDIV, FloatSQRT */
+static double homo_power[MAX_SLOTS] = { 0 };				
+
+/* PowerSMT Added */
+
+
 static double resultbus_power[MAX_SLOTS] = { 0 };
 static double clock_power[MAX_SLOTS] = { 0 };
 
@@ -446,7 +484,22 @@ static double regfile_power_cc1[MAX_SLOTS] = { 0 };
 static double icache_power_cc1[MAX_SLOTS] = { 0 };
 static double dcache_power_cc1[MAX_SLOTS] = { 0 };
 static double dcache2_power_cc1[MAX_SLOTS] = { 0 };
-static double alu_power_cc1[MAX_SLOTS] = { 0 };
+
+/* PowerSMT Added */
+// static double alu_power_cc1[MAX_SLOTS] = { 0 };
+
+static double ialu_power_cc1[MAX_SLOTS] = { 0 };				/* integer-ALU, instructions classes treated (ICT): IntALU */
+static double imult_div_power_cc1[MAX_SLOTS] = { 0 };		/* integer-MULT/DIV, integer multiplier/divider, ICT: IntMULT, IntDIV */
+static double mem_port_power_cc1[MAX_SLOTS] = { 0 };		/* memory-port, ICT: RdPort, WrPort */
+static double fpalu_power_cc1[MAX_SLOTS] = { 0 };				/* FP-ALU, floating point adder/subtractor, ITC: FloatADD, FloatCMP, FloatCVT */
+static double fpmult_div_power_cc1[MAX_SLOTS] = { 0 };	/* FP-MULT/DIV, floating point multiplier/divider, ICT: FloatMULT, FloatDIV, 
+ 														 FloatSQRT */
+static double divmult_power_cc1[MAX_SLOTS] = { 0 };			/* DIV/MULT, divider/multiplier, ICT: IntALU, FloatADD, FloatCMP, FloatCVT, 
+ 														 IntMULT, IntDIV, FloatMULT, FloatDIV, FloatSQRT */
+static double homo_power_cc1[MAX_SLOTS] = { 0 };				
+
+/* PowerSMT Added */
+
 static double resultbus_power_cc1[MAX_SLOTS] = { 0 };
 static double clock_power_cc1[MAX_SLOTS] = { 0 };
 
@@ -458,7 +511,21 @@ static double regfile_power_cc2[MAX_SLOTS] = { 0 };
 static double icache_power_cc2[MAX_SLOTS] = { 0 };
 static double dcache_power_cc2[MAX_SLOTS] = { 0 };
 static double dcache2_power_cc2[MAX_SLOTS] = { 0 };
-static double alu_power_cc2[MAX_SLOTS] = { 0 };
+
+/* PowerSMT Added */
+// static double alu_power_cc2[MAX_SLOTS] = { 0 };
+static double ialu_power_cc2[MAX_SLOTS] = { 0 };				/* integer-ALU, instructions classes treated (ICT): IntALU */
+static double imult_div_power_cc2[MAX_SLOTS] = { 0 };		/* integer-MULT/DIV, integer multiplier/divider, ICT: IntMULT, IntDIV */
+static double mem_port_power_cc2[MAX_SLOTS] = { 0 };		/* memory-port, ICT: RdPort, WrPort */
+static double fpalu_power_cc2[MAX_SLOTS] = { 0 };				/* FP-ALU, floating point adder/subtractor, ITC: FloatADD, FloatCMP, FloatCVT */
+static double fpmult_div_power_cc2[MAX_SLOTS] = { 0 };	/* FP-MULT/DIV, floating point multiplier/divider, ICT: FloatMULT, FloatDIV, 
+ 														 FloatSQRT */
+static double divmult_power_cc2[MAX_SLOTS] = { 0 };			/* DIV/MULT, divider/multiplier, ICT: IntALU, FloatADD, FloatCMP, FloatCVT, 
+ 														 IntMULT, IntDIV, FloatMULT, FloatDIV, FloatSQRT */
+static double homo_power_cc2[MAX_SLOTS] = { 0 };				
+
+/* PowerSMT Added */
+
 static double resultbus_power_cc2[MAX_SLOTS] = { 0 };
 static double clock_power_cc2[MAX_SLOTS] = { 0 };
 
@@ -470,7 +537,21 @@ static double regfile_power_cc3[MAX_SLOTS] = { 0 };
 static double icache_power_cc3[MAX_SLOTS] = { 0 };
 static double dcache_power_cc3[MAX_SLOTS] = { 0 };
 static double dcache2_power_cc3[MAX_SLOTS] = { 0 };
-static double alu_power_cc3[MAX_SLOTS] = { 0 };
+
+/* PowerSMT Added */
+// static double alu_power_cc3[MAX_SLOTS] = { 0 };
+static double ialu_power_cc3[MAX_SLOTS] = { 0 };				/* integer-ALU, instructions classes treated (ICT): IntALU */
+static double imult_div_power_cc3[MAX_SLOTS] = { 0 };		/* integer-MULT/DIV, integer multiplier/divider, ICT: IntMULT, IntDIV */
+static double mem_port_power_cc3[MAX_SLOTS] = { 0 };		/* memory-port, ICT: RdPort, WrPort */
+static double fpalu_power_cc3[MAX_SLOTS] = { 0 };				/* FP-ALU, floating point adder/subtractor, ITC: FloatADD, FloatCMP, FloatCVT */
+static double fpmult_div_power_cc3[MAX_SLOTS] = { 0 };	/* FP-MULT/DIV, floating point multiplier/divider, ICT: FloatMULT, FloatDIV, 
+ 														 FloatSQRT */
+static double divmult_power_cc3[MAX_SLOTS] = { 0 };			/* DIV/MULT, divider/multiplier, ICT: IntALU, FloatADD, FloatCMP, FloatCVT, 
+ 														 IntMULT, IntDIV, FloatMULT, FloatDIV, FloatSQRT */
+static double homo_power_cc3[MAX_SLOTS] = { 0 };				
+
+/* PowerSMT Added */
+
 static double resultbus_power_cc3[MAX_SLOTS] = { 0 };
 static double clock_power_cc3[MAX_SLOTS] = { 0 };
 
@@ -498,9 +579,15 @@ extern counter_t regfile_access[MAX_SLOTS];
 extern counter_t icache_access[MAX_SLOTS];
 extern counter_t dcache_access[MAX_SLOTS];
 extern counter_t dcache2_access[MAX_SLOTS];
-extern counter_t alu_access[MAX_SLOTS];
-extern counter_t ialu_access[MAX_SLOTS];
-extern counter_t falu_access[MAX_SLOTS];
+
+/* PowerSMT Added */
+// extern counter_t alu_access[MAX_SLOTS];
+// extern counter_t ialu_access[MAX_SLOTS];
+// extern counter_t falu_access[MAX_SLOTS];
+extern counter_t fus_num_access[MAX_SLOTS];
+extern counter_t fus_access[MAX_SLOTS][NUM_FU_CLASSES];
+/* PowerSMT Added */
+
 extern counter_t resultbus_access[MAX_SLOTS];
 
 extern counter_t window_selection_access[MAX_SLOTS];
@@ -528,7 +615,12 @@ static counter_t total_regfile_access[MAX_SLOTS] = { 0 };
 static counter_t total_icache_access[MAX_SLOTS] = { 0 };
 static counter_t total_dcache_access[MAX_SLOTS] = { 0 };
 static counter_t total_dcache2_access[MAX_SLOTS] = { 0 };
-static counter_t total_alu_access[MAX_SLOTS] = { 0 };
+
+/* PowerSMT Added */
+// static counter_t total_alu_access[MAX_SLOTS] = { 0 };
+static counter_t total_fus_access[MAX_SLOTS] = { 0 };
+/* PowerSMT Added */
+
 static counter_t total_resultbus_access[MAX_SLOTS] = { 0 };
 
 static counter_t max_rename_access[MAX_SLOTS] = { 0 };
@@ -539,7 +631,12 @@ static counter_t max_regfile_access[MAX_SLOTS] = { 0 };
 static counter_t max_icache_access[MAX_SLOTS] = { 0 };
 static counter_t max_dcache_access[MAX_SLOTS] = { 0 };
 static counter_t max_dcache2_access[MAX_SLOTS] = { 0 };
-static counter_t max_alu_access[MAX_SLOTS] = { 0 };
+
+/* PowerSMT Added */
+// static counter_t max_alu_access[MAX_SLOTS] = { 0 };
+static counter_t max_fus_access[MAX_SLOTS] = { 0 };
+/* PowerSMT Added */
+
 static counter_t max_resultbus_access[MAX_SLOTS] = { 0 };
 
 
@@ -572,8 +669,18 @@ void init_power_variables(int sn)
 	icache_power[sn] = 0.0;
 	dcache_power[sn] = 0.0;
 	dcache2_power[sn] = 0.0;
-	alu_power[sn] = 0.0;
-	falu_power[sn] = 0.0;
+	/* PowerSMT Added */
+	// alu_power[sn] = 0.0;
+	// falu_power[sn] = 0.0;
+	ialu_power[sn] = 0.0;
+	imult_div_power[sn] = 0.0; 
+	mem_port_power[sn] = 0.0;
+	fpalu_power[sn] = 0.0;
+	fpmult_div_power[sn] = 0.0;  
+	divmult_power[sn] = 0.0; 
+	homo_power[sn] = 0.0;
+	/* PowerSMT Added */
+	
 	resultbus_power[sn] = 0.0;
 	clock_power[sn] = 0.0;
 	
@@ -585,7 +692,16 @@ void init_power_variables(int sn)
 	icache_power_cc1[sn] = 0.0;
 	dcache_power_cc1[sn] = 0.0;
 	dcache2_power_cc1[sn] = 0.0;
-	alu_power_cc1[sn] = 0.0;
+	/* PowerSMT Added */
+	// alu_power_cc1[sn] = 0.0;
+	ialu_power_cc1[sn] = 0.0;
+	imult_div_power_cc1[sn] = 0.0; 
+	mem_port_power_cc1[sn] = 0.0;
+	fpalu_power_cc1[sn] = 0.0;
+	fpmult_div_power_cc1[sn] = 0.0;  
+	divmult_power_cc1[sn] = 0.0; 
+	homo_power_cc1[sn] = 0.0;
+	/* PowerSMT Added */
 	resultbus_power_cc1[sn] = 0.0;
 	clock_power_cc1[sn] = 0.0;
 	
@@ -597,7 +713,16 @@ void init_power_variables(int sn)
 	icache_power_cc2[sn] = 0.0;
 	dcache_power_cc2[sn] = 0.0;
 	dcache2_power_cc2[sn] = 0.0;
-	alu_power_cc2[sn] = 0.0;
+	/* PowerSMT Added */
+	// alu_power_cc2[sn] = 0.0;
+	ialu_power_cc2[sn] = 0.0;
+	imult_div_power_cc2[sn] = 0.0; 
+	mem_port_power_cc2[sn] = 0.0;
+	fpalu_power_cc2[sn] = 0.0;
+	fpmult_div_power_cc2[sn] = 0.0;  
+	divmult_power_cc2[sn] = 0.0; 
+	homo_power_cc2[sn] = 0.0;
+	/* PowerSMT Added */
 	resultbus_power_cc2[sn] = 0.0;
 	clock_power_cc2[sn] = 0.0;
 	
@@ -609,7 +734,16 @@ void init_power_variables(int sn)
 	icache_power_cc3[sn] = 0.0;
 	dcache_power_cc3[sn] = 0.0;
 	dcache2_power_cc3[sn] = 0.0;
-	alu_power_cc3[sn] = 0.0;
+	/* PowerSMT Added */
+	// alu_power_cc3[sn] = 0.0;
+	ialu_power_cc3[sn] = 0.0;
+	imult_div_power_cc3[sn] = 0.0; 
+	mem_port_power_cc3[sn] = 0.0;
+	fpalu_power_cc3[sn] = 0.0;
+	fpmult_div_power_cc3[sn] = 0.0;  
+	divmult_power_cc3[sn] = 0.0; 
+	homo_power_cc3[sn] = 0.0;
+	/* PowerSMT Added */
 	resultbus_power_cc3[sn] = 0.0;
 	clock_power_cc3[sn] = 0.0;
 	
@@ -633,6 +767,8 @@ void init_power_variables(int sn)
 
 void clear_access_stats(int sn)
 {
+	int fuc; /* functional unit class according enum md_fu_class*/
+	
 	rename_access[sn] = 0;
 	bpred_access[sn] = 0;
 	window_access[sn] = 0;
@@ -641,9 +777,18 @@ void clear_access_stats(int sn)
 	icache_access[sn] = 0;
 	dcache_access[sn] = 0;
 	dcache2_access[sn] = 0;
-	alu_access[sn] = 0;
-	ialu_access[sn] = 0;
-	falu_access[sn] = 0;
+	
+	/* PowerSMT Added */
+	// alu_access[sn] = 0;
+	// ialu_access[sn] = 0;
+	// falu_access[sn] = 0;
+	fus_num_access[sn] = 0;
+	for (fuc=0; fuc<NUM_FU_CLASSES; fuc++) {
+			fus_access[sn][fuc] = 0;			
+	}
+	
+	/* PowerSMT Added */
+	
 	resultbus_access[sn] = 0;
 	
 	window_preg_access[sn] = 0;
@@ -701,6 +846,18 @@ double compute_af(counter_t num_pop_count_cycle, counter_t total_pop_count_cycle
 void update_power_stats(int sn, signed long long nrCycle){
 	double window_af_b, lsq_af_b, regfile_af_b, resultbus_af_b;
 	
+	/*fprintf(stdout,"\n");
+	fprintf(stdout," |-icache_bank_selector: %g\n", power.icache_bank_selector);
+	fprintf(stdout," |-dcache_bank_selector: %g\n", power.dcache_bank_selector);
+	fprintf(stdout," |-fetch_ifq_selector: %g\n", power.fetch_ifq_selector);
+	fprintf(stdout," |-decode_ruu_selector: %g\n", power.decode_ruu_selector);
+	fprintf(stdout," |-issue_ruu_selector: %g\n", power.issue_ruu_selector);		
+	fprintf(stdout," |-writeback_ruu_selector: %g\n", power.writeback_ruu_selector);
+	fprintf(stdout," |-rob_selector: %g\n", power.rob_selector); 
+	fprintf(stdout," |-itlb_selector: %g\n", power.itlb_selector);
+	fprintf(stdout," |-dtlb_selector: %g\n", power.dtlb_selector);
+	fprintf(stdout," |-btb_selector: %g\n", power.btb_selector);*/
+	
 
 #ifdef DYNAMIC_AF
 	window_af_b = compute_af(window_num_pop_count_cycle[sn], window_total_pop_count_cycle[sn], data_width);
@@ -716,19 +873,31 @@ void update_power_stats(int sn, signed long long nrCycle){
 		window_power[sn] += power.window_power;
 		lsq_power[sn] += power.lsq_power;
 		regfile_power[sn] += power.regfile_power;
-		icache_power[sn] += power.icache_power + power.itlb;
-		dcache_power[sn] += power.dcache_power + power.dtlb;
-		dcache2_power[sn] += power.dcache2_power;
+		/* PowerSMT Added */
+		// icache_power[sn] += power.icache_power + power.itlb;
+		// dcache_power[sn] += power.dcache_power + power.dtlb;
+		icache_power[sn] += power.icache_power + power.itlb + power.icache_bank_selector;
+		dcache_power[sn] += power.dcache_power + power.dtlb + power.dcache_bank_selector;
+		/* PowerSMT Added */
+		dcache2_power[sn] += power.dcache2_power + power.cachel2_bank_selector;
 			
+		/* PowerSMT Added */
 		/* PowerSMT alteration, because variability fu architecture */
 		// alu_power[sn] += power.ialu_power + power.falu_power;
 		// falu_power[sn] += power.falu_power;
-		alu_power[sn] += power.ialu_power + power.falu_power + power.imult_power;
-		falu_power[sn] += power.falu_power + power.divmult_power + power.fpmult_power;
-			
-		/* IMPLEMENTAR */
-		/* Como vai ser a atualização quando for heterogenea ou homogenea */
-				
+		// First Modification.
+		// alu_power[sn] += power.ialu_power + power.falu_power + power.imult_power;
+		// falu_power[sn] += power.falu_power + power.divmult_power + power.fpmult_power;
+		
+		ialu_power[sn] 		+= power.ialu_power; 		/* integer ALU */
+		imult_div_power[sn] += power.imult_div_power; 
+		mem_port_power[sn] 	+= power.mem_port_power;
+		fpalu_power[sn] 	+= power.fpalu_power;
+		fpmult_div_power[sn] += power.fpmult_div_power;  
+		divmult_power[sn] 	+= power.divmult_power; 
+		homo_power[sn] 		+= power.homo_power;
+		/* PowerSMT Added */
+		
 		resultbus_power[sn] += power.resultbus;
 		clock_power[sn] += power.clock_power;
 		
@@ -740,7 +909,13 @@ void update_power_stats(int sn, signed long long nrCycle){
 		total_icache_access[sn] += icache_access[sn];
 		total_dcache_access[sn] += dcache_access[sn];
 		total_dcache2_access[sn] += dcache2_access[sn];
-		total_alu_access[sn] += alu_access[sn];
+		
+		/* PowerSMT Added */
+		// total_alu_access[sn] += alu_access[sn];
+		total_fus_access[sn] += fus_num_access[sn];
+		
+		/* PowerSMT Added */
+		
 		total_resultbus_access[sn] += resultbus_access[sn];
 		
 		max_rename_access[sn] = MAX(rename_access[sn],max_rename_access[sn]);
@@ -751,7 +926,11 @@ void update_power_stats(int sn, signed long long nrCycle){
 		max_icache_access[sn] = MAX(icache_access[sn],max_icache_access[sn]);
 		max_dcache_access[sn] = MAX(dcache_access[sn],max_dcache_access[sn]);
 		max_dcache2_access[sn] = MAX(dcache2_access[sn],max_dcache2_access[sn]);
-		max_alu_access[sn] = MAX(alu_access[sn],max_alu_access[sn]);
+		/* PowerSMT Added */
+		// max_alu_access[sn] = MAX(alu_access[sn],max_alu_access[sn]);
+		max_fus_access[sn] = MAX(fus_num_access[sn],max_fus_access[sn]);
+		/* PowerSMT Added */
+		
 		max_resultbus_access[sn] = MAX(resultbus_access[sn],max_resultbus_access[sn]);
 		
 		if (rename_access[sn]) {
@@ -811,14 +990,14 @@ void update_power_stats(int sn, signed long long nrCycle){
 		
 		if (window_selection_access[sn]) {
 			if (window_selection_access[sn] <= ruu_issue_width)
-				window_power_cc1[sn] += power.selection;
+				window_power_cc1[sn] += power.selection + power.issue_ruu_selector;
 			else
-				window_power_cc1[sn] += ((double)window_selection_access[sn]/((double)ruu_issue_width))*power.selection;
+				window_power_cc1[sn] += ((double)window_selection_access[sn]/((double)ruu_issue_width)) * (power.selection + power.issue_ruu_selector);
 			
-			window_power_cc2[sn] += ((double)window_selection_access[sn]/((double)ruu_issue_width))*power.selection;
-			window_power_cc3[sn] += ((double)window_selection_access[sn]/((double)ruu_issue_width))*power.selection;
+			window_power_cc2[sn] += ((double)window_selection_access[sn]/((double)ruu_issue_width)) * (power.selection + power.issue_ruu_selector);
+			window_power_cc3[sn] += ((double)window_selection_access[sn]/((double)ruu_issue_width)) * (power.selection + power.issue_ruu_selector);
 		} else
-				window_power_cc3[sn] += turnoff_factor*power.selection;
+				window_power_cc3[sn] += turnoff_factor * (power.selection + power.issue_ruu_selector);
 			
 		// fprintf(stdout,"power.wakeup_power: %g\n", power.wakeup_power);
 		
@@ -902,40 +1081,41 @@ void update_power_stats(int sn, signed long long nrCycle){
 		
 		if (icache_access[sn]) {
 			/* don't scale icache because we assume 1 line is fetched, unless fetch stalls */
-			icache_power_cc1[sn] += power.icache_power+power.itlb;
-			icache_power_cc2[sn] += power.icache_power+power.itlb;
-			icache_power_cc3[sn] += power.icache_power+power.itlb;
+			icache_power_cc1[sn] += power.icache_power + power.itlb + power.icache_bank_selector;
+			icache_power_cc2[sn] += power.icache_power + power.itlb + power.icache_bank_selector;
+			icache_power_cc3[sn] += power.icache_power + power.itlb + power.icache_bank_selector;
 		} else
-			icache_power_cc3[sn] += turnoff_factor*(power.icache_power+power.itlb);
+			icache_power_cc3[sn] += turnoff_factor*(power.icache_power + power.itlb + power.icache_bank_selector);
 		
 		if (dcache_access[sn]) {
 			if (dcache_access[sn] <= res_memport)
-				dcache_power_cc1[sn] += power.dcache_power + power.dtlb;
+				dcache_power_cc1[sn] += power.dcache_power + power.dtlb + power.dcache_bank_selector;
 			else 
 				dcache_power_cc1[sn] += ((double)dcache_access[sn]/(double)res_memport)
-						*(power.dcache_power +power.dtlb);
+						*(power.dcache_power + power.dtlb + power.dcache_bank_selector);
 				dcache_power_cc2[sn] += ((double)dcache_access[sn]/(double)res_memport)
-						*(power.dcache_power +power.dtlb);
+						*(power.dcache_power + power.dtlb + power.dcache_bank_selector);
 				dcache_power_cc3[sn] += ((double)dcache_access[sn]/(double)res_memport)
-						*(power.dcache_power +power.dtlb);
+						*(power.dcache_power + power.dtlb + power.dcache_bank_selector);
 		} else
-				dcache_power_cc3[sn] += turnoff_factor*(power.dcache_power+power.dtlb);
+				dcache_power_cc3[sn] += turnoff_factor*(power.dcache_power + power.dtlb + power.dcache_bank_selector);
 		
 		if (dcache2_access[sn]) {
 			if (dcache2_access[sn] <= res_memport)
-				dcache2_power_cc1[sn] += power.dcache2_power;
+				dcache2_power_cc1[sn] += power.dcache2_power + power.cachel2_bank_selector;
 			else
 				dcache2_power_cc1[sn] += ((double)dcache2_access[sn]/(double)res_memport)
-						*power.dcache2_power;
+						* (power.dcache2_power + power.cachel2_bank_selector );
 			
 			dcache2_power_cc2[sn] += ((double)dcache2_access[sn]/(double)res_memport)
-						*power.dcache2_power;
+						* (power.dcache2_power + power.cachel2_bank_selector);
 			dcache2_power_cc3[sn] += ((double)dcache2_access[sn]/(double)res_memport)
-						*power.dcache2_power;
+						* (power.dcache2_power + power.cachel2_bank_selector);
 		} else
-			dcache2_power_cc3[sn] += turnoff_factor*power.dcache2_power;
+			dcache2_power_cc3[sn] += turnoff_factor * (power.dcache2_power + power.cachel2_bank_selector);
 		
-		if (alu_access[sn]) {
+		/* PowerSMT Added */
+		/*if (alu_access[sn]) {
 			if (ialu_access[sn])
 				alu_power_cc1[sn] += power.ialu_power;
 			else
@@ -949,7 +1129,92 @@ void update_power_stats(int sn, signed long long nrCycle){
 			alu_power_cc2[sn] += ((double)ialu_access[sn]/(double)res_ialu)*power.ialu_power+((double)falu_access[sn]/(double)res_fpalu)*power.falu_power;
 			alu_power_cc3[sn] += ((double)ialu_access[sn]/(double)res_ialu)*power.ialu_power+((double)falu_access[sn]/(double)res_fpalu)*power.falu_power;
 		} else
-				alu_power_cc3[sn] += turnoff_factor*(power.ialu_power + power.falu_power);
+				alu_power_cc3[sn] += turnoff_factor*(power.ialu_power + power.falu_power);*/
+		
+		/* Functional Units */
+		if (fus_num_access[sn]) {
+			if (fus_access[sn][IntALU])
+				ialu_power_cc1[sn] += power.ialu_power;
+			else
+				ialu_power_cc3[sn] += turnoff_factor*power.ialu_power;
+					
+			if (fus_access[sn][FloatADD] || fus_access[sn][FloatCMP] || fus_access[sn][FloatCVT])
+				fpalu_power_cc1[sn] += power.fpalu_power;
+			else
+				fpalu_power_cc3[sn] += turnoff_factor*power.fpalu_power;
+					
+			ialu_power_cc2[sn] += ((double)fus_access[sn][IntALU]/(double)res_ialu)*power.ialu_power;
+			ialu_power_cc3[sn] += ((double)fus_access[sn][IntALU]/(double)res_ialu)*power.ialu_power;
+			
+			fpalu_power_cc2[sn] += ((double)(fus_access[sn][FloatADD] + fus_access[sn][FloatCMP] + fus_access[sn][FloatCVT])/(double)res_fpalu)*power.fpalu_power;
+			fpalu_power_cc3[sn] += ((double)(fus_access[sn][FloatADD] + fus_access[sn][FloatCMP] + fus_access[sn][FloatCVT])/(double)res_fpalu)*power.fpalu_power;
+			
+			/* imult_div */
+			if (fus_access[sn][IntMULT] || fus_access[sn][IntDIV])
+				imult_div_power_cc1[sn] += power.imult_div_power;
+			else
+				imult_div_power_cc3[sn] += turnoff_factor*power.imult_div_power;
+								
+			imult_div_power_cc2[sn] += ((double)(fus_access[sn][IntMULT] + fus_access[sn][IntDIV])/(double)res_imult)*power.imult_div_power;
+			imult_div_power_cc3[sn] += ((double)(fus_access[sn][IntMULT] + fus_access[sn][IntDIV])/(double)res_imult)*power.imult_div_power;
+						
+			
+			/* mem_port */
+			if (fus_access[sn][RdPort] || fus_access[sn][WrPort])
+				mem_port_power_cc1[sn] += power.mem_port_power;
+			else
+				mem_port_power_cc3[sn] += turnoff_factor*power.mem_port_power;
+										
+			mem_port_power_cc2[sn] += ((double)(fus_access[sn][RdPort] + fus_access[sn][WrPort])/(double)res_imult)*power.mem_port_power;
+			mem_port_power_cc3[sn] += ((double)(fus_access[sn][RdPort] + fus_access[sn][WrPort])/(double)res_imult)*power.mem_port_power;
+					
+			
+			/* fpmult_div */  
+			if (fus_access[sn][FloatMULT] || fus_access[sn][FloatDIV] || fus_access[sn][FloatSQRT])
+				fpmult_div_power_cc1[sn] += power.fpmult_div_power;
+			else
+				fpmult_div_power_cc3[sn] += turnoff_factor*power.fpmult_div_power;
+													
+			fpmult_div_power_cc2[sn] += ((double)(fus_access[sn][FloatMULT] + fus_access[sn][FloatDIV] + fus_access[sn][FloatSQRT])/(double)res_memport)*power.fpmult_div_power;
+			fpmult_div_power_cc3[sn] += ((double)(fus_access[sn][FloatMULT] + fus_access[sn][FloatDIV] + fus_access[sn][FloatSQRT])/(double)res_memport)*power.fpmult_div_power;		
+			
+			/* divmult */
+			if (fus_access[sn][IntALU] || fus_access[sn][FloatADD] || fus_access[sn][FloatCMP] ||
+				fus_access[sn][FloatCVT] || fus_access[sn][IntMULT] || fus_access[sn][IntDIV] ||
+				fus_access[sn][FloatMULT] || fus_access[sn][FloatDIV] || fus_access[sn][FloatSQRT])
+				
+				divmult_power_cc1[sn] += power.divmult_power;
+			else
+				divmult_power_cc3[sn] += turnoff_factor*power.divmult_power;
+													
+			divmult_power_cc2[sn] += ((double)(fus_access[sn][IntALU] + fus_access[sn][FloatADD] + fus_access[sn][FloatCMP] + fus_access[sn][FloatCVT] + fus_access[sn][IntMULT] + fus_access[sn][IntDIV] + fus_access[sn][FloatMULT] + fus_access[sn][FloatDIV] + fus_access[sn][FloatSQRT])/(double)res_divmult)*power.divmult_power;
+			divmult_power_cc3[sn] += ((double)(fus_access[sn][IntALU] + fus_access[sn][FloatADD] + fus_access[sn][FloatCMP] + fus_access[sn][FloatCVT] + fus_access[sn][IntMULT] + fus_access[sn][IntDIV] + fus_access[sn][FloatMULT] + fus_access[sn][FloatDIV] + fus_access[sn][FloatSQRT])/(double)res_divmult)*power.divmult_power;			
+			
+			/* homo */	
+			if (fus_access[sn][IntALU] || fus_access[sn][FloatADD] || fus_access[sn][FloatCMP] ||
+				fus_access[sn][FloatCVT] || fus_access[sn][IntMULT] || fus_access[sn][IntDIV] ||
+				fus_access[sn][FloatMULT] || fus_access[sn][FloatDIV] || fus_access[sn][FloatSQRT] ||
+				fus_access[sn][RdPort] || fus_access[sn][WrPort])
+				
+				homo_power_cc1[sn] += power.homo_power;
+			else
+				homo_power_cc3[sn] += turnoff_factor*power.homo_power;
+													
+			homo_power_cc2[sn] += ((double)(fus_access[sn][FloatMULT] + fus_access[sn][FloatDIV] + fus_access[sn][FloatSQRT] + fus_access[sn][RdPort] + fus_access[sn][WrPort])/(double)res_homo)*power.homo_power;
+			homo_power_cc3[sn] += ((double)(fus_access[sn][FloatMULT] + fus_access[sn][FloatDIV] + fus_access[sn][FloatSQRT] + fus_access[sn][RdPort] + fus_access[sn][WrPort])/(double)res_homo)*power.homo_power;			
+			
+		} else{
+			ialu_power_cc3[sn] += turnoff_factor*(power.ialu_power);
+			fpalu_power_cc3[sn] += turnoff_factor*(power.fpalu_power);
+			
+			imult_div_power_cc3[sn] += turnoff_factor*(power.imult_div_power);
+			mem_port_power_cc3[sn] += turnoff_factor*(power.mem_port_power);
+			fpmult_div_power_cc3[sn] += turnoff_factor*(power.fpmult_div_power);
+			divmult_power_cc3[sn] += turnoff_factor*(power.divmult_power);
+			homo_power_cc3[sn] += turnoff_factor*(power.homo_power);
+		}
+		
+		/* PowerSMT Added */
 		
 		
 	#ifdef STATIC_AF
@@ -983,21 +1248,28 @@ void update_power_stats(int sn, signed long long nrCycle){
 			resultbus_power_cc3[sn] += turnoff_factor*power.resultbus;
 	#endif
 		
-		total_cycle_power[sn] = rename_power[sn] + bpred_power[sn] + window_power[sn] +lsq_power[sn]
-				+ regfile_power[sn] + icache_power[sn] + dcache_power[sn] +alu_power[sn]
-				+ resultbus_power[sn];
+		total_cycle_power[sn] = rename_power[sn] + bpred_power[sn] + window_power[sn] +lsq_power[sn] + 
+								regfile_power[sn] + icache_power[sn] + dcache_power[sn] + ialu_power[sn] + 
+								imult_div_power[sn] + mem_port_power[sn] + fpalu_power[sn] + fpmult_div_power[sn] + 
+								homo_power[sn] + divmult_power[sn] + resultbus_power[sn];
 		
 		total_cycle_power_cc1[sn] = rename_power_cc1[sn] + bpred_power_cc1[sn] + window_power_cc1[sn] + 
-																lsq_power_cc1[sn] + regfile_power_cc1[sn] + icache_power_cc1[sn] + 
-		                            dcache_power_cc1[sn] + alu_power_cc1[sn] + resultbus_power_cc1[sn];
+								lsq_power_cc1[sn] + regfile_power_cc1[sn] + icache_power_cc1[sn] + 
+		            dcache_power_cc1[sn] + ialu_power_cc1[sn] + imult_div_power_cc1[sn] + 
+		            mem_port_power_cc1[sn] + fpalu_power_cc1[sn] + fpmult_div_power_cc1[sn] + 
+		            homo_power_cc1[sn] + divmult_power_cc1[sn] + resultbus_power_cc1[sn];
 		
-		total_cycle_power_cc2[sn] = rename_power_cc2[sn] + bpred_power_cc2[sn] + window_power_cc2[sn] + 
-																lsq_power_cc2[sn] + regfile_power_cc2[sn] + icache_power_cc2[sn] + 
-																dcache_power_cc2[sn] + alu_power_cc2[sn] + resultbus_power_cc2[sn];
+		total_cycle_power_cc2[sn] = rename_power_cc2[sn] + bpred_power_cc2[sn] + window_power_cc2[sn] +
+								lsq_power_cc2[sn] + regfile_power_cc2[sn] + icache_power_cc2[sn] + 
+								dcache_power_cc2[sn] + ialu_power_cc2[sn] + imult_div_power_cc2[sn] + 
+		            mem_port_power_cc2[sn] + fpalu_power_cc2[sn] + fpmult_div_power_cc2[sn] + 
+		            homo_power_cc2[sn] + divmult_power_cc2[sn] + resultbus_power_cc2[sn];
 		
 		total_cycle_power_cc3[sn] = rename_power_cc3[sn] + bpred_power_cc3[sn] + window_power_cc3[sn] + 
-																lsq_power_cc3[sn] + regfile_power_cc3[sn] + icache_power_cc3[sn] + 
-																dcache_power_cc3[sn] + alu_power_cc3[sn] + resultbus_power_cc3[sn];
+								lsq_power_cc3[sn] + regfile_power_cc3[sn] + icache_power_cc3[sn] + 
+								dcache_power_cc3[sn] + ialu_power_cc3[sn] + imult_div_power_cc3[sn] + 
+		            mem_port_power_cc3[sn] + fpalu_power_cc3[sn] + fpmult_div_power_cc3[sn] + 
+		            homo_power_cc3[sn] + divmult_power_cc3[sn] + resultbus_power_cc3[sn];
 		
 		clock_power_cc1[sn] += power.clock_power*(total_cycle_power_cc1[sn]/total_cycle_power[sn]);
 		clock_power_cc2[sn] += power.clock_power*(total_cycle_power_cc2[sn]/total_cycle_power[sn]);
@@ -1112,13 +1384,33 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		stat_reg_double(sdb, stat_name, "total power usage of dcache2", &dcache2_power[sn], 0, NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
-		sprintf(stat_name, "alu_power_%s", itoa[sn]);
-		stat_reg_double(sdb, stat_name, "total power usage of alu", &alu_power[sn], 0, NULL, sn);
+		sprintf(stat_name, "ialu_power_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of alu", &ialu_power[sn], 0, NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
-		sprintf(stat_name, "falu_power_%s", itoa[sn]);
-		stat_reg_double(sdb, stat_name, "total power usage of falu", &falu_power[sn], 0, NULL, sn);
+		sprintf(stat_name, "imult_div_power_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of imult_div FU", &imult_div_power[sn], 0, NULL, sn);
 		
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "mem_port_power_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of memory port FU", &mem_port_power[sn], 0, NULL, sn);
+		
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "fpalu_power_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of fpalu", &fpalu_power[sn], 0, NULL, sn);
+		
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "fpmult_div_power_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of fpmult_div", &fpmult_div_power[sn], 0, NULL, sn);
+		
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "divmult_power_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of divmult", &divmult_power[sn], 0, NULL, sn);
+		
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "homo_power_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of homo FU", &homo_power[sn], 0, NULL, sn);
+		 
 		bzero(stat_name, sizeof(char) * 64);
 		sprintf(stat_name, "resultbus_power_%s", itoa[sn]);
 		stat_reg_double(sdb, stat_name, "total power usage of resultbus", &resultbus_power[sn], 0, NULL, sn);
@@ -1175,17 +1467,57 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		sprintf(formula_name, "dcache2_power_%s/sim_cycle", itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "avg power usage of dcache2", formula_name, /* format */NULL, sn);
 		
-		bzero(stat_name, sizeof(char) * 64);
-		bzero(formula_name, sizeof(char) * 512);
-		sprintf(stat_name, "avg_alu_power_%s", itoa[sn]);
-		sprintf(formula_name, "alu_power_%s/sim_cycle", itoa[sn]);
-		stat_reg_formula(sdb, stat_name, "avg power usage of alu", formula_name, /* format */NULL, sn);
+		/* PowerSMT Added */
+		// bzero(stat_name, sizeof(char) * 64);
+		// bzero(formula_name, sizeof(char) * 512);
+		// sprintf(stat_name, "avg_alu_power_%s", itoa[sn]);
+		// sprintf(formula_name, "alu_power_%s/sim_cycle", itoa[sn]);
+		// stat_reg_formula(sdb, stat_name, "avg power usage of ialu", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
-		sprintf(stat_name, "avg_falu_power_%s", itoa[sn]);
-		sprintf(formula_name, "falu_power_%s/sim_cycle", itoa[sn]);
-		stat_reg_formula(sdb, stat_name, "avg power usage of falu", formula_name, /* format */NULL, sn);
+		sprintf(stat_name, "avg_ialu_power_%s", itoa[sn]);
+		sprintf(formula_name, "ialu_power_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of ialu FU", formula_name, /* format */NULL, sn);
+		
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_fpalu_power_%s", itoa[sn]);
+		sprintf(formula_name, "fpalu_power_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of fpalu FU", formula_name, /* format */NULL, sn);
+		
+		
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_imult_div_power_%s", itoa[sn]);
+		sprintf(formula_name, "imult_div_power_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of imult_div FU", formula_name, /* format */NULL, sn);
+		
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_mem_port_power_%s", itoa[sn]);
+		sprintf(formula_name, "mem_port_power_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of mem_port FU", formula_name, /* format */NULL, sn);
+		
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_fpmult_div_power_%s", itoa[sn]);
+		sprintf(formula_name, "fpmult_div_power_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of fpmult_div FU", formula_name, /* format */NULL, sn);
+		
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_divmult_power_%s", itoa[sn]);
+		sprintf(formula_name, "divmult_power_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of divmult FU", formula_name, /* format */NULL, sn);
+				
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_homo_power_%s", itoa[sn]);
+		sprintf(formula_name, "homo_power_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of homo FU", formula_name, /* format */NULL, sn);		
+				  
+		/* PowerSMT Added */
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
@@ -1211,11 +1543,19 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		sprintf(formula_name, "rename_power_%s", itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "total power usage of dispatch stage", formula_name, /* format */NULL, sn);
 		
+		/* PowerSMT Added */
+		// bzero(stat_name, sizeof(char) * 64);
+		// bzero(formula_name, sizeof(char) * 512);
+		// sprintf(stat_name, "issue_stage_power_%s", itoa[sn]);
+		// sprintf(formula_name, "resultbus_power_%s + alu_power_%s + dcache_power_%s + dcache2_power_%s + window_power_%s + lsq_power_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		// stat_reg_formula(sdb, stat_name, "total power usage of issue stage", formula_name, /* format */NULL, sn);
+		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "issue_stage_power_%s", itoa[sn]);
-		sprintf(formula_name, "resultbus_power_%s + alu_power_%s + dcache_power_%s + dcache2_power_%s + window_power_%s + lsq_power_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "resultbus_power_%s + ialu_power_%s + imult_div_power_%s + mem_port_power_%s + fpalu_power_%s + fpmult_div_power_%s + divmult_power_%s + homo_power_%s + dcache_power_%s + dcache2_power_%s + window_power_%s + lsq_power_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "total power usage of issue stage", formula_name, /* format */NULL, sn);
+		/* PowerSMT Added */
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
@@ -1232,37 +1572,37 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_issue_power_%s", itoa[sn]);
-		sprintf(formula_name, "(resultbus_power_%s + alu_power_%s + dcache_power_%s + dcache2_power_%s + window_power_%s + lsq_power_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(resultbus_power_%s + ialu_power_%s + imult_div_power_%s + mem_port_power_%s + fpalu_power_%s + fpmult_div_power_%s + divmult_power_%s + homo_power_%s + dcache_power_%s + dcache2_power_%s + window_power_%s + lsq_power_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average power of issue unit per cycle", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "total_power_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_%s + bpred_power_%s + window_power_%s + lsq_power_%s + regfile_power_%s + icache_power_%s + resultbus_power_%s + clock_power_%s + alu_power_%s + dcache_power_%s + dcache2_power_%s)", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_%s + bpred_power_%s + window_power_%s + lsq_power_%s + regfile_power_%s + icache_power_%s + resultbus_power_%s + clock_power_%s + ialu_power_%s + imult_div_power_%s + mem_port_power_%s + fpalu_power_%s + fpmult_div_power_%s + divmult_power_%s + homo_power_%s + dcache_power_%s + dcache2_power_%s)", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "total power per cycle", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_total_power_cycle_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_%s + bpred_power_%s + window_power_%s + lsq_power_%s + regfile_power_%s + icache_power_%s + resultbus_power_%s + clock_power_%s + alu_power_%s + dcache_power_%s + dcache2_power_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_%s + bpred_power_%s + window_power_%s + lsq_power_%s + regfile_power_%s + icache_power_%s + resultbus_power_%s + clock_power_%s + ialu_power_%s + imult_div_power_%s + mem_port_power_%s + fpalu_power_%s + fpmult_div_power_%s + divmult_power_%s + homo_power_%s + dcache_power_%s + dcache2_power_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average total power per cycle", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_total_power_cycle_nofp_nod2_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_%s + bpred_power_%s + window_power_%s + lsq_power_%s + regfile_power_%s + icache_power_%s + resultbus_power_%s + clock_power_%s + alu_power_%s + dcache_power_%s - falu_power_%s )/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_%s + bpred_power_%s + window_power_%s + lsq_power_%s + regfile_power_%s + icache_power_%s + resultbus_power_%s + clock_power_%s + ialu_power_%s + imult_div_power_%s + mem_port_power_%s + dcache_power_%s - fpalu_power_%s - fpmult_div_power_%s - divmult_power_%s - homo_power_%s )/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average total power per cycle", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_total_power_insn_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_%s + bpred_power_%s + window_power_%s + lsq_power_%s + regfile_power_%s + icache_power_%s + resultbus_power_%s + clock_power_%s + alu_power_%s + dcache_power_%s + dcache2_power_%s)/sim_total_insn_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_%s + bpred_power_%s + window_power_%s + lsq_power_%s + regfile_power_%s + icache_power_%s + resultbus_power_%s + clock_power_%s + ialu_power_%s + imult_div_power_%s + mem_port_power_%s + fpalu_power_%s + fpmult_div_power_%s + divmult_power_%s + homo_power_%s + dcache_power_%s + dcache2_power_%s)/sim_total_insn_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average total power per insn", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_total_power_insn_nofp_nod2_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_%s + bpred_power_%s + window_power_%s + lsq_power_%s + regfile_power_%s + icache_power_%s + resultbus_power_%s + clock_power_%s + alu_power_%s + dcache_power_%s - falu_power_%s )/sim_total_insn_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_%s + bpred_power_%s + window_power_%s + lsq_power_%s + regfile_power_%s + icache_power_%s + resultbus_power_%s + clock_power_%s + ialu_power_%s + imult_div_power_%s + mem_port_power_%s + dcache_power_%s - fpalu_power_%s - fpmult_div_power_%s - divmult_power_%s - homo_power_%s )/sim_total_insn_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average total power per insn", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
@@ -1298,8 +1638,33 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		stat_reg_double(sdb, stat_name, "total power usage of dcache2_cc1", &dcache2_power_cc1[sn], 0, NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
-		sprintf(stat_name, "alu_power_cc1_%s", itoa[sn]);
-		stat_reg_double(sdb, stat_name, "total power usage of alu_cc1", &alu_power_cc1[sn], 0, NULL, sn);
+		sprintf(stat_name, "ialu_power_cc1_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of alu_cc1", &ialu_power_cc1[sn], 0, NULL, sn);
+		
+		
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "imult_div_power_cc1_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of imult_div_cc1 FU", &imult_div_power_cc1[sn], 0, NULL, sn);
+				
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "mem_port_power_cc1_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of memory-port_cc1 FU", &mem_port_power_cc1[sn], 0, NULL, sn);
+				
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "fpalu_power_cc1_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of fpalu_cc1", &fpalu_power_cc1[sn], 0, NULL, sn);
+				
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "fpmult_div_power_cc1_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of fpmult_div_cc1", &fpmult_div_power_cc1[sn], 0, NULL, sn);
+			
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "divmult_power_cc1_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of divmult_cc1", &divmult_power_cc1[sn], 0, NULL, sn);
+				
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "homo_power_cc1_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of homo_cc1 FU", &homo_power_cc1[sn], 0, NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		sprintf(stat_name, "resultbus_power_cc1_%s", itoa[sn]);
@@ -1357,11 +1722,55 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		sprintf(formula_name, "dcache2_power_cc1_%s/sim_cycle", itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "avg power usage of dcache2_cc1", formula_name, /* format */NULL, sn);
 	
+		/* PowerSMT Added */
+		// bzero(stat_name, sizeof(char) * 64);
+		// bzero(formula_name, sizeof(char) * 512);
+		// sprintf(stat_name, "avg_alu_power_cc1_%s", itoa[sn]);
+		// sprintf(formula_name, "alu_power_cc1_%s/sim_cycle", itoa[sn]);
+		// stat_reg_formula(sdb, stat_name, "avg power usage of alu_cc1", formula_name, /* format */NULL, sn);
+		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
-		sprintf(stat_name, "avg_alu_power_cc1_%s", itoa[sn]);
-		sprintf(formula_name, "alu_power_cc1_%s/sim_cycle", itoa[sn]);
-		stat_reg_formula(sdb, stat_name, "avg power usage of alu_cc1", formula_name, /* format */NULL, sn);
+		sprintf(stat_name, "avg_ialu_power_cc1_%s", itoa[sn]);
+		sprintf(formula_name, "ialu_power_cc1_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of ialu_cc1", formula_name, /* format */NULL, sn);
+				
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_fpalu_power_cc1_%s", itoa[sn]);
+		sprintf(formula_name, "fpalu_power_cc1_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of fpalu_cc1 FU", formula_name, /* format */NULL, sn);
+				
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_imult_div_power_cc1_%s", itoa[sn]);
+		sprintf(formula_name, "imult_div_power_cc1_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of imult_div_cc1 FU", formula_name, /* format */NULL, sn);
+						
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_mem_port_power_cc1_%s", itoa[sn]);
+		sprintf(formula_name, "mem_port_power_cc1_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of mem_port_cc1 FU", formula_name, /* format */NULL, sn);
+						
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_fpmult_div_power_cc1_%s", itoa[sn]);
+		sprintf(formula_name, "fpmult_div_power_cc1_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of fpmult_div_cc1 FU", formula_name, /* format */NULL, sn);
+						
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_divmult_power_cc1_%s", itoa[sn]);
+		sprintf(formula_name, "divmult_power_cc1_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of divmult_cc1 FU", formula_name, /* format */NULL, sn);
+								
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_homo_power_cc1_%s", itoa[sn]);
+		sprintf(formula_name, "homo_power_cc1_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of homo_cc1 FU", formula_name, /* format */NULL, sn);		
+		/* PowerSMT Added */		
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
@@ -1390,7 +1799,7 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "issue_stage_power_cc1_%s", itoa[sn]);
-		sprintf(formula_name, "resultbus_power_cc1_%s + alu_power_cc1_%s + dcache_power_cc1_%s + dcache2_power_cc1_%s + lsq_power_cc1_%s + window_power_cc1_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "resultbus_power_cc1_%s + ialu_power_cc1_%s + imult_div_power_cc1_%s + mem_port_power_cc1_%s + fpalu_power_cc1_%s + fpmult_div_power_cc1_%s + divmult_power_cc1_%s + homo_power_cc1_%s + dcache_power_cc1_%s + dcache2_power_cc1_%s + lsq_power_cc1_%s + window_power_cc1_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "total power usage of issue stage_cc1", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
@@ -1408,25 +1817,25 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_issue_power_cc1_%s", itoa[sn]);
-		sprintf(formula_name, "(resultbus_power_cc1_%s + alu_power_cc1_%s + dcache_power_cc1_%s + dcache2_power_cc1_%s + lsq_power_cc1_%s + window_power_cc1_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(resultbus_power_cc1_%s + ialu_power_%s + imult_div_power_%s + mem_port_power_%s + fpalu_power_%s + fpmult_div_power_%s + divmult_power_%s + homo_power_%s + dcache_power_cc1_%s + dcache2_power_cc1_%s + lsq_power_cc1_%s + window_power_cc1_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average power of issue unit per cycle_cc1", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "total_power_cycle_cc1_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_cc1_%s + bpred_power_cc1_%s + lsq_power_cc1_%s + window_power_cc1_%s + regfile_power_cc1_%s + icache_power_cc1_%s + resultbus_power_cc1_%s + clock_power_cc1_%s + alu_power_cc1_%s + dcache_power_cc1_%s + dcache2_power_cc1_%s)", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_cc1_%s + bpred_power_cc1_%s + lsq_power_cc1_%s + window_power_cc1_%s + regfile_power_cc1_%s + icache_power_cc1_%s + resultbus_power_cc1_%s + clock_power_cc1_%s + ialu_power_%s + imult_div_power_%s + mem_port_power_%s + fpalu_power_%s + fpmult_div_power_%s + divmult_power_%s + homo_power_%s + dcache_power_cc1_%s + dcache2_power_cc1_%s)", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "total power per cycle_cc1", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_total_power_cycle_cc1_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_cc1_%s + bpred_power_cc1_%s + lsq_power_cc1_%s + window_power_cc1_%s + regfile_power_cc1_%s + icache_power_cc1_%s + resultbus_power_cc1_%s + clock_power_cc1_%s + alu_power_cc1_%s + dcache_power_cc1_%s +dcache2_power_cc1_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_cc1_%s + bpred_power_cc1_%s + lsq_power_cc1_%s + window_power_cc1_%s + regfile_power_cc1_%s + icache_power_cc1_%s + resultbus_power_cc1_%s + clock_power_cc1_%s + ialu_power_%s + imult_div_power_%s + mem_port_power_%s + fpalu_power_%s + fpmult_div_power_%s + divmult_power_%s + homo_power_%s + dcache_power_cc1_%s + dcache2_power_cc1_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average total power per cycle_cc1", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_total_power_insn_cc1_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_cc1_%s + bpred_power_cc1_%s + lsq_power_cc1_%s + window_power_cc1_%s + regfile_power_cc1_%s + icache_power_cc1_%s + resultbus_power_cc1_%s + clock_power_cc1_%s + alu_power_cc1_%s + dcache_power_cc1_%s + dcache2_power_cc1_%s)/sim_total_insn_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_cc1_%s + bpred_power_cc1_%s + lsq_power_cc1_%s + window_power_cc1_%s + regfile_power_cc1_%s + icache_power_cc1_%s + resultbus_power_cc1_%s + clock_power_cc1_%s + ialu_power_%s + imult_div_power_%s + mem_port_power_%s + fpalu_power_%s + fpmult_div_power_%s + divmult_power_%s + homo_power_%s + dcache_power_cc1_%s + dcache2_power_cc1_%s)/sim_total_insn_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average total power per insn_cc1", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
@@ -1462,8 +1871,32 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		stat_reg_double(sdb, stat_name, "total power usage of dcache2_cc2", &dcache2_power_cc2[sn], 0, NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
-		sprintf(stat_name, "alu_power_cc2_%s", itoa[sn]);
-		stat_reg_double(sdb, stat_name, "total power usage of alu_cc2", &alu_power_cc2[sn], 0, NULL, sn);
+		sprintf(stat_name, "ialu_power_cc2_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of alu_cc2", &ialu_power_cc2[sn], 0, NULL, sn);
+		
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "imult_div_power_cc2_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of imult_div_cc2 FU", &imult_div_power_cc2[sn], 0, NULL, sn);
+					
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "mem_port_power_cc2_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of memory-port_cc2 FU", &mem_port_power_cc2[sn], 0, NULL, sn);
+						
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "fpalu_power_cc2_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of fpalu_cc2", &fpalu_power_cc2[sn], 0, NULL, sn);
+						
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "fpmult_div_power_cc2_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of fpmult_div_cc2", &fpmult_div_power_cc2[sn], 0, NULL, sn);
+					
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "divmult_power_cc2_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of divmult_cc2", &divmult_power_cc2[sn], 0, NULL, sn);
+					
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "homo_power_cc2_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of homo_cc2 FU", &homo_power_cc2[sn], 0, NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		sprintf(stat_name, "resultbus_power_cc2_%s", itoa[sn]);
@@ -1521,11 +1954,56 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		sprintf(formula_name, "dcache2_power_cc2_%s/sim_cycle", itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "avg power usage of dcache2_cc2", formula_name, /* format */NULL, sn);
 		
+		/* PowerSMT Added */
+		// bzero(stat_name, sizeof(char) * 64);
+		// bzero(formula_name, sizeof(char) * 512);
+		// sprintf(stat_name, "avg_alu_power_cc2_%s", itoa[sn]);
+		// sprintf(formula_name, "alu_power_cc2_%s/sim_cycle", itoa[sn]);
+		// stat_reg_formula(sdb, stat_name, "avg power usage of alu_cc2", formula_name, /* format */NULL, sn);
+		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
-		sprintf(stat_name, "avg_alu_power_cc2_%s", itoa[sn]);
-		sprintf(formula_name, "alu_power_cc2_%s/sim_cycle", itoa[sn]);
-		stat_reg_formula(sdb, stat_name, "avg power usage of alu_cc2", formula_name, /* format */NULL, sn);
+		sprintf(stat_name, "avg_ialu_power_cc2_%s", itoa[sn]);
+		sprintf(formula_name, "ialu_power_cc2_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of ialu_cc2", formula_name, /* format */NULL, sn);
+					
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_fpalu_power_cc2_%s", itoa[sn]);
+		sprintf(formula_name, "fpalu_power_cc2_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of fpalu_cc2 FU", formula_name, /* format */NULL, sn);
+					
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_imult_div_power_cc2_%s", itoa[sn]);
+		sprintf(formula_name, "imult_div_power_cc2_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of imult_div_cc2 FU", formula_name, /* format */NULL, sn);
+							
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_mem_port_power_cc2_%s", itoa[sn]);
+		sprintf(formula_name, "mem_port_power_cc2_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of mem_port_cc2 FU", formula_name, /* format */NULL, sn);
+							
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_fpmult_div_power_cc2_%s", itoa[sn]);
+		sprintf(formula_name, "fpmult_div_power_cc2_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of fpmult_div_cc2 FU", formula_name, /* format */NULL, sn);
+							
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_divmult_power_cc2_%s", itoa[sn]);
+		sprintf(formula_name, "divmult_power_cc2_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of divmult_cc2 FU", formula_name, /* format */NULL, sn);
+									
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_homo_power_cc2_%s", itoa[sn]);
+		sprintf(formula_name, "homo_power_cc2_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of homo_cc2 FU", formula_name, /* format */NULL, sn);		
+									  
+		/* PowerSMT Added */
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
@@ -1554,7 +2032,7 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "issue_stage_power_cc2_%s", itoa[sn]);
-		sprintf(formula_name, "resultbus_power_cc2_%s + alu_power_cc2_%s + dcache_power_cc2_%s + dcache2_power_cc2_%s + lsq_power_cc2_%s + window_power_cc2_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "resultbus_power_cc2_%s + ialu_power_cc2_%s + imult_div_power_cc2_%s + mem_port_power_cc2_%s + fpalu_power_cc2_%s + fpmult_div_power_cc2_%s + divmult_power_cc2_%s + homo_power_cc2_%s + dcache_power_cc2_%s + dcache2_power_cc2_%s + lsq_power_cc2_%s + window_power_cc2_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "total power usage of issue stage_cc2", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
@@ -1572,25 +2050,25 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_issue_power_cc2_%s", itoa[sn]);
-		sprintf(formula_name, "(resultbus_power_cc2_%s + alu_power_cc2_%s + dcache_power_cc2_%s + dcache2_power_cc2_%s + lsq_power_cc2_%s + window_power_cc2_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(resultbus_power_cc2_%s + ialu_power_cc2_%s + imult_div_power_cc2_%s + mem_port_power_cc2_%s + fpalu_power_cc2_%s + fpmult_div_power_cc2_%s + divmult_power_cc2_%s + homo_power_cc2_%s + dcache_power_cc2_%s + dcache2_power_cc2_%s + lsq_power_cc2_%s + window_power_cc2_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average power of issue unit per cycle_cc2", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "total_power_cycle_cc2_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_cc2_%s + bpred_power_cc2_%s + lsq_power_cc2_%s + window_power_cc2_%s + regfile_power_cc2_%s + icache_power_cc2_%s + resultbus_power_cc2_%s + clock_power_cc2_%s + alu_power_cc2_%s + dcache_power_cc2_%s + dcache2_power_cc2_%s)", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_cc2_%s + bpred_power_cc2_%s + lsq_power_cc2_%s + window_power_cc2_%s + regfile_power_cc2_%s + icache_power_cc2_%s + resultbus_power_cc2_%s + clock_power_cc2_%s + ialu_power_cc2_%s + imult_div_power_cc2_%s + mem_port_power_cc2_%s + fpalu_power_cc2_%s + fpmult_div_power_cc2_%s + divmult_power_cc2_%s + homo_power_cc2_%s + dcache_power_cc2_%s + dcache2_power_cc2_%s)", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "total power per cycle_cc2", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_total_power_cycle_cc2_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_cc2_%s + bpred_power_cc2_%s + lsq_power_cc2_%s + window_power_cc2_%s + regfile_power_cc2_%s + icache_power_cc2_%s + resultbus_power_cc2_%s + clock_power_cc2_%s + alu_power_cc2_%s + dcache_power_cc2_%s + dcache2_power_cc2_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_cc2_%s + bpred_power_cc2_%s + lsq_power_cc2_%s + window_power_cc2_%s + regfile_power_cc2_%s + icache_power_cc2_%s + resultbus_power_cc2_%s + clock_power_cc2_%s + ialu_power_cc2_%s + imult_div_power_cc2_%s + mem_port_power_cc2_%s + fpalu_power_cc2_%s + fpmult_div_power_cc2_%s + divmult_power_cc2_%s + homo_power_cc2_%s + dcache_power_cc2_%s + dcache2_power_cc2_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average total power per cycle_cc2", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_total_power_insn_cc2_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_cc2_%s + bpred_power_cc2_%s + lsq_power_cc2_%s + window_power_cc2_%s + regfile_power_cc2_%s + icache_power_cc2_%s + resultbus_power_cc2_%s + clock_power_cc2_%s + alu_power_cc2_%s + dcache_power_cc2_%s + dcache2_power_cc2_%s)/sim_total_insn_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_cc2_%s + bpred_power_cc2_%s + lsq_power_cc2_%s + window_power_cc2_%s + regfile_power_cc2_%s + icache_power_cc2_%s + resultbus_power_cc2_%s + clock_power_cc2_%s + ialu_power_cc2_%s + imult_div_power_cc2_%s + mem_port_power_cc2_%s + fpalu_power_cc2_%s + fpmult_div_power_cc2_%s + divmult_power_cc2_%s + homo_power_cc2_%s + dcache_power_cc2_%s + dcache2_power_cc2_%s)/sim_total_insn_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average total power per insn_cc2", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
@@ -1626,8 +2104,33 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		stat_reg_double(sdb, stat_name, "total power usage of dcache2_cc3", &dcache2_power_cc3[sn], 0, NULL, sn);
 	
 		bzero(stat_name, sizeof(char) * 64);
-		sprintf(stat_name, "alu_power_cc3_%s", itoa[sn]);
-		stat_reg_double(sdb, stat_name, "total power usage of alu_cc3", &alu_power_cc3[sn], 0, NULL, sn);
+		sprintf(stat_name, "ialu_power_cc3_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of alu_cc3", &ialu_power_cc3[sn], 0, NULL, sn);
+		
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "imult_div_power_cc3_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of imult_div_cc3 FU", &imult_div_power_cc3[sn], 0, NULL, sn);
+						
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "mem_port_power_cc3_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of memory-port_cc3 FU", &mem_port_power_cc3[sn], 0, NULL, sn);
+						
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "fpalu_power_cc3_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of fpalu_cc3", &fpalu_power_cc3[sn], 0, NULL, sn);
+						
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "fpmult_div_power_cc3_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of fpmult_div_cc3", &fpmult_div_power_cc3[sn], 0, NULL, sn);
+					
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "divmult_power_cc3_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of divmult_cc3", &divmult_power_cc3[sn], 0, NULL, sn);
+						
+		bzero(stat_name, sizeof(char) * 64);
+		sprintf(stat_name, "homo_power_cc3_%s", itoa[sn]);
+		stat_reg_double(sdb, stat_name, "total power usage of homo_cc3 FU", &homo_power_cc3[sn], 0, NULL, sn);
+		
 	
 		bzero(stat_name, sizeof(char) * 64);
 		sprintf(stat_name, "resultbus_power_cc3_%s", itoa[sn]);
@@ -1685,11 +2188,50 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		sprintf(formula_name, "dcache2_power_cc3_%s/sim_cycle", itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "avg power usage of dcache2_cc3", formula_name, /* format */NULL, sn);
 		
+		/* PowerSMT Added */
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
-		sprintf(stat_name, "avg_alu_power_cc3_%s", itoa[sn]);
-		sprintf(formula_name, "alu_power_cc3_%s/sim_cycle", itoa[sn]);
-		stat_reg_formula(sdb, stat_name, "avg power usage of alu_cc3", formula_name, /* format */NULL, sn);
+		sprintf(stat_name, "avg_ialu_power_cc3_%s", itoa[sn]);
+		sprintf(formula_name, "ialu_power_cc3_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of ialu_cc3", formula_name, /* format */NULL, sn);
+		
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_fpalu_power_cc3_%s", itoa[sn]);
+		sprintf(formula_name, "fpalu_power_cc3_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of fpalu_cc3 FU", formula_name, /* format */NULL, sn);
+		
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_imult_div_power_cc3_%s", itoa[sn]);
+		sprintf(formula_name, "imult_div_power_cc3_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of imult_div_cc3 FU", formula_name, /* format */NULL, sn);
+				
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_mem_port_power_cc3_%s", itoa[sn]);
+		sprintf(formula_name, "mem_port_power_cc3_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of mem_port_cc3 FU", formula_name, /* format */NULL, sn);
+				
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_fpmult_div_power_cc3_%s", itoa[sn]);
+		sprintf(formula_name, "fpmult_div_power_cc3_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of fpmult_div_cc3 FU", formula_name, /* format */NULL, sn);
+				
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_divmult_power_cc3_%s", itoa[sn]);
+		sprintf(formula_name, "divmult_power_cc3_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of divmult_cc3 FU", formula_name, /* format */NULL, sn);
+						
+		bzero(stat_name, sizeof(char) * 64);
+		bzero(formula_name, sizeof(char) * 512);
+		sprintf(stat_name, "avg_homo_power_cc3_%s", itoa[sn]);
+		sprintf(formula_name, "homo_power_cc3_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg power usage of homo_cc3 FU", formula_name, /* format */NULL, sn);		
+						  
+		/* PowerSMT Added */
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
@@ -1718,7 +2260,7 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "issue_stage_power_cc3_%s", itoa[sn]);
-		sprintf(formula_name, "resultbus_power_cc3_%s + alu_power_cc3_%s + dcache_power_cc3_%s + dcache2_power_cc3_%s + lsq_power_cc3_%s + window_power_cc3_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "resultbus_power_cc3_%s + ialu_power_cc3_%s + imult_div_power_cc3_%s + mem_port_power_cc3_%s + fpalu_power_cc3_%s + fpmult_div_power_cc3_%s + divmult_power_cc3_%s + homo_power_cc3_%s + dcache_power_cc3_%s + dcache2_power_cc3_%s + lsq_power_cc3_%s + window_power_cc3_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "total power usage of issue stage_cc3", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
@@ -1736,25 +2278,25 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_issue_power_cc3_%s", itoa[sn]);
-		sprintf(formula_name, "(resultbus_power_cc3_%s + alu_power_cc3_%s + dcache_power_cc3_%s + dcache2_power_cc3_%s + lsq_power_cc3_%s + window_power_cc3_%s)/ sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(resultbus_power_cc3_%s + ialu_power_cc3_%s + imult_div_power_cc3_%s + mem_port_power_cc3_%s + fpalu_power_cc3_%s + fpmult_div_power_cc3_%s + divmult_power_cc3_%s + homo_power_cc3_%s + dcache_power_cc3_%s + dcache2_power_cc3_%s + lsq_power_cc3_%s + window_power_cc3_%s)/ sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average power of issue unit per cycle_cc3", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "total_power_cycle_cc3_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_cc3_%s + bpred_power_cc3_%s + lsq_power_cc3_%s + window_power_cc3_%s + regfile_power_cc3_%s + icache_power_cc3_%s + resultbus_power_cc3_%s + clock_power_cc3_%s + alu_power_cc3_%s + dcache_power_cc3_%s + dcache2_power_cc3_%s)", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_cc3_%s + bpred_power_cc3_%s + lsq_power_cc3_%s + window_power_cc3_%s + regfile_power_cc3_%s + icache_power_cc3_%s + resultbus_power_cc3_%s + clock_power_cc3_%s + ialu_power_cc3_%s + imult_div_power_cc3_%s + mem_port_power_cc3_%s + fpalu_power_cc3_%s + fpmult_div_power_cc3_%s + divmult_power_cc3_%s + homo_power_cc3_%s + dcache_power_cc3_%s + dcache2_power_cc3_%s)", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "total power per cycle_cc3", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_total_power_cycle_cc3_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_cc3_%s + bpred_power_cc3_%s + lsq_power_cc3_%s + window_power_cc3_%s + regfile_power_cc3_%s + icache_power_cc3_%s + resultbus_power_cc3_%s + clock_power_cc3_%s + alu_power_cc3_%s + dcache_power_cc3_%s + dcache2_power_cc3_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_cc3_%s + bpred_power_cc3_%s + lsq_power_cc3_%s + window_power_cc3_%s + regfile_power_cc3_%s + icache_power_cc3_%s + resultbus_power_cc3_%s + clock_power_cc3_%s + ialu_power_cc3_%s + imult_div_power_cc3_%s + mem_port_power_cc3_%s + fpalu_power_cc3_%s + fpmult_div_power_cc3_%s + divmult_power_cc3_%s + homo_power_cc3_%s + dcache_power_cc3_%s + dcache2_power_cc3_%s)/sim_cycle", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average total power per cycle_cc3", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
 		sprintf(stat_name, "avg_total_power_insn_cc3_%s", itoa[sn]);
-		sprintf(formula_name, "(rename_power_cc3_%s + bpred_power_cc3_%s + lsq_power_cc3_%s + window_power_cc3_%s + regfile_power_cc3_%s + icache_power_cc3_%s + resultbus_power_cc3_%s + clock_power_cc3_%s + alu_power_cc3_%s + dcache_power_cc3_%s + dcache2_power_cc3_%s)/sim_total_insn_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
+		sprintf(formula_name, "(rename_power_cc3_%s + bpred_power_cc3_%s + lsq_power_cc3_%s + window_power_cc3_%s + regfile_power_cc3_%s + icache_power_cc3_%s + resultbus_power_cc3_%s + clock_power_cc3_%s + ialu_power_cc3_%s + imult_div_power_cc3_%s + mem_port_power_cc3_%s + fpalu_power_cc3_%s + fpmult_div_power_cc3_%s + divmult_power_cc3_%s + homo_power_cc3_%s + dcache_power_cc3_%s + dcache2_power_cc3_%s)/sim_total_insn_%s", itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn], itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "average total power per insn_cc3", formula_name, /* format */NULL, sn);
 		
 		bzero(stat_name, sizeof(char) * 64);
@@ -1789,9 +2331,16 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		sprintf(stat_name, "total_dcache2_access_%s", itoa[sn]);
 		stat_reg_counter(sdb, stat_name, "total number accesses of dcache2", &total_dcache2_access[sn], 0, NULL,sn);
 	
+		/* PowerSMT Added */
+		// bzero(stat_name, sizeof(char) * 64);
+		// sprintf(stat_name, "total_alu_access_%s", itoa[sn]);
+		// stat_reg_counter(sdb, stat_name, "total number accesses of alu", &total_alu_access[sn], 0, NULL,sn);
+		
 		bzero(stat_name, sizeof(char) * 64);
-		sprintf(stat_name, "total_alu_access_%s", itoa[sn]);
-		stat_reg_counter(sdb, stat_name, "total number accesses of alu", &total_alu_access[sn], 0, NULL,sn);
+		sprintf(stat_name, "total_fus_access_%s", itoa[sn]);
+		stat_reg_counter(sdb, stat_name, "total number accesses of Functional Units", &total_fus_access[sn], 0, NULL,sn);
+		/* PowerSMT Added */
+		
 	
 		bzero(stat_name, sizeof(char) * 64);
 		sprintf(stat_name, "total_resultbus_access_%s", itoa[sn]);
@@ -1845,11 +2394,19 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		sprintf(formula_name, "total_dcache2_access_%s/sim_cycle", itoa[sn]);
 		stat_reg_formula(sdb, stat_name, "avg number accesses of dcache2", formula_name, /* format */NULL, sn);
 		
+		/* PowerSMT Added */
+		// bzero(stat_name, sizeof(char) * 64);
+		// bzero(formula_name, sizeof(char) * 512);
+		// sprintf(stat_name, "avg_alu_access_%s", itoa[sn]);
+		// sprintf(formula_name, "total_alu_access_%s/sim_cycle", itoa[sn]);
+		// stat_reg_formula(sdb, stat_name, "avg number accesses of alu", formula_name, /* format */NULL, sn);
+		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
-		sprintf(stat_name, "avg_alu_access_%s", itoa[sn]);
-		sprintf(formula_name, "total_alu_access_%s/sim_cycle", itoa[sn]);
-		stat_reg_formula(sdb, stat_name, "avg number accesses of alu", formula_name, /* format */NULL, sn);
+		sprintf(stat_name, "avg_fus_access_%s", itoa[sn]);
+		sprintf(formula_name, "total_fus_access_%s/sim_cycle", itoa[sn]);
+		stat_reg_formula(sdb, stat_name, "avg number accesses of functional units", formula_name, /* format */NULL, sn);
+		/* PowerSMT Added */
 		
 		bzero(stat_name, sizeof(char) * 64);
 		bzero(formula_name, sizeof(char) * 512);
@@ -1889,9 +2446,14 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		sprintf(stat_name, "max_dcache2_access_%s", itoa[sn]);
 		stat_reg_counter(sdb, stat_name, "max number accesses of dcache2", &max_dcache2_access[sn], 0, NULL,sn);
 	
+		/* PowerSMT Added */
+		// bzero(stat_name, sizeof(char) * 64);
+		// sprintf(stat_name, "max_alu_access_%s", itoa[sn]);
+		// stat_reg_counter(sdb, stat_name, "max number accesses of alu", &max_alu_access[sn], 0, NULL,sn);
 		bzero(stat_name, sizeof(char) * 64);
-		sprintf(stat_name, "max_alu_access_%s", itoa[sn]);
-		stat_reg_counter(sdb, stat_name, "max number accesses of alu", &max_alu_access[sn], 0, NULL,sn);
+		sprintf(stat_name, "max_fus_access_%s", itoa[sn]);
+		stat_reg_counter(sdb, stat_name, "max number accesses of Functional Units", &max_fus_access[sn], 0, NULL,sn);
+		/* PowerSMT Added */
 		
 		bzero(stat_name, sizeof(char) * 64);
 		sprintf(stat_name, "max_resultbus_access_%s", itoa[sn]);
@@ -2040,7 +2602,7 @@ void dump_power_stats(power)
 
 	regfile_power = power->regfile_decoder +power->regfile_wordline+ power->regfile_bitline+power->regfile_senseamp;
 
-	total_power = bpred_power + rename_power + window_power +regfile_power + power->resultbus+lsq_power + icache_power +dcache_power + dcache2_power + dtlb_power +itlb_power + power->clock_power+power->ialu_power+ power->falu_power;
+	total_power = bpred_power + rename_power + window_power +regfile_power + power->resultbus+lsq_power + icache_power +dcache_power + dcache2_power + dtlb_power +itlb_power + power->clock_power+power->ialu_power+ power->fpalu_power;
 
 	fprintf(stderr,"\nProcessor Parameters:\n");
 	fprintf(stderr,"Issue Width: %d\n",ruu_issue_width);
@@ -2082,7 +2644,7 @@ void dump_power_stats(power)
 	fprintf(stderr,"Result Bus Power Consumption: %g  (%.3g%%)\n",power->resultbus,100*power->resultbus/total_power);
 	fprintf(stderr,"Total Clock Power: %g  (%.3g%%)\n",power->clock_power,100*power->clock_power/total_power);
 	fprintf(stderr,"Int ALU Power: %g  (%.3g%%)\n",power->ialu_power,100*power->ialu_power/total_power);
-	fprintf(stderr,"FP ALU Power: %g  (%.3g%%)\n",power->falu_power,100*power->falu_power/total_power);
+	fprintf(stderr,"FP ALU Power: %g  (%.3g%%)\n",power->fpalu_power,100*power->fpalu_power/total_power);
 	fprintf(stderr,"Instruction Cache Power Consumption: %g  (%.3g%%)\n",icache_power,100*icache_power/total_power);
 	fprintf(stderr," decode_power (W): %g\n",power->icache_decoder);
 	fprintf(stderr," wordline_power (W): %g\n",power->icache_wordline);
@@ -2618,17 +3180,33 @@ double total_clockpower(double die_length) {
 	if(verbose)
 	fprintf(stderr,"num_piperegs == %f\n",num_piperegs);
 
+	
+	/* PowerSMT Added */
 	/* add I_ADD Clockcap and F_ADD Clockcap */
-	Clockpower = Ctotal*Powerfactor + res_ialu*I_ADD_CLOCK + res_fpalu*F_ADD_CLOCK;
-
+	// Clockpower = Ctotal*Powerfactor + res_ialu * I_ADD_CLOCK + res_fpalu * F_ADD_CLOCK;
+	
+	Clockpower = Ctotal * Powerfactor + res_ialu * I_ADD_CLOCK + 
+										res_fpalu * F_ADD_CLOCK +			/* FP-ALU, floating point adder/subtractor */
+										res_imult * MAX(I_MULT_CLOCK, I_DIV_CLOCK) + 	/* integer-MULT/DIV, integer multiplier/divider */
+										res_memport * (RD_PORT_CLOCK + WR_PORT_CLOCK) +			/* memory-port */
+										res_fpmult * (MAX(F_MULT_CLOCK, F_DIV_CLOCK) + F_SQRT_CLOCK) +	/* FP-MULT/DIV, floating point multiplier/divider */
+										res_divmult * (F_DIV_MULT_CLOCK + MAX(I_ADD_CLOCK, F_ADD_CLOCK) + F_CMP_CLOCK + F_CVT_CLOCK + MAX(I_MULT_CLOCK, F_MULT_CLOCK) + MAX(I_DIV_CLOCK, F_DIV_CLOCK)  + F_SQRT_CLOCK) + /* DIV/MULT, divider/multiplier */
+										res_homo * (MAX(I_ADD_CLOCK, F_ADD_CLOCK) + F_CMP_CLOCK + F_CVT_CLOCK + MAX(I_MULT_CLOCK, F_MULT_CLOCK) + MAX(I_DIV_CLOCK, F_DIV_CLOCK)  + F_SQRT_CLOCK + RD_PORT_CLOCK + WR_PORT_CLOCK);	/* homogeneous */
+	/* PowerSMT Added */
+	
 	if(verbose) {
 		fprintf(stderr,"Global Clock Power: %g\n",Clockpower);
 		fprintf(stderr," Global Metal Lines   (W): %g\n",Cline*Powerfactor);
 		fprintf(stderr," Global Metal Lines (3%%) (W): %g\n",Cline2*Powerfactor);
 		fprintf(stderr," Global Clock Buffers (W): %g\n",global_buffercap*Powerfactor);
-		fprintf(stderr," Global Clock Cap (Explicit) (W): %g\n",global_clockcap*Powerfactor+I_ADD_CLOCK+F_ADD_CLOCK);
+
+		/* PowerSMT Added */
+		// fprintf(stderr," Global Clock Cap (Explicit) (W): %g\n",global_clockcap * Powerfactor + I_ADD_CLOCK + F_ADD_CLOCK);
+		fprintf(stderr," Global Clock Cap (Explicit) (W): %g\n",global_clockcap * Powerfactor + I_ADD_CLOCK + F_ADD_CLOCK + MAX(I_MULT_CLOCK, I_DIV_CLOCK) + (RD_PORT_CLOCK + WR_PORT_CLOCK) + (MAX(F_MULT_CLOCK, F_DIV_CLOCK) + F_SQRT_CLOCK) + (F_DIV_MULT_CLOCK + MAX(I_ADD_CLOCK, F_ADD_CLOCK) + F_CMP_CLOCK + F_CVT_CLOCK + MAX(I_MULT_CLOCK, F_MULT_CLOCK) + MAX(I_DIV_CLOCK, F_DIV_CLOCK)  + F_SQRT_CLOCK) + (MAX(I_ADD_CLOCK, F_ADD_CLOCK) + F_CMP_CLOCK + F_CVT_CLOCK + MAX(I_MULT_CLOCK, F_MULT_CLOCK) + MAX(I_DIV_CLOCK, F_DIV_CLOCK)  + F_SQRT_CLOCK + RD_PORT_CLOCK + WR_PORT_CLOCK));
+		/* PowerSMT Added */
 		fprintf(stderr," Global Clock Cap (Implicit) (W): %g\n",pipereg_clockcap*Powerfactor);
 	}
+	
 	return(Clockpower);
 
 }
@@ -2708,6 +3286,8 @@ void calculate_power(power)
 	
 	
 	int trowsb, tcolsb, tagsize;
+	
+	// VA acredita-se que seja Virtual Address. Aqui defini-se o tamanho do endereçamento virtual considerado.
 	int va_size = 48;
 
 	int npreg_width = (int)ceil(logtwo((double)RUU_size));
@@ -2732,14 +3312,21 @@ void calculate_power(power)
 	/* FIXME: ALU power is a simple constant, it would be better
 	 to include bit AFs and have different numbers for different
 	 types of operations */
-	power->ialu_power = res_ialu * I_ADD;
-	power->falu_power = res_fpalu * F_ADD;
+	// power->ialu_power = res_ialu * I_ADD;
+	// power->falu_power = res_fpalu * F_ADD;
 	
-	/* Others PowerSMT functional units */
-	power->imult_power = res_imult * I_MULT;
-	power->fpmult_power = res_fpmult * F_MULT;
-	power->divmult_power = res_divmult * F_DIV_MULT;
-	power->homo_power = res_homo * HOMO;
+	/* PowerSMT Added */
+	power->ialu_power  		= res_ialu * I_ADD; 							/* integer-ALU, instructions classes treated (ICT): IntALU */
+	// res_imult -> integer-MULT/DIV.quantify.
+	power->imult_div_power 	= res_imult * MAX(I_MULT, I_DIV);				/* integer-MULT/DIV, integer multiplier/divider, ICT: IntMULT, IntDIV */
+	power->mem_port_power 	= res_memport * (RD_PORT + WR_PORT);			/* memory-port, ICT: RdPort, WrPort */
+	power->fpalu_power 			= res_fpalu * F_ADD;						/* FP-ALU, floating point adder/subtractor, ITC: FloatADD, FloatCMP, FloatCVT */
+	power->fpmult_div_power = res_fpmult * (MAX(F_MULT, F_DIV) + F_SQRT);	/* FP-MULT/DIV, floating point multiplier/divider, ICT: FloatMULT, FloatDIV, 
+		  														 		       FloatSQRT */
+	power->divmult_power 	= res_divmult * (F_DIV_MULT + MAX(I_ADD, F_ADD) + F_CMP + F_CVT + MAX(I_MULT, F_MULT) + MAX(I_DIV, F_DIV)  + F_SQRT); 		/* DIV/MULT, divider/multiplier, ICT: IntALU, FloatADD, FloatCMP, FloatCVT, 
+		  														 		       IntMULT, IntDIV, FloatMULT, FloatDIV, FloatSQRT */
+	power->homo_power 		= res_homo * (MAX(I_ADD, F_ADD) + F_CMP + F_CVT + MAX(I_MULT, F_MULT) + MAX(I_DIV, F_DIV)  + F_SQRT + RD_PORT + WR_PORT);	/* homogeneous: ICT: IntALU, IntMULT, IntDIV, FloatADD, FloatCMP, FloatCVT,IntMULT, IntDIV, FloatMULT, FloatDIV, FloatSQRT, RdPort, WrPort */ 
+	/* PowerSMT Added */
 
 	nvreg_width = (int)ceil(logtwo((double)MD_NUM_IREGS));
 	npreg_width = (int)ceil(logtwo((double)RUU_size));
@@ -2748,12 +3335,9 @@ void calculate_power(power)
 	 cell size larger than normal array structures, so we must
 	 compute it here */
 
-	predeclength = MD_NUM_IREGS *
-	(RatCellHeight + 3 * ruu_decode_width * WordlineSpacing);
+	predeclength = MD_NUM_IREGS * (RatCellHeight + 3 * ruu_decode_width * WordlineSpacing);
 
-	wordlinelength = npreg_width *(RatCellWidth +
-	6 * ruu_decode_width * BitlineSpacing +
-	RatShiftRegWidth*RatNumShift);
+	wordlinelength = npreg_width *(RatCellWidth + 6 * ruu_decode_width * BitlineSpacing + RatShiftRegWidth*RatNumShift);
 
 	bitlinelength = MD_NUM_IREGS * (RatCellHeight + 3 * ruu_decode_width * WordlineSpacing);
 
@@ -2911,7 +3495,7 @@ void calculate_power(power)
 
 	if (verbose) {
 		fprintf(stderr,"%d KB %d-way btb (%d-byte block size):\n",c,a,b);
-		fprintf(stderr,"ndwl == %d, ndbl == %d, nspd == %d\n",ndwl,ndbl,nspd);
+		fprintf(stderr,"ndwl == %d, ndbl == %d, nspd == %f\n",ndwl,ndbl,nspd);
 		fprintf(stderr,"%d sets of %d rows x %d cols\n",ndwl*ndbl,rowsb,colsb);
 	}
 
@@ -3100,7 +3684,7 @@ void calculate_power(power)
 	
 	/* CACTI 4.0 */
 	
-	c = cache_il1->nsets * cache_il1->bsize* cache_il1->assoc; /* C */
+	c = cache_il1->nsets * cache_il1->bsize * cache_il1->assoc; /* C */
 	b = cache_il1->bsize; /* B */
 	a = cache_il1->assoc; /* A */
 	// time_parameters.number_of_sets = cache_il1->nsets; /* C/(B*A) */
@@ -3156,11 +3740,11 @@ void calculate_power(power)
 
 	tagsize = va_size - ((int)logtwo(cache_il1->nsets) + (int)logtwo(cache_il1->bsize));
 	trowsb = c/(b*a*ntbl*ntspd);
-	tcolsb = a * (tagsize + 1+ 6)* ntspd/ntwl;
+	tcolsb = a * (tagsize + 1 + 6)* ntspd/ntwl;
 
 	if (verbose) {
 		fprintf(stderr,"%d KB %d-way cache (%d-byte block size):\n",c,a,b);
-		fprintf(stderr,"ndwl == %d, ndbl == %d, nspd == %d\n",ndwl,ndbl,nspd);
+		fprintf(stderr,"ndwl == %d, ndbl == %d, nspd == %f\n",ndwl,ndbl,nspd);
 		fprintf(stderr,"%d sets of %d rows x %d cols\n",ndwl*ndbl,rowsb,colsb);
 		fprintf(stderr,"tagsize == %d\n",tagsize);
 	}
@@ -3228,8 +3812,6 @@ void calculate_power(power)
 	ntwl=result_total.result.best_Ntwl;
 	ntbl=result_total.result.best_Ntbl;
 	ntspd=result_total.result.best_Ntspd;
-		
-		
 
 	cache=1;
 
@@ -3238,11 +3820,21 @@ void calculate_power(power)
 
 	tagsize = va_size - ((int)logtwo(cache_dl1->nsets) + (int)logtwo(cache_dl1->bsize));
 	trowsb = c/(b*a*ntbl*ntspd);
-	tcolsb = a * (tagsize + 1+ 6)* ntspd/ntwl;
+	/* PowerSMT Added */
+	// tcolsb = a * (tagsize + 1 + 6)* ntspd/ntwl;
+	/* No processador SMT o número do slot faz parte da tag do endereçamento, pois o mesmo é usado 
+	 * para evitar que instruções de um processo sejam acessadas por outro e vice-versa.
+	 * VA acredita-se que seja Virtual Address. Aqui defini-se o tamanho do endereçamento virtual considerado.
+	 */
+	tcolsb = a * (tagsize + 1 + 6 + logtwo((double)process_num))* ntspd/ntwl;
+	/* PowerSMT Added */
+	
+	
+	
 
 	if (verbose) {
 		fprintf(stderr,"%d KB %d-way cache (%d-byte block size):\n",c,a,b);
-		fprintf(stderr,"ndwl == %d, ndbl == %d, nspd == %d\n",ndwl,ndbl,nspd);
+		fprintf(stderr,"ndwl == %d, ndbl == %d, nspd == %f\n",ndwl,ndbl,nspd);
 		fprintf(stderr,"%d sets of %d rows x %d cols\n",ndwl*ndbl,rowsb,colsb);
 		fprintf(stderr,"tagsize == %d\n",tagsize);
 
@@ -3346,11 +3938,18 @@ void calculate_power(power)
 
 	tagsize = va_size - ((int)logtwo(cache_dl2->nsets) + (int)logtwo(cache_dl2->bsize));
 	trowsb = c/(b*a*ntbl*ntspd);
-	tcolsb = a * (tagsize + 1+ 6)* ntspd/ntwl;
-
+	/* PowerSMT Added */
+	// tcolsb = a * (tagsize + 1+ 6)* ntspd/ntwl;
+	/* No processador SMT o número do slot faz parte da tag do endereçamento, pois o mesmo é usado 
+	 * para evitar que instruções de um processo sejam acessadas por outro e vice-versa.
+	 * VA acredita-se que seja Virtual Address. Aqui defini-se o tamanho do endereçamento virtual considerado.
+	 */
+	tcolsb = a * (tagsize + 1+ 6 + logtwo((double)process_num))* ntspd/ntwl;
+	/* PowerSMT Added */
+	
 	if (verbose) {
 		fprintf(stderr,"%d KB %d-way cache (%d-byte block size):\n",c,a,b);
-		fprintf(stderr,"ndwl == %d, ndbl == %d, nspd == %d\n",ndwl,ndbl,nspd);
+		fprintf(stderr,"ndwl == %d, ndbl == %d, nspd == %f\n",ndwl,ndbl,nspd);
 		fprintf(stderr,"%d sets of %d rows x %d cols\n",ndwl*ndbl,rowsb,colsb);
 		fprintf(stderr,"tagsize == %d\n",tagsize);
 	}
@@ -3386,12 +3985,77 @@ void calculate_power(power)
 																								1,
 																								cache);
 
-	power->dcache2_power = power->dcache2_decoder + power->dcache2_wordline+ power->dcache2_bitline+ power->dcache2_senseamp+ power->dcache2_tagarray;
+	power->dcache2_power = power->dcache2_decoder + power->dcache2_wordline + power->dcache2_bitline + power->dcache2_senseamp + power->dcache2_tagarray;
 	
 	
 	/* PowerSMT Added */
-	// power->icache_bank_decoder = array_decoder_power(il1_modules_num,data_width,predeclength,res_memport,res_memport,cache);
-	// power->dcache_bank_decoder = array_decoder_power(dl1_modules_num,data_width,predeclength,res_memport,res_memport,cache);
+	// For each module. Modules are equals in each system cache (icache, dcache), this value must be multiplied for number of modules.
+	power->icache_bank_selector = simple_array_decoder_power(il1_banks_num,1,1,1,0);
+	// IL1_BANKS_TOTAL  (il1_modules_num*il1_banks_num)
+	// power->icache_bank_selector = simple_array_decoder_power((process_num / il1_modules_num),1,1,1,0);
+	
+	// In dl1 cache not exists modules.
+	power->dcache_bank_selector = simple_array_decoder_power(dl1_banks_num,1,1,1,0);
+	
+	power->cachel2_bank_selector = simple_array_decoder_power(l2_banks_num,1,1,1,0);
+	
+	
+	
+	// One for all modules in each system cache (icache, dcache).
+	// power->icache_module_selector = simple_array_decoder_power(il1_modules_num,1,1,1,0);
+	// dl1_modules_num?????
+	// power->dcache_module_selector = simple_array_decoder_power(il1_modules_num,1,1,1,0);
+	
+	// Decoder of FETCH to instruction fetch queue (IFQ). Deve ser somada de todos os slots.
+	// FETCH >> IFQ.
+	// power->fetch_ifq_selector = simple_array_decoder_power(ruu_ifq_size,1,1,1,0);
+	power->fetch_ifq_selector = simple_array_decoder_power((process_num / il1_modules_num),1,1,1,0);
+	
+	// Verificar se é distribuido.
+	// Decoder of DECODE to instruction fetch queue.
+	// DECODE << IFQ.
+	//power->decode_ifq_selector = simple_array_decoder_power(process_num,1,1,1,0);
+	// Nao tem. O Decode Stage pega 1 de cada fila no mínimo. 
+	
+	if (!mystricmp(ruulsq_opt, "distributed")){
+		// Decoder of DECODE to RUU.
+		// DECODE >> RUU.
+		power->decode_ruu_selector = simple_array_decoder_power(process_num,1,1,1,0);
+		// Decoder of ISSUE << RUU. 
+		power->issue_ruu_selector = simple_array_decoder_power(process_num,1,1,1,0);		
+		
+	}else{ /* all slots shared the structure, don't need decoder to one entry */
+		power->decode_ruu_selector = 0.0;
+		power->issue_ruu_selector = 0.0;
+	}
+	
+	// Decoder of ISSUE >> RS.
+	// power->issue_readyqueue_selector = simple_array_decoder_power(process_num,1,1,1,0);
+	
+	// Decoder of WRITEBACK >> RUU.
+	power->writeback_ruu_selector = power->issue_ruu_selector;
+	
+	// ROB selector.
+	power->rob_selector = simple_array_decoder_power(process_num,1,1,1,0);
+	
+	power->itlb_selector = simple_array_decoder_power(process_num,1,1,1,0);
+	power->dtlb_selector = simple_array_decoder_power(process_num,1,1,1,0);
+	power->btb_selector = simple_array_decoder_power(process_num,1,1,1,0);
+	
+	
+	fprintf(stdout," |-icache_bank_selector: %g\n", power->icache_bank_selector);
+	fprintf(stdout," |-dcache_bank_selector: %g\n", power->dcache_bank_selector);
+	fprintf(stdout," |-cachel2_bank_selector: %g\n", power->cachel2_bank_selector);
+	fprintf(stdout," |-fetch_ifq_selector: %g\n", power->fetch_ifq_selector);
+	fprintf(stdout," |-decode_ruu_selector: %g\n", power->decode_ruu_selector);
+	fprintf(stdout," |-issue_ruu_selector: %g\n", power->issue_ruu_selector);		
+	fprintf(stdout," |-writeback_ruu_selector: %g\n", power->writeback_ruu_selector);
+	fprintf(stdout," |-rob_selector: %g\n", power->rob_selector); 
+	fprintf(stdout," |-itlb_selector: %g\n", power->itlb_selector);
+	fprintf(stdout," |-dtlb_selector: %g\n", power->dtlb_selector);
+	fprintf(stdout," |-btb_selector: %g\n", power->btb_selector);
+		
+	
 	/* PowerSMT Added */
 	
 
@@ -3464,16 +4128,29 @@ void calculate_power(power)
 	power->dcache2_power *= crossover_scaling;
 	
 	/* PowerSMT Added */
-	power->icache_bank_decoder *= crossover_scaling;
-	power->dcache_bank_decoder *= crossover_scaling;
+	power->icache_bank_selector *= crossover_scaling;
+	power->dcache_bank_selector *= crossover_scaling;
+	
+	power->cachel2_bank_selector *= crossover_scaling;
+	// power->icache_module_selector *= crossover_scaling; 
+	// power->dcache_module_selector *= crossover_scaling;
+	power->fetch_ifq_selector *= crossover_scaling;
+	// power->decode_ifq_selector *= crossover_scaling;
+	power->decode_ruu_selector *= crossover_scaling;
+	power->issue_ruu_selector *= crossover_scaling;		
+	// power->issue_readyqueue_selector *= crossover_scaling;
+	power->writeback_ruu_selector *= crossover_scaling;
+	
+	power->rob_selector *= crossover_scaling; 
+	power->itlb_selector *= crossover_scaling;
+	power->dtlb_selector *= crossover_scaling;
+	power->btb_selector *= crossover_scaling;
 	/* PowerSMT Added */
 	
-	
-
 	power->total_power = power->local_predict + power->global_predict+power->chooser+ power->btb+power->rat_decoder+ power->rat_wordline+power->rat_bitline+ power->rat_senseamp+power->dcl_compare+ power->dcl_pencode+power->inst_decoder_power+power->wakeup_tagdrive+ power->wakeup_tagmatch
 			+power->selection+power->regfile_decoder+ power->regfile_wordline+power->regfile_bitline+ power->regfile_senseamp+power->rs_decoder+ power->rs_wordline+power->rs_bitline+ power->rs_senseamp+power->lsq_wakeup_tagdrive+ power->lsq_wakeup_tagmatch+power->lsq_rs_decoder+ power->lsq_rs_wordline
 			+power->lsq_rs_bitline+ power->lsq_rs_senseamp+power->resultbus+power->clock_power+power->icache_power+power->itlb+power->dcache_power+power->dtlb+power->dcache2_power 
-			+power->icache_bank_decoder + power->dcache_bank_decoder; 
+			+power->icache_bank_selector + power->dcache_bank_selector; 
 
 	power->total_power_nodcache2 =power->local_predict + power->global_predict+power->chooser+ power->btb+power->rat_decoder+ power->rat_wordline+power->rat_bitline+ power->rat_senseamp+power->dcl_compare+ power->dcl_pencode+power->inst_decoder_power+power->wakeup_tagdrive+ power->wakeup_tagmatch
 			+power->selection+power->regfile_decoder+ power->regfile_wordline+power->regfile_bitline+ power->regfile_senseamp+power->rs_decoder+ power->rs_wordline+power->rs_bitline+ power->rs_senseamp+power->lsq_wakeup_tagdrive+ power->lsq_wakeup_tagmatch+power->lsq_rs_decoder+ power->lsq_rs_wordline
@@ -3493,7 +4170,7 @@ void calculate_power(power)
 
 	power->rs_power_nobit = power->rs_decoder +power->rs_wordline+ power->rs_senseamp;
 
-	power->window_power = power->wakeup_power + power->rs_power+power->selection;
+	power->window_power = power->wakeup_power + power->rs_power + power->selection;
 
 	power->lsq_rs_power = power->lsq_rs_decoder +power->lsq_rs_wordline+ power->lsq_rs_bitline+power->lsq_rs_senseamp;
 
@@ -3660,7 +4337,7 @@ void dumpVarsValues(){
 	fprintf(stderr,"RatCellHeight: %g\n",RatCellHeight);
 	fprintf(stderr,"RatCellWidth: %g\n",RatCellWidth);
 	fprintf(stderr,"RatShiftRegWidth: %g\n",RatShiftRegWidth);
-	fprintf(stderr,"RatNumShift: %d\n",RatNumShift);
+	fprintf(stderr,"RatNumShift: %f\n",RatNumShift);
 	fprintf(stderr,"BitlineSpacing: %g\n",BitlineSpacing);
 	fprintf(stderr,"WordlineSpacing: %g\n",WordlineSpacing);
 	fprintf(stderr,"RegCellHeight: %g\n",RegCellHeight);

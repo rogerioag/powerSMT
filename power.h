@@ -192,15 +192,46 @@ typedef struct {
 
   double total_power;
   double total_power_nodcache2;
-  double ialu_power;
-  double falu_power;
   
-  /* Others PowerSMT Functional Units consumption */
-  double imult_power;
-  double fpmult_power;
-  double homo_power;
-  double divmult_power;
-  /* Others PowerSMT Functional Units consumption */
+  /* PowerSMT Added */
+  // double ialu_power;
+  // double falu_power;
+
+  /* FUs Consumptions */
+  
+  double ialu_power;				/* integer-ALU, instructions classes treated (ICT): IntALU */
+  double imult_div_power;		/* integer-MULT/DIV, integer multiplier/divider, ICT: IntMULT, IntDIV */
+  double mem_port_power;		/* memory-port, ICT: RdPort, WrPort */
+  double fpalu_power;				/* FP-ALU, floating point adder/subtractor, ITC: FloatADD, FloatCMP, FloatCVT */
+  double fpmult_div_power;	/* FP-MULT/DIV, floating point multiplier/divider, ICT: FloatMULT, FloatDIV, 
+  														 FloatSQRT */
+  double divmult_power;			/* DIV/MULT, divider/multiplier, ICT: IntALU, FloatADD, FloatCMP, FloatCVT, 
+  														 IntMULT, IntDIV, FloatMULT, FloatDIV, FloatSQRT */
+  double homo_power;				/* homogeneous: ICT: IntALU, IntMULT, IntDIV, FloatADD, FloatCMP, FloatCVT, 
+  														 FloatMULT, FloatDIV, FloatSQRT, RdPort, WrPort */
+  
+  /* +--------------------+---------+---------+---------+-----------+-----------+-----------+-----------+-----------+-----------+---------+---------+	
+   * |	FU/ICT						|	IntALU	|	IntMULT	|	IntDIV	|	FloatADD	|	FloatCMP	|	FloatCVT	|	FloatMULT	|	FloatDIV	|	FloatSQRT	|	RdPort	|	WrPort	|		
+   * +--------------------+---------+---------+---------+-----------+-----------+-----------+-----------+-----------+-----------+---------+---------+	
+   * |	integer-ALU				|    X		|					|					|						|						|						|						|						|						|					|					|
+   * +--------------------+---------+---------+---------+-----------+-----------+-----------+-----------+-----------+-----------+---------+---------+	
+   * |	integer-MULT/DIV	|					|    X		|    X		|						|						|						|						|						|						|     		|     		|
+   * +--------------------+---------+---------+---------+-----------+-----------+-----------+-----------+-----------+-----------+---------+---------+	
+   * |	memory-port				|     		|					|					|						|						|						|						|						|						|    X		|    X		|
+   * +--------------------+---------+---------+---------+-----------+-----------+-----------+-----------+-----------+-----------+---------+---------+	
+   * |	FP-ALU						|     		|					|					|    X			|    X			|    X			|						|						|						|     		|     		|
+   * +--------------------+---------+---------+---------+-----------+-----------+-----------+-----------+-----------+-----------+---------+---------+	
+   * |	FP-MULT/DIV				|     		|					|					|						|						|						|    X			|    X			|    X			|     		|     		|
+   * +--------------------+---------+---------+---------+-----------+-----------+-----------+-----------+-----------+-----------+---------+---------+	
+   * |	DIV/MULT					|    X 		|    X		|    X		|    X			|			X			|			X			|    X			|    X			|    X			|     		|     		|
+   * +--------------------+---------+---------+---------+-----------+-----------+-----------+-----------+-----------+-----------+---------+---------+	
+   * |	homogeneous				|    X 		|    X		|    X		|    X			|			X			|			X			|    X			|    X			|    X			|    X 		|    X 		|
+   * +--------------------+---------+---------+---------+-----------+-----------+-----------+-----------+-----------+-----------+---------+---------+	
+   * */
+  
+  
+  
+  /* PowerSMT Added */
   
   double bpred_power;
   double rename_power;
@@ -225,8 +256,38 @@ typedef struct {
   double clock_power;
   
   /* PowerSMT Added */
-  double icache_bank_decoder;
-  double dcache_bank_decoder;
+  // For each module. Modules are equals in each system cache (icache, dcache), this value must be multiplied for number of modules.
+  double icache_bank_selector;
+  double dcache_bank_selector;
+  
+  double cachel2_bank_selector;
+  // One for all modules in each system cache (icache, dcache).
+  // double icache_module_selector;
+  // double dcache_module_selector;
+  // Decoder of FETCH to instruction fetch queue. Deve ser somada de todos os slots.
+  double fetch_ifq_selector;
+  // Decoder of DECODE to instruction fetch queue.
+  // double decode_ifq_selector;
+  
+  
+  // Decoder of DECODE to RUU.
+  // DECODE >> RUU.
+  double decode_ruu_selector;
+  // Decoder of ISSUE << RUU. 
+  double issue_ruu_selector;		
+  		
+  // Decoder of ISSUE >> RS.
+  // double issue_readyqueue_selector;
+  	
+  // Decoder of WRITEBACK >> RUU.
+  double writeback_ruu_selector;
+  
+  // ROB selector.
+  double rob_selector;
+  double itlb_selector;
+  double dtlb_selector;
+  double btb_selector;
+  
   /* PowerSMT Added */
 
 } power_result_type;

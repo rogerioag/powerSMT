@@ -109,13 +109,13 @@ struct res_desc {
   int busy;				/* non-zero if this unit is busy */
   struct res_template {
     int class;				/* matching resource class: insts
-					   with this resource class will be
-					   able to execute on this unit */
-    int oplat;				/* operation latency: cycles until
-					   result is ready for use */
-    int issuelat;			/* issue latency: number of cycles
-					   before another operation can be
-					   issued on this resource */
+					   						 with this resource class will be
+					   						 able to execute on this unit */
+    int oplat;				/* operation latency: cycles until result 
+    										 is ready for use */
+    int issuelat;			/* issue latency: number of cycles before 
+    										 another operation can be
+					   						 issued on this resource */
     struct res_desc *master;		/* master resource record */
   } x[MAX_RES_CLASSES];
 };

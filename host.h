@@ -93,7 +93,7 @@ update the "#define itoa" in misc.h file */
 #ifndef MAX_SLOTS
 #define MAX_SLOTS  17
 #else
-#error MAX_SLOTS is already defined out of MultProc. Check it !!!
+#error MAX_SLOTS is already defined out of PowerSMT. Check it !!!
 #endif
 
 /* usual number of slots (replicated structures) */

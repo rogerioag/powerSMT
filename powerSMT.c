@@ -237,29 +237,36 @@ int il1_modules_num = 1;
 #define IL1_MODULE_WIDTH    		(process_num / il1_modules_num)
 #define FIRST_SLOT_OF_MOD(module)   	(module*IL1_MODULE_WIDTH)
 
-/* number of banks inside of each icache module, but just one bank can be fetched per time. The banks are multiplexed inside each icache module. The "IL1_MODULE_WIDTH" must be a multiple of "il1_banks_num". The bank number "b" inside of a module "m" serves the slot "sn" such that:
- -> m = (sn / IL1_MODULE_WIDTH)
- -> b = WHICHIS_IL1BANK_OF_SLOT(sn)
-
- Remenber: sn goes from 0 to process_num 
- b goes from 0 to il1_banks_num 
- m goes from 0 to il1_modules_num 
+/* number of banks inside of each icache module, but just one bank can be fetched per time. 
+ * The banks are multiplexed inside each icache module. 
+ * The "IL1_MODULE_WIDTH" must be a multiple of "il1_banks_num". 
+ * The bank number "b" inside of a module "m" serves the slot "sn" such that:
+ * -> m = (sn / IL1_MODULE_WIDTH)
+ * -> b = WHICHIS_IL1BANK_OF_SLOT(sn)
+ * 
+ * Remenber: sn goes from 0 to process_num
+ * b goes from 0 to il1_banks_num
+ * m goes from 0 to il1_modules_num 
  */
 
 int il1_banks_num = 1;
 
 #define IL1_BANKS_TOTAL  (il1_modules_num*il1_banks_num)
 
-/* number of d-cache banks that can be used. The process_num must be a multiple of dl1_banks_num. Each d-cache bank serves n SLOTS such as n = DL1_BANK_WIDTH. */
+/* number of d-cache banks that can be used. 
+ * The process_num must be a multiple of dl1_banks_num. 
+ * Each d-cache bank serves n SLOTS such as n = DL1_BANK_WIDTH. */
 int dl1_banks_num = 1;
 
 #define DL1_BANK_WIDTH     (process_num / dl1_banks_num)
+// O unico que muda.
 #define IL1_BANK_WIDTH     (process_num / IL1_BANKS_TOTAL)
 
 #define WHICHIS_DL1BANK_OF_SLOT(slot)	(slot / DL1_BANK_WIDTH)
 #define WHICHIS_IL1BANK_OF_SLOT(slot)	(slot / IL1_BANK_WIDTH)
 
-/* number of unified L2-cache banks. Both il1_banks_num and dl1_banks_num must be multiple of l2_banks_num */
+/* number of unified L2-cache banks. 
+ * Both il1_banks_num and dl1_banks_num must be multiple of l2_banks_num */
 
 int l2_banks_num = 1;
 
@@ -401,7 +408,8 @@ static int ruu_totalsize;
 static int lsq_totalsize;
 
 /* to define "distributed" or "shared" ruu/lsq for the slots */
-static char *ruulsq_opt = "shared";
+// static char *ruulsq_opt = "shared";
+char *ruulsq_opt = "shared";
 
 /* l1 data cache config, i.e., {<config>|none} */
 static char *cache_dl1_opt;
@@ -467,11 +475,44 @@ counter_t regfile_access[MAX_SLOTS] = { 0 };
 counter_t icache_access[MAX_SLOTS] = { 0 };
 counter_t dcache_access[MAX_SLOTS] = { 0 };
 counter_t dcache2_access[MAX_SLOTS] = { 0 };
-counter_t alu_access[MAX_SLOTS] = { 0 };
-counter_t ialu_access[MAX_SLOTS] = { 0 };
-counter_t falu_access[MAX_SLOTS] = { 0 };
+
+
+/* PowerSMT Added */
+// counter_t alu_access[MAX_SLOTS] = { 0 };
+// counter_t ialu_access[MAX_SLOTS] = { 0 };
+// counter_t falu_access[MAX_SLOTS] = { 0 };
+
+/* Functional Units access.
+ * Registry by fu class needed for instruction execution.
+ *	FUClass_NA = 0,	inst does not use a functional unit 
+ *	IntALU,					integer ALU
+ *	IntMULT,				integer multiplier
+ *	IntDIV,					integer divider
+ *  FloatADD,				floating point adder/subtractor
+ *  FloatCMP,				floating point comparator
+ *  FloatCVT,				floating point<->integer converter
+ *  FloatMULT,			floating point multiplier
+ *  FloatDIV,				loating point divider
+ *  FloatSQRT,			floating point square root
+ *  RdPort,					memory read port
+ *  WrPort,					memory write port
+ * 
+ *  slot/fu-class  NA		IntALU		...				WrPort
+ * 								+-----+-----+-------------+-----+
+ *       0       	|			|			|		...				|			|
+ * 			 					+-----+-----+-------------+-----+
+ *   		...			  |			|			|		...				|			|
+ * 								+-----+-----+-------------+-----+
+ *   process_num  |			|			|		...				|			|
+ * 								+-----+-----+-------------+-----+
+ */
+counter_t fus_num_access[MAX_SLOTS] = { 0 };
+counter_t fus_access[MAX_SLOTS][NUM_FU_CLASSES] = { {0} };
+/* PowerSMT Added */
+
 counter_t resultbus_access[MAX_SLOTS] = { 0 };
 
+/* preg: phisical registers */
 counter_t window_preg_access[MAX_SLOTS] = { 0 };
 counter_t window_selection_access[MAX_SLOTS] = { 0 };
 counter_t window_wakeup_access[MAX_SLOTS] = { 0 };
@@ -907,7 +948,7 @@ else
 	if (cmd == Read)
 	return mem_access_latency(bsize,sn);
 	else
-	panic(sn,"writes to instruction memory not supported");
+		panic(sn,"writes to instruction memory not supported");
 }
 }
 
@@ -1027,14 +1068,7 @@ void sim_reg_options(struct opt_odb_t *odb) {
 	             NULL,
 	             0);
 
-	opt_reg_uint(odb,
-	             "-imodules:num",
-	             "number of i-cache modules",
-	             &il1_modules_num, /* default 1*/
-	             il1_modules_num,
-	             /* print */TRUE, /* format */
-	             NULL,
-	             0);
+	opt_reg_uint(odb, "-imodules:num", "number of i-cache modules", &il1_modules_num, /* default 1*/ il1_modules_num, /* print */TRUE, /* format */ NULL, 0);
 
 	opt_reg_uint(odb,
 	             "-il1banks:num",
@@ -1069,8 +1103,7 @@ void sim_reg_options(struct opt_odb_t *odb) {
 	             &decode_depth, /* default = ifqsize */
 	             decode_depth,
 	             /* print */TRUE, /* format */
-	             NULL,
-	             0);
+	             NULL, 0);
 
 	/* trace options */
 
@@ -1796,10 +1829,14 @@ void sim_check_options(struct opt_odb_t *odb, /* options database */
 				lsq_totalsize = LSQ_size;
 			}
 			else /* the total must be maximun in order to does not be a limit */
-			{	
+				if (!mystricmp(ruulsq_opt, "distributed")) 
+				{	
 				ruu_totalsize = process_num*RUU_size + 1;
 				lsq_totalsize = process_num*LSQ_size + 1;
-			}
+				}
+				else { /* opção invalida */
+					fatal(0,"-ruulsq:type must be <distributed> or <shared>.");
+				}
 
 			if ( (!decode_depth) || (decode_depth > ruu_ifq_size) )
 				decode_depth = ruu_ifq_size;
@@ -3658,9 +3695,9 @@ typedef unsigned int INST_SEQ_TYPE;
 
 					/* node is now queued */
 					if (rs->queued)
-					panic(sn,"node is already queued")
-;
-  																									rs->queued = TRUE;
+						panic(sn,"node is already queued");
+  				
+					rs->queued = TRUE;
 
 					/* get a free ready list node */
 					RSLINK_NEW(new_node, rs);
@@ -3702,9 +3739,8 @@ typedef unsigned int INST_SEQ_TYPE;
 					int odep_num; /* specific output operand */
 				};
 
-				/* a NULL create vector entry */
-				static struct CV_link CVLINK_NULL = { NULL,
-				                                      0 };
+/* a NULL create vector entry */
+static struct CV_link CVLINK_NULL = { NULL, 0 };
 
 				/* get a new create vector link */
 #define CVLINK_INIT(CV, RS,ONUM)	((CV).rs = (RS), (CV).odep_num = (ONUM))
@@ -3955,7 +3991,7 @@ static void ruu_commit(void) {
 						regfile_num_pop_count_cycle[sn]++;
 												
 						// fprintf(stdout,"commit: regfile_total_pop_count_cycle: %g\n", regfile_total_pop_count_cycle[process_instance]);
-				  	// fprintf(stdout,"commit: regfile_num_pop_count_cycle: %g\n", regfile_num_pop_count_cycle[process_instance]);
+						// fprintf(stdout,"commit: regfile_num_pop_count_cycle: %g\n", regfile_num_pop_count_cycle[process_instance]);
 				#endif
 					}
 									
@@ -4134,10 +4170,11 @@ static void ruu_writeback(void) {
 			rs->completed = TRUE;
 			
 			/* Begin Wattch Region */
-			/* Wattch -- 1) Writeback result to resultbus 
-					 2) Write result to phys. regs (RUU)
-					 3) Access wakeup logic
-					 */
+			/* Wattch -- 
+			 * 1) Writeback result to resultbus
+			 * 2) Write result to phys. regs (RUU)
+			 * 3) Access wakeup logic
+			 */
 			if (!(MD_OP_FLAGS(rs->op) & F_CTRL)) {
 				window_access[sn]++;
 				window_preg_access[sn]++;
@@ -4181,7 +4218,7 @@ static void ruu_writeback(void) {
 			}
 
 			/* if we speculatively update branch-predictor, do it here */
-			if (pred[sn]&& bpred_spec_update == spec_WB&& !rs->in_LSQ&& (MD_OP_FLAGS(rs->op) & F_CTRL)) {
+			if (pred[sn] && bpred_spec_update == spec_WB && !rs->in_LSQ && (MD_OP_FLAGS(rs->op) & F_CTRL)) {
 				
 				/* Wattch -- bpred access */
 				bpred_access[sn]++;
@@ -4426,7 +4463,7 @@ static void ruu_issue(void) {
 				/* node is now un-queued */
 				rs->queued = FALSE;
 
-				if (rs->in_LSQ&& ((MD_OP_FLAGS(rs->op) & (F_MEM|F_STORE)) == (F_MEM|F_STORE))) {
+				if (rs->in_LSQ && ((MD_OP_FLAGS(rs->op) & (F_MEM|F_STORE)) == (F_MEM|F_STORE))) {
 					/* fprintf(stderr, "\nruu_issue passou 5 \n"); */
 
 					/* stores complete in effectively zero time, result is
@@ -4464,8 +4501,7 @@ static void ruu_issue(void) {
 
 					/* issue the instruction to a functional unit */
 					if (MD_OP_FUCLASS(rs->op) != NA) {
-						fu = res_get(fu_pool,
-						             MD_OP_FUCLASS(rs->op));
+						fu = res_get(fu_pool, MD_OP_FUCLASS(rs->op));
 						if (fu) {
 							/* fprintf(stderr, "\nruu_issue passou 8 \n"); */
 
@@ -4480,7 +4516,7 @@ static void ruu_issue(void) {
 							fu->master->busy = fu->issuelat;
 
 							/* schedule a result writeback event */
-							if (rs->in_LSQ&& ((MD_OP_FLAGS(rs->op) & (F_MEM|F_LOAD))== (F_MEM|F_LOAD))) {
+							if (rs->in_LSQ && ((MD_OP_FLAGS(rs->op) & (F_MEM|F_LOAD))== (F_MEM|F_LOAD))) {
 								int events = 0;
 								md_addr_t addr, offset;
 								
@@ -4626,8 +4662,7 @@ static void ruu_issue(void) {
 								eventq_queue_event(rs, sim_cycle + load_lat,sn);
 
 								/* entered execute stage, indicate in pipe trace */
-								ptrace_newstage(rs->ptrace_seq, PST_EXECUTE,
-								                ((rs->ea_comp ? PEV_AGEN : 0)| events));
+								ptrace_newstage(rs->ptrace_seq, PST_EXECUTE, ((rs->ea_comp ? PEV_AGEN : 0)| events));
 							}
 							else /* !load && !store */{
 								/* fprintf(stderr, "\nruu_issue passou 14 \n"); */
@@ -4636,11 +4671,16 @@ static void ruu_issue(void) {
 									 (different op types) 
 									 also spread out power of multi-cycle ops 
 								*/
-								alu_access[sn]++;
-								if((MD_OP_FLAGS(rs->op) & (F_FCOMP))== (F_FCOMP))
-									falu_access[sn]++;
-								else
-									ialu_access[sn]++;
+								
+								/* PowerSMT Added */
+								// alu_access[sn]++;
+								//if((MD_OP_FLAGS(rs->op) & (F_FCOMP))== (F_FCOMP))
+								//	falu_access[sn]++;
+								//else
+								//	ialu_access[sn]++;
+								fus_num_access[sn]++;
+								fus_access[sn][MD_OP_FUCLASS(rs->op)]++;
+								/* PowerSMT Added */
 
 								/* use deterministic functional unit latency */
 								eventq_queue_event(rs, sim_cycle + fu->oplat,sn);
@@ -4686,8 +4726,7 @@ static void ruu_issue(void) {
 						eventq_queue_event(rs, sim_cycle + 1,sn);
 
 						/* entered execute stage, indicate in pipe trace */
-						ptrace_newstage(rs->ptrace_seq, PST_EXECUTE,
-								rs->ea_comp ? PEV_AGEN : 0);
+						ptrace_newstage(rs->ptrace_seq, PST_EXECUTE, rs->ea_comp ? PEV_AGEN : 0);
 						
 						/* Wattch -- Window access */
 						window_access[sn]++;
@@ -6302,8 +6341,7 @@ static void ruu_dispatch(void) {
 static void fetch_init(int sn) /* slot's number */
 {
 	/* allocate the IFETCH -> DISPATCH instruction queue */
-	fetch_data[sn] =(struct fetch_rec *)calloc(ruu_ifq_size,
-	                                           sizeof(struct fetch_rec));
+	fetch_data[sn] =(struct fetch_rec *)calloc(ruu_ifq_size, sizeof(struct fetch_rec));
 
 	if (!fetch_data[sn])
 		fatal(sn,"out of virtual memory");
@@ -6760,7 +6798,7 @@ void BUSCA(void) {
 		/* First trial. It schedules a slot to fetch instructions. 
 		 The round robin fashion is used. It begines after the last slot fetched.*/
 
-		/* fprintf(stderr,"\nBUSCA : Module = %d previo slot = %d\n",module,next_slot[module]); */
+		/* fprintf(stderr,"\nBUSCA : Module = %d previous slot = %d\n",module,next_slot[module]); */
 
 		next_slot[module]++;
 		next_slot[module] = (next_slot[module] % (IL1_MODULE_WIDTH)) + FIRST_SLOT_OF_MOD(module);

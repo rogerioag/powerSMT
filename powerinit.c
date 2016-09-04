@@ -250,42 +250,48 @@ double TaglineSpacing   ;
 
 /* ALU POWER NUMBERS for .18um 733Mhz */
 /* normalize to cap from W */
-double NORMALIZE_SCALE    ; 
+double NORMALIZE_SCALE; 
 /* normalize .18um cap to other gen's cap, then xPowerfactor */
-double  POWER_SCALE   ; 
-double I_ADD         ; 
-double I_ADD32      ; 
-double I_MULT16      ; 
-double I_SHIFT      ; 
-double I_LOGIC     ; 
-double F_ADD     ; 
-double F_MULT    ; 
+double  POWER_SCALE; 
+double I_ADD; 					/* integer ALU */
+double I_ADD32; 
+double I_MULT16; 
+double I_SHIFT; 
+double I_LOGIC; 
+double F_ADD; 
+double F_MULT; 					/* floating point multiplier */
 
 /* Added by PowerSMT */
-double I_MULT;
-double I_DIV;
-double F_DIV;
-double F_DIV_MULT;
+double I_MULT;					/* integer multiply */
+double I_DIV;						/* integer divide */
+double F_DIV;						/* floating point divider */
+double F_DIV_MULT;			/* floating point divide and multiply */
 
-/* Instructions classes treat  by Homogeneous FU: IntALU, IntMULT, IntDIV, FloatADD, FloatCMP, FloatCVT, FloatMULT, FloatDIV, FloatSQRT, RdPort, WrPort */
-/* Uma média */
-double HOMO;           
+double RD_PORT;					/* memory read port */
+double WR_PORT;					/* memory write port */
+double F_CMP;						/* floating point comparator */
+double F_CVT;						/* floating point<->integer converter */
+double F_SQRT;					/* floating point square root */
 /* Added by PowerSMT */
 
-
-
-double I_ADD_CLOCK   ; 
-double I_MULT_CLOCK   ; 
-double I_SHIFT_CLOCK ; 
-double I_LOGIC_CLOCK   ; 
-double F_ADD_CLOCK    ; 
-double F_MULT_CLOCK   ; 
+double I_ADD_CLOCK; 
+double I_MULT_CLOCK; 
+double I_SHIFT_CLOCK; 
+double I_LOGIC_CLOCK; 
+double F_ADD_CLOCK; 
+double F_MULT_CLOCK; 
 
 /* Added by PowerSMT */
 double I_DIV_CLOCK;
 double F_DIV_CLOCK;
 double F_MULT_CLOCK;
 double F_DIV_MULT_CLOCK;
+double RD_PORT_CLOCK;
+double WR_PORT_CLOCK;
+double F_CMP_CLOCK;
+double F_CVT_CLOCK;
+double F_SQRT_CLOCK;
+
  /* Added by PowerSMT */
 
 
@@ -679,14 +685,19 @@ fprintf(stderr,"POWERINIT:TECH_LENGTH: %g\n",TECH_LENGTH);
  
  
  /* Added by PowerSMT */
- I_MULT =		(I_MULT16);
- I_DIV =		(I_MULT);
- F_DIV =		(F_MULT);
- F_DIV_MULT =	(F_DIV + F_MULT);
-
- /* Instructions classes treat  by Homogeneous FU: IntALU, IntMULT, IntDIV, FloatADD, FloatCMP, FloatCVT, FloatMULT, FloatDIV, FloatSQRT, RdPort, WrPort */
- /* Uma média */
- HOMO = 		((I_ADD + I_MULT + I_DIV + F_ADD + F_MULT + F_DIV) /6 );           
+ /* FIX ME, I don't have details about this values */
+ I_MULT 			=	(I_MULT16);
+ I_DIV 				=	(I_MULT);
+ F_DIV 				=	(F_MULT);
+ F_DIV_MULT 		=	(F_DIV + F_MULT);
+ 
+ /* FIX */
+ /* FIX ME, I don't have details about this values */
+ RD_PORT 			= (0.0);
+ WR_PORT 			= (0.0);
+ F_CMP 				= (0.0);
+ F_CVT 				= (0.0);
+ F_SQRT 			= (0.0);
  /* Added by PowerSMT */
 
 
@@ -698,10 +709,18 @@ fprintf(stderr,"POWERINIT:TECH_LENGTH: %g\n",TECH_LENGTH);
  F_MULT_CLOCK		= (.452*POWER_SCALE); 
  
  /* Added by PowerSMT */
+ /* FIX ME, I don't have details about this values */
  I_DIV_CLOCK		= (I_MULT_CLOCK);
  F_DIV_CLOCK		= (F_MULT_CLOCK);
  /* Considerando que uma unidade que faca divisao e multiplicacao, o consumo sendo o maximo entre os consumos de cada unidade individualmente */
  F_DIV_MULT_CLOCK = MAX(F_DIV_CLOCK, F_MULT_CLOCK);
+ 
+ /* FIX ME, I don't have details about this values */
+ RD_PORT_CLOCK 		=	(0.0); 
+ WR_PORT_CLOCK		=	(0.0);
+ F_CMP_CLOCK		=	(0.0);
+ F_CVT_CLOCK		=	(0.0);
+ F_SQRT_CLOCK		=	(0.0);
  /* Added by PowerSMT */
  
 }

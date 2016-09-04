@@ -45,4 +45,5 @@
 -tlb:dtlb dtlb:512:4096:8:l 
 
 # process technology.
--technology TECH_800
+-technology TECH_070
+

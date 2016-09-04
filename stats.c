@@ -1028,12 +1028,12 @@ stat_print_stat(struct stat_sdb_t *sdb,	/* stat database */
   switch (stat->sc)
     {
     case sc_int:
-      fprintf(fd, "%-22s ", stat->name);
+      fprintf(fd, "%-32s ", stat->name);
       myfprintf(sn,fd, stat->format, *stat->variant.for_int.var);
       fprintf(fd, " # %s", stat->desc);
       break;
     case sc_uint:
-      fprintf(fd, "%-22s ", stat->name);
+      fprintf(fd, "%-32s ", stat->name);
       myfprintf(sn,fd, stat->format, *stat->variant.for_uint.var);
       fprintf(fd, " # %s", stat->desc);
       break;
@@ -1042,7 +1042,7 @@ stat_print_stat(struct stat_sdb_t *sdb,	/* stat database */
       {
 	char buf[128];
 
-	fprintf(fd, "%-22s ", stat->name);
+	fprintf(fd, "%-32s ", stat->name);
 	mysprintf(sn,buf, stat->format, *stat->variant.for_quad.var);
 	fprintf(fd, "%s # %s", buf, stat->desc);
       }
@@ -1051,19 +1051,19 @@ stat_print_stat(struct stat_sdb_t *sdb,	/* stat database */
       {
 	char buf[128];
 
-	fprintf(fd, "%-22s ", stat->name);
+	fprintf(fd, "%-32s ", stat->name);
 	mysprintf(sn,buf, stat->format, *stat->variant.for_squad.var);
 	fprintf(fd, "%s # %s", buf, stat->desc);
       }
       break;
 #endif /* HOST_HAS_QUAD */
     case sc_float:
-      fprintf(fd, "%-22s ", stat->name);
+      fprintf(fd, "%-32s ", stat->name);
       myfprintf(sn,fd, stat->format, (double)*stat->variant.for_float.var);
       fprintf(fd, " # %s", stat->desc);
       break;
     case sc_double:
-      fprintf(fd, "%-22s ", stat->name);
+      fprintf(fd, "%-32s ", stat->name);
       myfprintf(sn,fd, stat->format, *stat->variant.for_double.var);
       fprintf(fd, " # %s", stat->desc);
       break;
@@ -1079,7 +1079,7 @@ stat_print_stat(struct stat_sdb_t *sdb,	/* stat database */
 	struct eval_state_t *es = eval_new(stat_eval_ident, sdb,sn);
 	char *endp;
 
-	fprintf(fd, "%-22s ", stat->name);
+	fprintf(fd, "%-32s ", stat->name);
 	val = eval_expr(es, stat->variant.for_formula.formula, &endp,sn);
 	if (eval_error[sn] != ERR_NOERR || *endp != '\0')
 	  fprintf(fd, "<error: %s>", eval_err_str[eval_error[sn]]);
