@@ -127,7 +127,9 @@
 ##	Windows NT version 4.0, Cygnus CygWin/32 beta 19
 ##
 CC = gcc
-OFLAGS = -O0 -g -Wall
+# OFLAGS = -O0 -g -Wall
+# Code optimization level 1.
+OFLAGS = -O1 -g -Wall
 # OFLAGS = -O0 -g -Wnonnull
 MFLAGS = `./sysprobe -flags`
 MLIBS  = `./sysprobe -libs` -lm

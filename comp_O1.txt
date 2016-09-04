@@ -1,0 +1,1142 @@
+powerSMT.c: In function ‘il1_access_fn’:
+powerSMT.c:960: warning: passing argument 3 ofgcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c cache.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c bpred.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c resource.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c ptrace.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c powerinit.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c main.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c syscall.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c memory.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c regs.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c loader.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c endian.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c dlite.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c symbol.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c eval.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c options.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c stats.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c eio.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c range.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c misc.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c machine.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c power.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c activationctrl.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c libexo.c
+gcc `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h -c exolex.c
+rm -f libexo.a
+ar qcv libexo.a libexo.o exolex.o
+a - libexo.o
+a - exolex.o
+ranlib libexo.a
+cd cacti ; \
+	make "MAKE=make" "CC=gcc" "AR=ar qcv" "AROPT=" "RANLIB=ranlib" "CFLAGS=`./sysprobe -flags` -DDEBUG " "OEXT=o" "LEXT=a" "EEXT=" "X=/" "RM=rm -f" libcacti.a
+make[1]: Entrando no diretório `/home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_7/cacti'
+gcc  -c time.c -o time.o
+gcc  -c area.c -o area.o 
+gcc  -c io.c -o io.o
+gcc  -c leakage.c -o leakage.o
+gcc  -c basic_circuit.c -o basic_circuit.o 
+gcc  -c main.c -o main.o
+rm -f libcacti.a
+ar qcv libcacti.a time.o area.o io.o leakage.o basic_circuit.o main.o
+a - time.o
+a - area.o
+a - io.o
+a - leakage.o
+a - basic_circuit.o
+a - main.o
+ranlib libcacti.a
+make[1]: Saindo do diretório `/home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_7/cacti'
+gcc -o powerSMT `./sysprobe -flags` -DDEBUG -O1 -g -Wall   -include /usr/include/errno.h powerSMT.o cache.o bpred.o resource.o ptrace.o powerinit.o main.o syscall.o memory.o regs.o loader.o endian.o dlite.o symbol.o eval.o options.o stats.o eio.o range.o misc.o machine.o power.o activationctrl.o libexo.a cacti/libcacti.a `./sysprobe -libs` -lm
+my work is done here...
+ type
+powerSMT.c:1861: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1864: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1867: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1870: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1873: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1887: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1894: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1905: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1913: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1916: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1947: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1951: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1956: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1984: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1991: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:1995: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2001: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2005: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2042: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2046: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2049: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2052: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2065: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2069: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2074: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2079: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2105: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2131: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2150: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2153: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2156: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2159: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2162: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2165: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2168: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2171: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2187: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2190: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2193: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2196: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2199: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2202: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2206: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2209: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2212: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2215: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2220: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2223: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2248: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2252: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2255: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2258: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘sim_reg_stats’:
+powerSMT.c:2357: warning: pointer targets in passing argument 4 of ‘stat_reg_int’ differ in signedness
+powerSMT.c:2932: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2936: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:2940: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘sim_load_prog’:
+powerSMT.c:3032: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:3037: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:3065: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:3091: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:3096: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:3117: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:3148: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:3156: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘ruu_init’:
+powerSMT.c:3309: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘lsq_init’:
+powerSMT.c:3454: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘rslink_init’:
+powerSMT.c:3583: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘eventq_queue_event’:
+powerSMT.c:3663: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:3667: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:3671: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘readyq_enqueue’:
+powerSMT.c:3789: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:3794: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘ruu_commit’:
+powerSMT.c:3969: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:3991: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:4131: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘ruu_recover’:
+powerSMT.c:4178: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:4182: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:4188: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘ruu_writeback’:
+powerSMT.c:4266: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:4309: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:4382: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘lsq_refresh’:
+powerSMT.c:4456: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘ruu_issue’:
+powerSMT.c:4563: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:4583: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:4586: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:4619: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘tracer_recover’:
+powerSMT.c:5022: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘spec_mem_access’:
+powerSMT.c:5149: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:5256: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘ruu_link_idep’:
+powerSMT.c:5388: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘ruu_install_odep’:
+powerSMT.c:5423: warning: value computed is not used
+powerSMT.c: In function ‘simoo_reg_obj’:
+powerSMT.c:5663: warning: value computed is not used
+powerSMT.c:5751: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘ruu_dispatch’:
+powerSMT.c:5890: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+In file included from powerSMT.c:5955:
+machine.def:242: warning: value computed is not used
+machine.def:269: warning: value computed is not used
+machine.def:381: warning: value computed is not used
+machine.def:396: warning: value computed is not used
+machine.def:411: warning: value computed is not used
+machine.def:426: warning: value computed is not used
+machine.def:441: warning: value computed is not used
+machine.def:464: warning: value computed is not used
+machine.def:464: warning: value computed is not used
+machine.def:479: warning: value computed is not used
+machine.def:502: warning: value computed is not used
+machine.def:502: warning: value computed is not used
+machine.def:566: warning: value computed is not used
+machine.def:587: warning: value computed is not used
+machine.def:933: warning: value computed is not used
+machine.def:949: warning: value computed is not used
+machine.def:965: warning: value computed is not used
+machine.def:981: warning: value computed is not used
+machine.def:997: warning: value computed is not used
+machine.def:1020: warning: value computed is not used
+machine.def:1020: warning: value computed is not used
+machine.def:1036: warning: value computed is not used
+machine.def:1059: warning: value computed is not used
+machine.def:1059: warning: value computed is not used
+machine.def:1192: warning: value computed is not used
+machine.def:1223: warning: value computed is not used
+machine.def:1253: warning: value computed is not used
+machine.def:1265: warning: value computed is not used
+machine.def:1274: warning: value computed is not used
+machine.def:1283: warning: value computed is not used
+machine.def:1295: warning: value computed is not used
+machine.def:1304: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1407: warning: value computed is not used
+machine.def:1407: warning: value computed is not used
+machine.def:1420: warning: value computed is not used
+machine.def:1420: warning: value computed is not used
+machine.def:1429: warning: value computed is not used
+machine.def:1438: warning: value computed is not used
+machine.def:1447: warning: value computed is not used
+machine.def:1456: warning: value computed is not used
+machine.def:1466: warning: value computed is not used
+machine.def:1475: warning: value computed is not used
+machine.def:1484: warning: value computed is not used
+machine.def:1493: warning: value computed is not used
+machine.def:1502: warning: value computed is not used
+machine.def:1511: warning: value computed is not used
+machine.def:1520: warning: value computed is not used
+machine.def:1529: warning: value computed is not used
+machine.def:1538: warning: value computed is not used
+machine.def:1566: warning: value computed is not used
+machine.def:1596: warning: value computed is not used
+machine.def:1628: warning: value computed is not used
+machine.def:1661: warning: value computed is not used
+machine.def:1673: warning: value computed is not used
+machine.def:1673: warning: value computed is not used
+machine.def:1685: warning: value computed is not used
+machine.def:1685: warning: value computed is not used
+machine.def:1697: warning: value computed is not used
+machine.def:1697: warning: value computed is not used
+machine.def:1709: warning: value computed is not used
+machine.def:1709: warning: value computed is not used
+machine.def:1725: warning: value computed is not used
+machine.def:1737: warning: value computed is not used
+machine.def:1749: warning: value computed is not used
+machine.def:1761: warning: value computed is not used
+machine.def:1773: warning: value computed is not used
+machine.def:1785: warning: value computed is not used
+machine.def:1799: warning: value computed is not used
+machine.def:1813: warning: value computed is not used
+machine.def:1825: warning: value computed is not used
+machine.def:1837: warning: value computed is not used
+machine.def:1849: warning: value computed is not used
+machine.def:1861: warning: value computed is not used
+machine.def:1873: warning: value computed is not used
+machine.def:1885: warning: value computed is not used
+machine.def:1897: warning: value computed is not used
+machine.def:1909: warning: value computed is not used
+machine.def:1921: warning: value computed is not used
+machine.def:1933: warning: value computed is not used
+machine.def:1945: warning: value computed is not used
+machine.def:1957: warning: value computed is not used
+machine.def:1969: warning: value computed is not used
+machine.def:1981: warning: value computed is not used
+machine.def:1993: warning: value computed is not used
+machine.def:2005: warning: value computed is not used
+machine.def:2017: warning: value computed is not used
+machine.def:2029: warning: value computed is not used
+machine.def:2041: warning: value computed is not used
+machine.def:2053: warning: value computed is not used
+machine.def:2066: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+machine.def:2088: warning: value computed is not used
+machine.def:2097: warning: value computed is not used
+machine.def:2110: warning: value computed is not used
+machine.def:2110: warning: value computed is not used
+machine.def:2128: warning: value computed is not used
+machine.def:2141: warning: value computed is not used
+machine.def:2141: warning: value computed is not used
+powerSMT.c:5968: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c:6384: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘fetch_init’:
+powerSMT.c:6457: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+In file included from powerSMT.c:6849:
+machine.def: In function ‘DESCARTA’:
+machine.def:242: warning: value computed is not used
+machine.def:269: warning: value computed is not used
+machine.def:381: warning: value computed is not used
+machine.def:396: warning: value computed is not used
+machine.def:411: warning: value computed is not used
+machine.def:426: warning: value computed is not used
+machine.def:441: warning: value computed is not used
+machine.def:464: warning: value computed is not used
+machine.def:464: warning: value computed is not used
+machine.def:479: warning: value computed is not used
+machine.def:502: warning: value computed is not used
+machine.def:502: warning: value computed is not used
+machine.def:566: warning: value computed is not used
+machine.def:587: warning: value computed is not used
+machine.def:933: warning: value computed is not used
+machine.def:949: warning: value computed is not used
+machine.def:965: warning: value computed is not used
+machine.def:981: warning: value computed is not used
+machine.def:997: warning: value computed is not used
+machine.def:1020: warning: value computed is not used
+machine.def:1020: warning: value computed is not used
+machine.def:1036: warning: value computed is not used
+machine.def:1059: warning: value computed is not used
+machine.def:1059: warning: value computed is not used
+machine.def:1192: warning: value computed is not used
+machine.def:1223: warning: value computed is not used
+machine.def:1253: warning: value computed is not used
+machine.def:1265: warning: value computed is not used
+machine.def:1274: warning: value computed is not used
+machine.def:1283: warning: value computed is not used
+machine.def:1295: warning: value computed is not used
+machine.def:1304: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1364: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1394: warning: value computed is not used
+machine.def:1407: warning: value computed is not used
+machine.def:1407: warning: value computed is not used
+machine.def:1420: warning: value computed is not used
+machine.def:1420: warning: value computed is not used
+machine.def:1429: warning: value computed is not used
+machine.def:1438: warning: value computed is not used
+machine.def:1447: warning: value computed is not used
+machine.def:1456: warning: value computed is not used
+machine.def:1466: warning: value computed is not used
+machine.def:1475: warning: value computed is not used
+machine.def:1484: warning: value computed is not used
+machine.def:1493: warning: value computed is not used
+machine.def:1502: warning: value computed is not used
+machine.def:1511: warning: value computed is not used
+machine.def:1520: warning: value computed is not used
+machine.def:1529: warning: value computed is not used
+machine.def:1538: warning: value computed is not used
+machine.def:1566: warning: value computed is not used
+machine.def:1596: warning: value computed is not used
+machine.def:1628: warning: value computed is not used
+machine.def:1661: warning: value computed is not used
+machine.def:1673: warning: value computed is not used
+machine.def:1673: warning: value computed is not used
+machine.def:1685: warning: value computed is not used
+machine.def:1685: warning: value computed is not used
+machine.def:1697: warning: value computed is not used
+machine.def:1697: warning: value computed is not used
+machine.def:1709: warning: value computed is not used
+machine.def:1709: warning: value computed is not used
+machine.def:1725: warning: value computed is not used
+machine.def:1737: warning: value computed is not used
+machine.def:1749: warning: value computed is not used
+machine.def:1761: warning: value computed is not used
+machine.def:1773: warning: value computed is not used
+machine.def:1785: warning: value computed is not used
+machine.def:1799: warning: value computed is not used
+machine.def:1813: warning: value computed is not used
+machine.def:1825: warning: value computed is not used
+machine.def:1837: warning: value computed is not used
+machine.def:1849: warning: value computed is not used
+machine.def:1861: warning: value computed is not used
+machine.def:1873: warning: value computed is not used
+machine.def:1885: warning: value computed is not used
+machine.def:1897: warning: value computed is not used
+machine.def:1909: warning: value computed is not used
+machine.def:1921: warning: value computed is not used
+machine.def:1933: warning: value computed is not used
+machine.def:1945: warning: value computed is not used
+machine.def:1957: warning: value computed is not used
+machine.def:1969: warning: value computed is not used
+machine.def:1981: warning: value computed is not used
+machine.def:1993: warning: value computed is not used
+machine.def:2005: warning: value computed is not used
+machine.def:2017: warning: value computed is not used
+machine.def:2029: warning: value computed is not used
+machine.def:2041: warning: value computed is not used
+machine.def:2053: warning: value computed is not used
+machine.def:2066: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+machine.def:2088: warning: value computed is not used
+machine.def:2097: warning: value computed is not used
+machine.def:2110: warning: value computed is not used
+machine.def:2110: warning: value computed is not used
+machine.def:2128: warning: value computed is not used
+machine.def:2141: warning: value computed is not used
+machine.def:2141: warning: value computed is not used
+powerSMT.c:6851: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:6855: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘BUSCA’:
+powerSMT.c:6949: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘sim_main’:
+powerSMT.c:7103: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:7105: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c:7107: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+powerSMT.c: In function ‘sim_load_prog’:
+powerSMT.c:3032: warning: ‘sn’ is used uninitialized in this function
+powerSMT.c: In function ‘DECOD_DESPACHA’:
+powerSMT.c:5803: warning: ‘is_write’ may be used uninitialized in this function
+powerSMT.c:5797: warning: ‘addr’ may be used uninitialized in this function
+cache.c: In function ‘update_way_list’:
+cache.c:307: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+cache.c: In function ‘cache_create’:
+cache.c:334: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c:336: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c:339: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c:341: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c:343: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c:345: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c:347: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c:349: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c:355: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c:381: warning: passing argument 3 of ‘_debug’ discards qualifiers from pointer target type
+cache.c:382: warning: passing argument 3 of ‘_debug’ discards qualifiers from pointer target type
+cache.c:383: warning: passing argument 3 of ‘_debug’ discards qualifiers from pointer target type
+cache.c:384: warning: passing argument 3 of ‘_debug’ discards qualifiers from pointer target type
+cache.c:385: warning: passing argument 3 of ‘_debug’ discards qualifiers from pointer target type
+cache.c:386: warning: passing argument 3 of ‘_debug’ discards qualifiers from pointer target type
+cache.c:405: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c:419: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c: In function ‘cache_char2policy’:
+cache.c:467: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c: In function ‘cache_access’:
+cache.c:656: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c:660: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+cache.c:720: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+bpred.c: In function ‘bpred_create’:
+bpred.c:174: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:210: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+bpred.c:223: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:225: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:229: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:248: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:254: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:266: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+bpred.c: In function ‘bpred_dir_create’:
+bpred.c:287: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:296: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:301: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:306: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:313: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:317: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:332: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:337: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+bpred.c:354: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+bpred.c: In function ‘bpred_dir_config’:
+bpred.c:390: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+bpred.c: In function ‘bpred_config’:
+bpred.c:432: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+bpred.c: In function ‘bpred_reg_stats’:
+bpred.c:474: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+bpred.c: In function ‘bpred_dir_lookup’:
+bpred.c:696: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+bpred.c: In function ‘bpred_lookup’:
+bpred.c:725: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+bpred.c:788: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+resource.c: In function ‘res_create_pool’:
+resource.c:115: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+resource.c:122: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+resource.c:143: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+resource.c:146: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+ptrace.c: In function ‘ptrace_open’:
+ptrace.c:129: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+ptrace.c:136: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+ptrace.c:141: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+ptrace.c:152: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+powerinit.c: In function ‘power_check_options’:
+powerinit.c:745: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+main.c: In function ‘main’:
+main.c:392: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+main.c:504: warning: implicit declaration of function ‘power_reg_options’
+main.c:523: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+main.c:530: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+syscall.c: In function ‘sys_syscall’:
+syscall.c:715: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+syscall.c:758: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+syscall.c:814: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+syscall.c:1294: warning: passing argument 3 of ‘_warn’ discards qualifiers from pointer target type
+syscall.c:1421: warning: passing argument 3 of ‘_warn’ discards qualifiers from pointer target type
+syscall.c:1608: warning: passing argument 3 of ‘_warn’ discards qualifiers from pointer target type
+syscall.c:1614: warning: passing argument 3 of ‘_warn’ discards qualifiers from pointer target type
+syscall.c:1620: warning: passing argument 3 of ‘_warn’ discards qualifiers from pointer target type
+syscall.c:1827: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+syscall.c:1842: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+syscall.c:2052: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+memory.c: In function ‘mem_create’:
+memory.c:127: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+memory.c: In function ‘mem_newpage’:
+memory.c:177: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+memory.c:182: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+regs.c: In function ‘regs_create’:
+regs.c:118: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c: In function ‘ld_load_prog’:
+loader.c:283: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:293: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:317: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:488: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:491: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:499: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:501: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:503: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:507: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:527: warning: passing argument 3 of ‘_debug’ discards qualifiers from pointer target type
+loader.c:536: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:538: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:550: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:553: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:555: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:600: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:603: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:605: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:631: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:637: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:639: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:641: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:653: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:665: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:728: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:741: warning: passing argument 3 of ‘_debug’ discards qualifiers from pointer target type
+loader.c:743: warning: passing argument 3 of ‘_debug’ discards qualifiers from pointer target type
+loader.c:745: warning: passing argument 3 of ‘_debug’ discards qualifiers from pointer target type
+loader.c:747: warning: passing argument 3 of ‘_debug’ discards qualifiers from pointer target type
+loader.c:756: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:758: warning: passing argument 3 of ‘_debug’ discards qualifiers from pointer target type
+loader.c:763: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+loader.c:767: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+dlite.c: In function ‘ident_evaluator’:
+dlite.c:332: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+dlite.c: In function ‘dlite_exec’:
+dlite.c:716: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+dlite.c: In function ‘print_val’:
+dlite.c:807: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+dlite.c:905: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+dlite.c: In function ‘print_help’:
+dlite.c:1014: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+dlite.c: In function ‘dlite_cont’:
+dlite.c:1140: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+dlite.c: In function ‘dlite_dump’:
+dlite.c:1607: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+dlite.c: In function ‘bp_class_str’:
+dlite.c:1796: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+dlite.c: In function ‘set_break’:
+dlite.c:1810: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+dlite.c: In function ‘__check_break’:
+dlite.c:1966: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+dlite.c: In function ‘dlite_dbreak’:
+dlite.c:2021: warning: ‘addr’ may be used uninitialized in this function
+dlite.c:2020: warning: ‘access’ may be used uninitialized in this function
+dlite.c: In function ‘dlite_display’:
+dlite.c:1455: warning: ‘addr’ may be used uninitialized in this function
+dlite.c:1454: warning: ‘modifiers’ may be used uninitialized in this function
+symbol.c: In function ‘sym_loadsyms’:
+symbol.c:457: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:460: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:464: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:467: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:473: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:476: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:482: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:487: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:492: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:495: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:501: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:505: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:567: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:579: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:584: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:594: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+symbol.c:606: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:611: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:624: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+symbol.c:637: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:642: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+symbol.c:655: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+symbol.c: In function ‘sym_bind_addr’:
+symbol.c:773: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+symbol.c: In function ‘sym_bind_name’:
+symbol.c:842: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘result_type’:
+eval.c:306: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘eval_as_double’:
+eval.c:363: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c:365: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘eval_as_float’:
+eval.c:401: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c:403: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘eval_as_quad’:
+eval.c:429: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c:431: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘eval_as_squad’:
+eval.c:456: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c:458: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘eval_as_addr’:
+eval.c:486: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c:488: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘eval_as_uint’:
+eval.c:515: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c:517: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘eval_as_int’:
+eval.c:544: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c:546: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘f_add’:
+eval.c:603: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘f_sub’:
+eval.c:658: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘f_mult’:
+eval.c:713: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘f_div’:
+eval.c:768: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘f_neg’:
+eval.c:846: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘f_eq_zero’:
+eval.c:891: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eval.c: In function ‘eval_new’:
+eval.c:1140: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eval.c: In function ‘eval_print’:
+eval.c:1224: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+options.c: In function ‘opt_new’:
+options.c:122: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘add_option’:
+options.c:169: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+options.c:176: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_int’:
+options.c:201: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:206: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_int_list’:
+options.c:245: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:251: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_uint’:
+options.c:286: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:291: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_uint_list’:
+options.c:329: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:334: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_float’:
+options.c:370: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:375: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_float_list’:
+options.c:414: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:419: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_double’:
+options.c:455: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:460: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_double_list’:
+options.c:499: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:504: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_enum’:
+options.c:616: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:621: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:635: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_enum_list’:
+options.c:675: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:680: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:694: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_flag’:
+options.c:739: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:744: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_flag_list’:
+options.c:786: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:791: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_string’:
+options.c:830: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:833: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:851: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_string_list’:
+options.c:878: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:881: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘process_option’:
+options.c:924: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:937: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:945: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:962: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:976: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:984: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1000: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1015: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1023: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1040: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1046: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1062: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1070: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1087: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1101: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1109: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1128: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1152: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1187: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1195: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1214: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+options.c: In function ‘__opt_process_options’:
+options.c:1248: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1263: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1284: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1299: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘process_file’:
+options.c:1348: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1351: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1359: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1406: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1407: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c:1423: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_print_option’:
+options.c:1493: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+options.c:1512: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+options.c:1547: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+options.c: In function ‘print_help’:
+options.c:1726: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+options.c: In function ‘dump_config’:
+options.c:1785: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+options.c: In function ‘opt_reg_note’:
+options.c:1845: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_eval_ident’:
+stats.c:169: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:188: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_new’:
+stats.c:202: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_delete’:
+stats.c:262: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_reg_int’:
+stats.c:306: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:311: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_reg_uint’:
+stats.c:342: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:347: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_reg_quad’:
+stats.c:379: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:384: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_reg_squad’:
+stats.c:415: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:420: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_reg_float’:
+stats.c:452: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:457: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_reg_double’:
+stats.c:488: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:493: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_reg_dist’:
+stats.c:536: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:541: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:556: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_reg_sdist’:
+stats.c:591: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:596: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:608: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_add_samples’:
+stats.c:646: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+stats.c:661: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:671: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_reg_formula’:
+stats.c:703: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:708: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:715: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘print_dist’:
+stats.c:855: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘print_sdist’:
+stats.c:939: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c:1000: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+stats.c: In function ‘stat_print_stat’:
+stats.c:1095: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eio.c: In function ‘eio_create’:
+eio.c:148: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c: In function ‘eio_open’:
+eio.c:177: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:190: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:198: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:201: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:204: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c: In function ‘eio_read_chkpt’:
+eio.c:356: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:362: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:369: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:374: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:377: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:383: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:390: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:395: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:398: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:404: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:418: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:433: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:447: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:461: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:481: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c: In function ‘my_mem_fn’:
+eio.c:542: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:559: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eio.c: In function ‘eio_read_trace’:
+eio.c:688: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+eio.c:713: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:721: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:725: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:732: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:735: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:741: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:757: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:767: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:798: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:806: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:815: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:831: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c: In function ‘eio_fast_forward’:
+eio.c:861: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+eio.c:871: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+range.c: In function ‘range_print_pos’:
+range.c:189: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+range.c: In function ‘range_cmp_range’:
+range.c:311: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+range.c: In function ‘range_cmp_range1’:
+range.c:330: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+range.c:359: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+misc.c: In function ‘log_base2’:
+misc.c:400: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+misc.c: In function ‘myatosq’:
+misc.c:892: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+misc.c:911: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+misc.c: In function ‘myatoq’:
+misc.c:999: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+misc.c:1018: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+misc.c: In function ‘myvsprintf’:
+misc.c:526: warning: ‘lzero’ may be used uninitialized in this function
+misc.c:523: warning: ‘prec’ may be used uninitialized in this function
+machine.c: In function ‘md_reg_obj’:
+machine.c:467: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+machine.c: In function ‘md_print_creg’:
+machine.c:544: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+In file included from machine.c:591:
+machine.def: In function ‘md_init_decoder’:
+machine.def:217: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:217: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:231: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:231: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:242: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:242: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:255: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:255: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:269: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:269: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:280: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:280: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:291: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:291: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:302: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:302: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:313: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:313: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:324: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:324: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:335: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:335: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:346: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:346: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:357: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:357: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:381: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:381: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:396: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:396: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:411: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:411: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:426: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:426: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:441: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:441: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:464: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:464: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:479: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:479: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:502: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:502: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:566: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:566: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:587: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:587: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:665: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:665: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:680: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:680: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:695: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:695: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:715: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:715: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:732: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:732: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:745: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:745: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:765: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:765: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:829: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:829: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:850: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:850: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:933: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:933: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:949: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:949: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:965: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:965: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:981: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:981: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:997: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:997: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1020: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1020: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1036: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1036: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1059: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1059: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1074: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1074: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1089: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1089: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1104: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1104: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1124: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1124: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1141: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1141: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1154: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1154: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1174: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1174: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1192: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1192: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1206: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1206: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1223: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1223: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1237: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1237: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1253: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1253: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1265: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1265: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1274: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1274: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1283: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1283: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1295: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1295: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1304: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1304: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1364: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1364: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1394: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1394: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1407: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1407: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1420: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1420: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1429: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1429: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1438: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1438: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1447: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1447: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1456: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1456: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1466: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1466: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1475: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1475: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1484: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1484: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1493: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1493: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1502: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1502: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1511: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1511: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1520: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1520: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1529: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1529: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1538: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1538: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1566: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1566: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1596: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1596: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1628: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1628: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1661: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1661: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1673: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1673: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1685: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1685: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1697: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1697: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1709: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1709: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1725: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1725: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1737: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1737: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1749: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1749: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1761: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1761: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1773: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1773: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1785: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1785: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1799: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1799: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1813: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1813: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1825: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1825: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1837: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1837: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1849: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1849: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1861: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1861: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1873: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1873: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1885: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1885: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1897: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1897: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1909: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1909: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1921: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1921: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1933: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1933: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1945: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1945: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1957: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1957: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1969: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1969: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1981: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1981: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1993: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:1993: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2005: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2005: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2017: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2017: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2029: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2029: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2041: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2041: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2053: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2053: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2066: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2066: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2079: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2079: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2088: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2088: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2097: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2097: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2110: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2110: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2119: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2119: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2128: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2128: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2141: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2141: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2150: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+machine.def:2150: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+activationctrl.c: In function ‘activationctrl_create’:
+activationctrl.c:36: warning: ‘actctrl’ is used uninitialized in this function
+libexo.c: In function ‘intern_escape’:
+libexo.c:152: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:211: warning: passing argument 3 of ‘_warn’ discards qualifiers from pointer target type
+libexo.c:215: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c: In function ‘intern_char’:
+libexo.c:232: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+libexo.c:238: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+libexo.c:251: warning: comparison is always false due to limited range of data type
+libexo.c:252: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c: In function ‘intern_string’:
+libexo.c:316: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+libexo.c:329: warning: passing argument 3 of ‘_warn’ discards qualifiers from pointer target type
+libexo.c:332: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+libexo.c: In function ‘exo_intern’:
+libexo.c:394: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c: In function ‘exo_alloc’:
+libexo.c:437: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c: In function ‘exo_new’:
+libexo.c:513: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:520: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:521: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:521: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:558: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+libexo.c: In function ‘exo_delete’:
+libexo.c:642: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+libexo.c: In function ‘exo_copy’:
+libexo.c:711: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:711: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:711: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:711: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:722: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+libexo.c: In function ‘exo_deepcopy’:
+libexo.c:777: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:777: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:777: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:777: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:788: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+libexo.c: In function ‘exo_print’:
+libexo.c:855: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:855: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:900: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+libexo.c: In function ‘exo_read’:
+libexo.c:1117: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:1117: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:1158: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+libexo.c:1236: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:1236: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:1241: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:1241: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+libexo.c:1258: warning: passing argument 3 of ‘_panic’ discards qualifiers from pointer target type
+libexo.c: In function ‘exo_print’:
+libexo.c:880: warning: ‘cr’ may be used uninitialized in this function
+exolex.l: In function ‘yylex’:
+exolex.l:132: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+exolex.l: In function ‘yy_setstream’:
+exolex.l:204: warning: passing argument 3 of ‘_fatal’ discards qualifiers from pointer target type
+./sysprobe: 1: Syntax error: end of file unexpected (expecting ")")

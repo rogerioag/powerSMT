@@ -67,9 +67,3 @@ depend:
 
 cacti.$(OEXT): def.h
 io.$(OEXT): def.h
- 
-
-
-
-
-

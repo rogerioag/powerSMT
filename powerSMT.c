@@ -2278,7 +2278,7 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 {
 	int i, sn, bank;
 	char stat_name[64];
-	char formula_name[256];
+	char formula_name[1024];
 
 	/* register baseline stats */
 
@@ -2633,6 +2633,17 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		                 NULL,
 		                 sn);
 	}
+	
+	// -- Media de Ocupacao da IFQ.
+	sn = 0;
+	sprintf(formula_name, "( ifq_occupancy_%s", itoa[sn]);
+	for (sn=1; sn<process_num; sn++)
+			sprintf(formula_name, "%s + ifq_occupancy_%s", formula_name, itoa[sn]);
+			
+	sprintf(formula_name, "%s )/ %s", formula_name, itoa[process_num]);
+	// fprintf(stderr, formula_name);
+	stat_reg_formula(sdb, "ifq_occupancy_global_avg", "global avg of IFQ Occupancy (insn's)", formula_name, NULL, 0);
+	// --
 
 	for (sn=0; sn<process_num; sn++) {
 		sprintf(stat_name,
@@ -2710,6 +2721,17 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		                 NULL,
 		                 sn);
 	}
+	
+	// -- Media de Ocupacao da RUU.
+	sn = 0;
+	sprintf(formula_name, "( ruu_occupancy_%s", itoa[sn]);
+	for (sn=1; sn<process_num; sn++)
+			sprintf(formula_name, "%s + ruu_occupancy_%s", formula_name, itoa[sn]);
+	
+	sprintf(formula_name, "%s )/ %s", formula_name, itoa[process_num]);
+	// fprintf(stderr, formula_name);
+	stat_reg_formula(sdb, "ruu_occupancy_global_avg", "global avg of RUU Occupancy (insn's)", formula_name, NULL, 0);
+	// --
 
 	for (sn=0; sn<process_num; sn++) {
 		sprintf(stat_name,
@@ -2787,6 +2809,18 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		                 NULL,
 		                 sn);
 	}
+	
+	// -- Media de Ocupacao da LSQ.
+	sn = 0;
+	sprintf(formula_name, "( lsq_occupancy_%s", itoa[sn]);
+	for (sn=1; sn<process_num; sn++)
+			sprintf(formula_name, "%s + lsq_occupancy_%s", formula_name, itoa[sn]);
+		
+	sprintf(formula_name, "%s )/ %s", formula_name, itoa[process_num]);
+	// fprintf(stderr, formula_name);
+	stat_reg_formula(sdb, "lsq_occupancy_global_avg", "global avg of LSQ Occupancy (insn's)", formula_name, NULL, 0);
+	// --
+	
 
 	for (sn=0; sn<process_num; sn++) {
 		sprintf(stat_name,

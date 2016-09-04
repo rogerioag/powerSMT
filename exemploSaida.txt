@@ -1,0 +1,447 @@
+
+---------- CACTI version 4.1 ----------
+
+Cache Parameters:
+  Number of banks: 1
+  Total Cache Size: 16384
+  Size in bytes of a bank: 16384
+  Number of sets per bank: 512
+  Associativity: 4
+  Block Size (bytes): 8
+  Read/Write Ports: 1
+  Read Ports: 0
+  Write Ports: 0
+  Technology Size: 0.07um
+  Vdd: 0.9V
+
+Access Time (ns): 0.654072
+Cycle Time (ns):  0.345541
+Total dynamic Read Power at max. freq. (W): 0.0396718
+Total leakage Read/Write Power all Banks (mW): 85.7505
+Total dynamic Read Energy all Banks (nJ): 0.0137082
+Total dynamic Write Energy all Banks (nJ): 0.00515047
+Total dynamic Read Energy Without Routing (nJ): 0.0137082
+Total dynamic Write Energy Without Routing (nJ): 0.00515047
+Total dynamic Routing Energy (nJ): 0
+Total leakage Read/Write Power Without Routing (mW): 85.7505
+Total leakage Read/Write Routing Power (mW): 0
+
+Best Ndwl (L1): 1
+Best Ndbl (L1): 4
+Best Nspd (L1): 1.000000
+Best Ntwl (L1): 1
+Best Ntbl (L1): 16
+Best Ntspd (L1): 1
+
+Area Components:
+
+Aspect Ratio Total height/width: 1.724462
+
+Data array (mm^2): 0.108791
+Data predecode (mm^2): 0.001259
+Data colmux predecode (mm^2): 0.000291
+Data colmux post decode (mm^2): 0.000016
+Data write signal (mm^2): 0.000282
+
+Tag array (mm^2): 0.082701
+Tag predecode (mm^2): 0.000581
+Tag colmux predecode (mm^2): 0.000581
+Tag colmux post decode (mm^2): 0.000069
+Tag output driver decode (mm^2): 0.000386
+Tag output driver enable signals (mm^2): 0.000282
+
+Percentage of data ramcells alone of total area: 41.863605 %
+Percentage of tag ramcells alone of total area: 23.548278 %
+Percentage of total control/routing alone of total area: 34.588117 %
+
+Subbank Efficiency : 6541.188312
+Total Efficiency : 53.702079
+
+Total area One bank (mm^2): 0.195241
+Total area subbanked (mm^2): 0.237814
+
+Time Components:
+ data side (with Output driver) (ns): 0.524346
+ tag side (with Output driver) (ns): 0.548391
+ address routing delay (ns): 0
+ decode_data (ns): 0.111216
+     dyn. energy (nJ): 0.000599292
+     leak. power (mW): 0.123365
+ wordline and bitline data (ns): 0.272916
+  dyn. wordline energy (nJ): 7.77772e-05
+  leak. wordline power (mW): 0.00293832
+  dyn. read data bitline energy (nJ): 0.00636477
+  dyn. write data bitline energy (nJ): 0.00201221
+  leak. data bitline power (mW): 53.6062
+ sense_amp_data (ns): 0.072625
+     dyn. energy (nJ): 0.000610309
+     leak. power (mW): 0.511829
+ decode_tag (ns): 0.144778
+     dyn. energy (nJ): 0.00142711
+     leak. power (mW): 0.892159
+ wordline and bitline tag (ns): 0.151935
+  dyn. wordline energy (nJ): 5.10632e-05
+  leak. wordline power (mW): 0.00737661
+  dyn. read data bitline energy (nJ): 0.000902904
+  dyn. write data bitline energy (nJ): 0.000983016
+  leak. data bitline power (mW): 30.1535
+ sense_amp_tag (ns): 0.044625
+  dyn. read energy (nJ): 0.000120083
+  leak. read power (mW): 0.287904
+ compare (ns): 0.117843
+  dyn. read energy (nJ): 0.000532761
+  leak. read power (mW): 0.00948436
+ mux driver (ns): 0.105681
+  dyn. read energy (nJ): 0.00123759
+  leak. read power (mW): 0.0233436
+ sel inverter (ns): 0.0216207
+  dyn. read energy (nJ): 1.45438e-06
+  leak. read power (mW): 0
+ data output driver (ns): 0.0675896
+	   dyn. read energy (nJ): 0.00178312
+	   leak. read power (mW): 0.258705
+ total_out_driver (ns): 0
+	 dyn. read energy (nJ): 0
+	 leak. read power (mW): 0
+ total data path (without output driver) (ns): 0.456757
+ total tag path is set assoc (ns): 0.586482
+
+---------- CACTI version 4.1 ----------
+
+Cache Parameters:
+  Number of banks: 1
+  Total Cache Size: 16384
+  Size in bytes of a bank: 16384
+  Number of sets per bank: 512
+  Associativity: direct mapped
+  Block Size (bytes): 32
+  Read/Write Ports: 1
+  Read Ports: 0
+  Write Ports: 0
+  Technology Size: 0.07um
+  Vdd: 0.9V
+
+Access Time (ns): 0.497451
+Cycle Time (ns):  0.310472
+Total dynamic Read Power at max. freq. (W): 0.0213013
+Total leakage Read/Write Power all Banks (mW): 62.4951
+Total dynamic Read Energy all Banks (nJ): 0.00661344
+Total dynamic Write Energy all Banks (nJ): 0.0022222
+Total dynamic Read Energy Without Routing (nJ): 0.00661344
+Total dynamic Write Energy Without Routing (nJ): 0.0022222
+Total dynamic Routing Energy (nJ): 0
+Total leakage Read/Write Power Without Routing (mW): 62.4951
+Total leakage Read/Write Routing Power (mW): 0
+
+Best Ndwl (L1): 1
+Best Ndbl (L1): 8
+Best Nspd (L1): 1.000000
+Best Ntwl (L1): 1
+Best Ntbl (L1): 32
+Best Ntspd (L1): 1
+
+Area Components:
+
+Aspect Ratio Total height/width: 3.779925
+
+Data array (mm^2): 0.133136
+Data predecode (mm^2): 0.000581
+Data colmux predecode (mm^2): 0.000291
+Data colmux post decode (mm^2): 0.000033
+Data write signal (mm^2): 0.000020
+
+Tag array (mm^2): 0.036088
+Tag predecode (mm^2): 0.000581
+Tag colmux predecode (mm^2): 0.000581
+Tag colmux post decode (mm^2): 0.000138
+Tag output driver decode (mm^2): 0.000402
+Tag output driver enable signals (mm^2): 0.000020
+
+Percentage of data ramcells alone of total area: 47.555853 %
+Percentage of tag ramcells alone of total area: 6.316012 %
+Percentage of total control/routing alone of total area: 46.128135 %
+
+Subbank Efficiency : 5387.186488
+Total Efficiency : 50.940262
+
+Total area One bank (mm^2): 0.171872
+Total area subbanked (mm^2): 0.181763
+
+Time Components:
+ data side (with Output driver) (ns): 0.497451
+ tag side (with Output driver) (ns): 0.485193
+ address routing delay (ns): 0
+ decode_data (ns): 0.107753
+     dyn. energy (nJ): 0.000331024
+     leak. power (mW): 0.177111
+ wordline and bitline data (ns): 0.237847
+  dyn. wordline energy (nJ): 7.77772e-05
+  leak. wordline power (mW): 0.00587664
+  dyn. read data bitline energy (nJ): 0.00328633
+  dyn. write data bitline energy (nJ): 0.001035
+  leak. data bitline power (mW): 53.6062
+ sense_amp_data (ns): 0.072625
+     dyn. energy (nJ): 0.000121813
+     leak. power (mW): 0.511829
+ decode_tag (ns): 0.185119
+     dyn. energy (nJ): 0.000605435
+     leak. power (mW): 0.600528
+ wordline and bitline tag (ns): 0.117652
+  dyn. wordline energy (nJ): 1.31233e-05
+  leak. wordline power (mW): 0.00490927
+  dyn. read data bitline energy (nJ): 0.000119022
+  dyn. write data bitline energy (nJ): 0.000159841
+  leak. data bitline power (mW): 7.11957
+ sense_amp_tag (ns): 0.044625
+  dyn. read energy (nJ): 2.83529e-05
+  leak. read power (mW): 0.0679773
+ compare (ns): 0.112303
+  dyn. read energy (nJ): 0.000119761
+  leak. read power (mW): 0.000661704
+ valid signal driver (ns): 0.025494
+     dyn. read energy (nJ): 5.42175e-05
+    leak. read power (mW): 0
+ data output driver (ns): 0.0792262
+	   dyn. read energy (nJ): 0.0019108
+	   leak. read power (mW): 0.583451
+ total_out_driver (ns): 0
+	 dyn. read energy (nJ): 0
+	 leak. read power (mW): 0
+ total data path (without output driver) (ns): 0.418225
+ total tag path is dm (ns): 0.459699
+
+---------- CACTI version 4.1 ----------
+
+Cache Parameters:
+  Number of banks: 1
+  Total Cache Size: 16384
+  Size in bytes of a bank: 16384
+  Number of sets per bank: 128
+  Associativity: 4
+  Block Size (bytes): 32
+  Read/Write Ports: 1
+  Read Ports: 0
+  Write Ports: 0
+  Technology Size: 0.07um
+  Vdd: 0.9V
+
+Access Time (ns): 0.659798
+Cycle Time (ns):  0.304215
+Total dynamic Read Power at max. freq. (W): 0.0628846
+Total leakage Read/Write Power all Banks (mW): 65.3065
+Total dynamic Read Energy all Banks (nJ): 0.0191304
+Total dynamic Write Energy all Banks (nJ): 0.00325121
+Total dynamic Read Energy Without Routing (nJ): 0.0191304
+Total dynamic Write Energy Without Routing (nJ): 0.00325121
+Total dynamic Routing Energy (nJ): 0
+Total leakage Read/Write Power Without Routing (mW): 65.3065
+Total leakage Read/Write Routing Power (mW): 0
+
+Best Ndwl (L1): 1
+Best Ndbl (L1): 8
+Best Nspd (L1): 0.250000
+Best Ntwl (L1): 1
+Best Ntbl (L1): 16
+Best Ntspd (L1): 1
+
+Area Components:
+
+Aspect Ratio Total height/width: 4.326085
+
+Data array (mm^2): 0.134568
+Data predecode (mm^2): 0.000581
+Data colmux predecode (mm^2): 0.000291
+Data colmux post decode (mm^2): 0.000008
+Data write signal (mm^2): 0.000915
+
+Tag array (mm^2): 0.043707
+Tag predecode (mm^2): 0.000291
+Tag colmux predecode (mm^2): 0.000581
+Tag colmux post decode (mm^2): 0.000069
+Tag output driver decode (mm^2): 0.000402
+Tag output driver enable signals (mm^2): 0.000915
+
+Percentage of data ramcells alone of total area: 44.828276 %
+Percentage of tag ramcells alone of total area: 6.303976 %
+Percentage of total control/routing alone of total area: 48.867748 %
+
+Subbank Efficiency : 5113.225208
+Total Efficiency : 44.452106
+
+Total area One bank (mm^2): 0.182329
+Total area subbanked (mm^2): 0.209729
+
+Time Components:
+ data side (with Output driver) (ns): 0.495934
+ tag side (with Output driver) (ns): 0.52295
+ address routing delay (ns): 0
+ decode_data (ns): 0.107753
+     dyn. energy (nJ): 0.000541012
+     leak. power (mW): 0.177111
+ wordline and bitline data (ns): 0.23159
+  dyn. wordline energy (nJ): 0.000311109
+  leak. wordline power (mW): 0.00587664
+  dyn. read data bitline energy (nJ): 0.0126063
+  dyn. write data bitline energy (nJ): 0.001035
+  leak. data bitline power (mW): 53.6062
+ sense_amp_data (ns): 0.072625
+     dyn. energy (nJ): 0.000556808
+     leak. power (mW): 2.04732
+ decode_tag (ns): 0.126033
+     dyn. energy (nJ): 0.000990537
+     leak. power (mW): 0.552538
+ wordline and bitline tag (ns): 0.129259
+  dyn. wordline energy (nJ): 5.10632e-05
+  leak. wordline power (mW): 0.00737661
+  dyn. read data bitline energy (nJ): 0.000297417
+  dyn. write data bitline energy (nJ): 0.000322485
+  leak. data bitline power (mW): 7.53837
+ sense_amp_tag (ns): 0.044625
+  dyn. read energy (nJ): 0.000120083
+  leak. read power (mW): 0.287904
+ compare (ns): 0.117111
+  dyn. read energy (nJ): 0.000527242
+  leak. read power (mW): 0.00888493
+ mux driver (ns): 0.136848
+  dyn. read energy (nJ): 0.000906079
+  leak. read power (mW): 0.651212
+ sel inverter (ns): 0.021955
+  dyn. read energy (nJ): 1.29999e-06
+  leak. read power (mW): 0
+ data output driver (ns): 0.0839666
+	   dyn. read energy (nJ): 0.00222144
+	   leak. read power (mW): 0.606677
+ total_out_driver (ns): 0
+	 dyn. read energy (nJ): 0
+	 leak. read power (mW): 0
+ total data path (without output driver) (ns): 0.411967
+ total tag path is set assoc (ns): 0.575832
+
+---------- CACTI version 4.1 ----------
+
+Cache Parameters:
+  Number of banks: 1
+  Total Cache Size: 262144
+  Size in bytes of a bank: 262144
+  Number of sets per bank: 1024
+  Associativity: 4
+  Block Size (bytes): 64
+  Read/Write Ports: 1
+  Read Ports: 0
+  Write Ports: 0
+  Technology Size: 0.07um
+  Vdd: 0.9V
+
+Access Time (ns): 1.28294
+Cycle Time (ns):  0.376567
+Total dynamic Read Power at max. freq. (W): 0.112187
+Total leakage Read/Write Power all Banks (mW): 933.501
+Total dynamic Read Energy all Banks (nJ): 0.0422459
+Total dynamic Write Energy all Banks (nJ): 0.00667912
+Total dynamic Read Energy Without Routing (nJ): 0.0422459
+Total dynamic Write Energy Without Routing (nJ): 0.00667912
+Total dynamic Routing Energy (nJ): 0
+Total leakage Read/Write Power Without Routing (mW): 933.501
+Total leakage Read/Write Routing Power (mW): 0
+
+Best Ndwl (L1): 2
+Best Ndbl (L1): 32
+Best Nspd (L1): 0.500000
+Best Ntwl (L1): 1
+Best Ntbl (L1): 32
+Best Ntspd (L1): 1
+
+Area Components:
+
+Aspect Ratio Total height/width: 3.045713
+
+Data array (mm^2): 2.295487
+Data predecode (mm^2): 0.000581
+Data colmux predecode (mm^2): 0.000581
+Data colmux post decode (mm^2): 0.000087
+Data write signal (mm^2): 0.003943
+
+Tag array (mm^2): 0.146190
+Tag predecode (mm^2): 0.000581
+Tag colmux predecode (mm^2): 0.000581
+Tag colmux post decode (mm^2): 0.000173
+Tag output driver decode (mm^2): 0.000448
+Tag output driver enable signals (mm^2): 0.003943
+
+Percentage of data ramcells alone of total area: 51.800154 %
+Percentage of tag ramcells alone of total area: 3.228448 %
+Percentage of total control/routing alone of total area: 44.971398 %
+
+Subbank Efficiency : 5502.860233
+Total Efficiency : 46.530245
+
+Total area One bank (mm^2): 2.452594
+Total area subbanked (mm^2): 2.900540
+
+Time Components:
+ data side (with Output driver) (ns): 1.05721
+ tag side (with Output driver) (ns): 0.727118
+ address routing delay (ns): 0
+ decode_data (ns): 0.459854
+     dyn. energy (nJ): 0.00267432
+     leak. power (mW): 3.00846
+ wordline and bitline data (ns): 0.303942
+  dyn. wordline energy (nJ): 0.000613919
+  leak. wordline power (mW): 0.0835789
+  dyn. read data bitline energy (nJ): 0.0250335
+  dyn. write data bitline energy (nJ): 0.0010241
+pow(12.0, 2.0) == 144.000000
+pow(10.0, 3.0) == 1000.000000
+pow(10.0, -3.0) == 0.001000
+str: 123.456
+x: 123.000000
+str: 123.456
+x: 123.456000
+str: 123.456
+x: 123.456000
+123.456 123.456000 123 1000
+sinh(2.0) = 3.62686
+sinh(3.0) = 10.01787
+h=3.60555
+atan2(3,2) = 0.98279
+pow(3.60555,4.0) = 169
+169 / exp(0.98279 * 5) = 1.24102
+3.93117 + 5*log(3.60555) = 10.34355
+cos(10.34355) = -0.6068,  sin(10.34355) = -0.79486
+x     0.5x
+x0.5     x
+x   0.5x
+-1e-17 != -1e-17 Worked!
+  leak. data bitline power (mW): 857.699
+ sense_amp_data (ns): 0.072625
+     dyn. energy (nJ): 0.000739983
+     leak. power (mW): 4.35266
+ decode_tag (ns): 0.170367
+     dyn. energy (nJ): 0.00147744
+     leak. power (mW): 1.47767
+ wordline and bitline tag (ns): 0.148458
+  dyn. wordline energy (nJ): 4.41373e-05
+  leak. wordline power (mW): 0.0130983
+  dyn. read data bitline energy (nJ): 0.000776575
+  dyn. write data bitline energy (nJ): 0.000845203
+  leak. data bitline power (mW): 51.931
+ sense_amp_tag (ns): 0.044625
+  dyn. read energy (nJ): 0.000103405
+  leak. read power (mW): 0.247917
+ compare (ns): 0.1216
+  dyn. read energy (nJ): 0.000568864
+  leak. read power (mW): 0.015375
+ mux driver (ns): 0.55582
+  dyn. read energy (nJ): 0.00225303
+  leak. read power (mW): 7.02092
+ sel inverter (ns): 0.0212772
+  dyn. read energy (nJ): 1.8286e-06
+  leak. read power (mW): 0
+ data output driver (ns): 0.220791
+	   dyn. read energy (nJ): 0.00795889
+	   leak. read power (mW): 10.7437
+ total_out_driver (ns): 0
+	 dyn. read energy (nJ): 0
+	 leak. read power (mW): 0
+ total data path (without output driver) (ns): 0.836421
+ total tag path is set assoc (ns): 1.06215

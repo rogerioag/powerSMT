@@ -549,3 +549,4 @@ void output_data(result_type *result,arearesult_type *arearesult, parameter_type
 
 
 void dumpVarsValues(void);
+void reg_power_stats_composition(struct stat_sdb_t *sdb, char *pVariavel, char *pDescricao);

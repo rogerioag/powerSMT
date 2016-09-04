@@ -10,7 +10,7 @@
 # -fastfwd 50000000
 
 # max instructions.
-# -max:inst 300000000
+# -max:inst 300000
 
 # Fetch Stage. Para cada processo.
 -fetch:width 256 
