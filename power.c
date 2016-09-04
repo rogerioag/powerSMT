@@ -1403,7 +1403,7 @@ void update_power_stats(int sn, signed long long nrCycle){
 
 void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 {
-	fprintf(stderr,"\nStarting power_reg_stats...\n");
+	fprintf(stderr,"\nPowerSMT: Power Model - Starting power_reg_stats...\n");
 	
 	char stat_name[64];
 	char formula_name[1024];
@@ -3367,6 +3367,7 @@ void power_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		stat_reg_double(sdb, stat_name, "maximum cycle power usage of cc3", &max_cycle_power_cc3[sn], 0, NULL, sn);
 	}
 	
+	fprintf(stderr,"\nPowerSMT: Power Model - Finished power_reg_stats...\n");
 }
 
 /* Registry compositions results, icache00 ... icacheN -> icache_comp.
@@ -4274,8 +4275,7 @@ double compute_resultbus_power() {
 void calculate_power(power)
 	power_result_type *power; 
 {
-		
-	LOG(stderr,"calculate_power\n");
+	LOG(stderr,">calculate_power\n");
 	// fprintf(stdout,"FUDGEFACTOR: %f", FUDGEFACTOR); 
 	
 	double clockpower;
@@ -4286,7 +4286,6 @@ void calculate_power(power)
 	int ndwl, ndbl, ntwl, ntbl, ntspd, c, b, a, cache, rowsb, colsb;
 	double nspd;
 	/* CACTI 4.0 */
-	
 	
 	int trowsb, tcolsb, tagsize;
 	
@@ -4318,32 +4317,41 @@ void calculate_power(power)
 	/* PowerSMT Added */
 	/* Initialize fu power values */
 	power->ialu_power  			= 0.0;
-	power->imult_div_power 	= 0.0;
-	power->mem_port_power 	= 0.0;
+	power->imult_div_power 		= 0.0;
+	power->mem_port_power 		= 0.0;
 	power->fpalu_power 			= 0.0;
-	power->fpmult_div_power = 0.0; 
+	power->fpmult_div_power 	= 0.0;
 	power->divmult_power 		= 0.0; 
 	power->homo_power 			= 0.0;
 	
 	/* Calculate the values according fu organization */
 	if (!mystricmp(fu_pool_type, "hetero")){
-		power->ialu_power  			= res_ialu * I_ADD; 													/* integer-ALU, instructions classes treated (ICT): IntALU */
+		/* integer-ALU, instructions classes treated (ICT): IntALU */
+		power->ialu_power  			= res_ialu * I_ADD;
 		// res_imult -> integer-MULT/DIV.quantify.
-		power->imult_div_power 	= res_imult * MAX(I_MULT, I_DIV);							/* integer-MULT/DIV, integer multiplier/divider, ICT: IntMULT, IntDIV */
-		power->mem_port_power 	= res_memport * (RD_PORT + WR_PORT);					/* memory-port, ICT: RdPort, WrPort */
-		power->fpalu_power 			= res_fpalu * F_ADD;													/* FP-ALU, floating point adder/subtractor, ITC: FloatADD, FloatCMP, FloatCVT */
-		power->fpmult_div_power = res_fpmult * (MAX(F_MULT, F_DIV) + F_SQRT);	/* FP-MULT/DIV, floating point multiplier/divider, ICT: FloatMULT, FloatDIV, FloatSQRT */
+		/* integer-MULT/DIV, integer multiplier/divider, ICT: IntMULT, IntDIV */
+		power->imult_div_power 	= res_imult * MAX(I_MULT, I_DIV);
+		/* memory-port, ICT: RdPort, WrPort */
+		power->mem_port_power 	= res_memport * (RD_PORT + WR_PORT);
+		/* FP-ALU, floating point adder/subtractor, ITC: FloatADD, FloatCMP, FloatCVT */
+		power->fpalu_power 			= res_fpalu * F_ADD;
+		/* FP-MULT/DIV, floating point multiplier/divider, ICT: FloatMULT, FloatDIV, FloatSQRT */
+		power->fpmult_div_power = res_fpmult * (MAX(F_MULT, F_DIV) + F_SQRT);
 	}
 	else {	
 		if (!mystricmp(fu_pool_type, "compact")){
-			power->ialu_power  		= res_ialu * I_ADD; 														/* integer-ALU, instructions classes treated (ICT): IntALU */
-			power->divmult_power 	= res_divmult * (MAX(F_DIV_MULT, MAX(MAX(I_MULT, F_MULT), MAX(I_DIV, F_DIV))) + MAX(I_ADD, F_ADD) + F_CMP + F_CVT  + F_SQRT); 		/* DIV/MULT, divider/multiplier, ICT: IntALU, FloatADD, FloatCMP, FloatCVT, 
-					  														 		       																																																				 IntMULT, IntDIV, FloatMULT, FloatDIV, FloatSQRT */
-			power->mem_port_power = res_memport * (RD_PORT + WR_PORT);					/* memory-port, ICT: RdPort, WrPort */
-			power->fpalu_power 		= res_fpalu * F_ADD;													/* FP-ALU, floating point adder/subtractor, ITC: FloatADD, FloatCMP, FloatCVT */
+			/* integer-ALU, instructions classes treated (ICT): IntALU */
+			power->ialu_power  		= res_ialu * I_ADD;
+			/* DIV/MULT, divider/multiplier, ICT: IntALU, FloatADD, FloatCMP, FloatCVT, IntMULT, IntDIV, FloatMULT, FloatDIV, FloatSQRT */
+			power->divmult_power 	= res_divmult * (MAX(F_DIV_MULT, MAX(MAX(I_MULT, F_MULT), MAX(I_DIV, F_DIV))) + MAX(I_ADD, F_ADD) + F_CMP + F_CVT  + F_SQRT);
+			/* memory-port, ICT: RdPort, WrPort */
+			power->mem_port_power = res_memport * (RD_PORT + WR_PORT);
+			/* FP-ALU, floating point adder/subtractor, ITC: FloatADD, FloatCMP, FloatCVT */
+			power->fpalu_power 		= res_fpalu * F_ADD;
 		}
 		else { /* homogeneous fus */
-			power->homo_power 		= res_homo * (MAX(I_ADD, F_ADD) + F_CMP + F_CVT + MAX(I_MULT, F_MULT) + MAX(I_DIV, F_DIV) + F_SQRT + RD_PORT + WR_PORT);	/* homogeneous: ICT: IntALU, IntMULT, IntDIV, FloatADD, FloatCMP, FloatCVT,IntMULT, IntDIV, FloatMULT, FloatDIV, FloatSQRT, RdPort, WrPort */
+			/* homogeneous: ICT: IntALU, IntMULT, IntDIV, FloatADD, FloatCMP, FloatCVT,IntMULT, IntDIV, FloatMULT, FloatDIV, FloatSQRT, RdPort, WrPort */
+			power->homo_power 		= res_homo * (MAX(I_ADD, F_ADD) + F_CMP + F_CVT + MAX(I_MULT, F_MULT) + MAX(I_DIV, F_DIV) + F_SQRT + RD_PORT + WR_PORT);
 		}
 	}
 	 
@@ -4351,7 +4359,7 @@ void calculate_power(power)
 	
 	/* PowerSMT Added */
 	if (verbose)
-			fprintf(stderr,"Instruction Fetch Queue (ifq-fetch_data) power stats\n");
+		fprintf(stderr,"Instruction Fetch Queue (ifq-fetch_data) power stats\n");
 	
 	predeclength = ruu_ifq_size * (RegCellHeight + 3 * ruu_fetch_width * WordlineSpacing);
 
@@ -4448,23 +4456,23 @@ void calculate_power(power)
 		fprintf(stderr,"res station power stats\n");
 	
 	power->rs_decoder = array_decoder_power(RUU_size,
-																					data_width,
-																					predeclength,
-																					2*ruu_issue_width,
-																					ruu_issue_width,
-																					cache);
+											data_width,
+											predeclength,
+											2*ruu_issue_width,
+											ruu_issue_width,
+											cache);
 	power->rs_wordline = array_wordline_power(RUU_size,
-																						data_width,
-																						wordlinelength,
-																						2*ruu_issue_width,
-																						ruu_issue_width,
-																						cache);
+												data_width,
+												wordlinelength,
+												2*ruu_issue_width,
+												ruu_issue_width,
+												cache);
 	power->rs_bitline = array_bitline_power(RUU_size,
-																					data_width,
-																					bitlinelength,
-																					2*ruu_issue_width,
-																					ruu_issue_width,
-																					cache);
+											data_width,
+											bitlinelength,
+											2*ruu_issue_width,
+											ruu_issue_width,
+											cache);
 	/* no senseamps in reg file structures (only caches) */
 	power->rs_senseamp =0;
 
@@ -4472,13 +4480,13 @@ void calculate_power(power)
 	/* LSQ */
 	/* addresses go into lsq tag's */
 	power->lsq_wakeup_tagdrive = cam_tagdrive(LSQ_size,
-																						data_width,
-																						res_memport,
-																						res_memport);
+												data_width,
+												res_memport,
+												res_memport);
 	power->lsq_wakeup_tagmatch = cam_tagmatch(LSQ_size,
-																						data_width,
-																						res_memport,
-																						res_memport);
+												data_width,
+												res_memport,
+												res_memport);
 	power->lsq_wakeup_ormatch = 0;
 
 	wordlinelength = data_width *(RegCellWidth + 4 * res_memport * BitlineSpacing);
@@ -4490,17 +4498,17 @@ void calculate_power(power)
 		fprintf(stderr,"lsq station power stats\n");
 	power->lsq_rs_decoder = array_decoder_power(LSQ_size,data_width,predeclength,res_memport,res_memport,cache);
 	power->lsq_rs_wordline = array_wordline_power(LSQ_size,
-																								data_width,
-																								wordlinelength,
-																								res_memport,
-																								res_memport,
-																								cache);
+													data_width,
+													wordlinelength,
+													res_memport,
+													res_memport,
+													cache);
 	power->lsq_rs_bitline = array_bitline_power(LSQ_size,
-																							data_width,
-																							bitlinelength,
-																							res_memport,
-																							res_memport,
-																							cache);
+												data_width,
+												bitlinelength,
+												res_memport,
+												res_memport,
+												cache);
 	power->lsq_rs_senseamp =0;
 
 	/* ResultBus */
@@ -4673,21 +4681,24 @@ void calculate_power(power)
 	if (verbose)
 		fprintf(stderr,"global predict power stats\n");
 	power->global_predict = array_decoder_power(bimod_config[0]/scale_factor,
-																							2*scale_factor,
-																							predeclength,
-																							1,
-																							1,
-																							cache) + array_wordline_power(bimod_config[0]/scale_factor,
-																																						2*scale_factor,
-																																						wordlinelength,
-																																						1,
-																																						1,
-																																						cache) + array_bitline_power(	bimod_config[0]/scale_factor,
-																																																					2*scale_factor,
-																																																					bitlinelength,
-																																																					1,
-																																																					1,
-																																																					cache) + senseamp_power(2*scale_factor);
+												2*scale_factor,
+												predeclength,
+												1,
+												1,
+												cache) +
+							array_wordline_power(bimod_config[0]/scale_factor,
+												 2*scale_factor,
+												 wordlinelength,
+												 1,
+												 1,
+												 cache) +
+							array_bitline_power(bimod_config[0]/scale_factor,
+												2*scale_factor,
+												bitlinelength,
+												1,
+												1,
+												cache) +
+							senseamp_power(2*scale_factor);
 
 	scale_factor = squarify(comb_config[0], 2);
 
@@ -4698,29 +4709,32 @@ void calculate_power(power)
 	if (verbose)
 		fprintf(stderr,"chooser predict power stats\n");
 	power->chooser = array_decoder_power(comb_config[0]/scale_factor,
-																				2*scale_factor,
-																				predeclength,
-																				1,
-																				1,
-																				cache) + array_wordline_power(comb_config[0]/scale_factor,
-																																			2*scale_factor,
-																																			wordlinelength,
-																																			1,
-																																			1,
-																																			cache) + array_bitline_power(	comb_config[0]/scale_factor,
-																																																		2*scale_factor,
-																																																		bitlinelength,
-																																																		1,
-																																																		1,
-																																																		cache) + senseamp_power(2*scale_factor);
+										 2*scale_factor,
+										 predeclength,
+										 1,
+										 1,
+										 cache) +
+					 array_wordline_power(comb_config[0]/scale_factor,
+							 	 	 	  2*scale_factor,
+							 	 	 	  wordlinelength,
+							 	 	 	  1,
+							 	 	 	  1,
+							 	 	 	  cache) +
+					array_bitline_power(comb_config[0]/scale_factor,
+										2*scale_factor,
+										bitlinelength,
+										1,
+										1,
+										cache) +
+					senseamp_power(2*scale_factor);
 
 	if (verbose)
 		fprintf(stderr,"RAS predict power stats\n");
 	power->ras = simple_array_power(ras_size,
-																	data_width,
-																	1,
-																	1,
-																	0);
+									data_width,
+									1,
+									1,
+									0);
 
 	tagsize = va_size - ((int)logtwo(cache_dl1->nsets) + (int)logtwo(cache_dl1->bsize));
 

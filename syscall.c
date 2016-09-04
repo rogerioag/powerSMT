@@ -637,6 +637,20 @@ struct {
 };
 #define SS_NFLAGS	(sizeof(ss_flag_table)/sizeof(ss_flag_table[0]))
 
+
+/* Tratamento de término */
+/* This variable is set or when one program try to execute a "exit"
+ * instruction either when one program reaches its "max:inst option".
+ * In these cases, the architectiure continues to processing the other
+ * applications on the other slot for the current cycle in order to all
+ * applications to be executed the same quantity of cycle */
+extern int finished;
+
+/* when a instruction exit ocurres the exit_slot receives the current slot */
+extern int exit_slot;
+
+
+
 /* syscall proxy handler, architect registers and memory are assumed to be
    precise when this function is called, register and memory are updated with
    the results of the sustem call */
@@ -667,6 +681,8 @@ sys_syscall(struct regs_t *regs,	/* registers to access */
                        /* of all slots in this current cycle */
 
       exit_slot = sn;  /* set the slot that has finished first */
+
+      fprintf(stderr, "SS_SMT: %d: ** exiting of slot **\n", sn);
 
       /* exit jumps to the target set in int_main() */
       longjmp(sim_exit_buf, /* exitcode + fudge */regs->regs_R[4]+1);

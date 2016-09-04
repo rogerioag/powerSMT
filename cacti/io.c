@@ -479,13 +479,9 @@ void output_data(result_type *result,arearesult_type *arearesult, parameter_type
                result->drive_valid_delay,
                result->data_output_delay,
                result->precharge_delay);
-
-
-
 # endif
 
 }
-
 
 total_result_type cacti_interface(
 		int cache_size,
@@ -516,8 +512,6 @@ total_result_type cacti_interface(
    double ratioofbankstoports;
 
    extern int force_tag, force_tag_size;
-
-   
 
    total_result_type endresult;
 
@@ -893,4 +887,3 @@ total_result_type cacti_interface(
 		fclose(fptr);
 	 }
 }*/
-

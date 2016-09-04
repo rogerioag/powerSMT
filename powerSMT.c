@@ -624,54 +624,54 @@ struct res_desc fu_hetero_config[5] = { { "integer-ALU", 4, 0,
 /* homo resource pool definition, NOTE: update FU_*_INDEX defs if you change this.
  * See sim_init for initialization */
 struct res_desc fu_homo_config[1] = { { "homogeneous", 4, 0,
-																				{
-																					{ IntALU, 1, 1 },
-																					{ IntMULT, 3, 1 },
-																					{ IntDIV, 20, 19 },
-																					{ FloatADD, 2, 1 },
-																					{ FloatCMP, 2, 1 },
-																					{ FloatCVT, 2, 1 },
-																					{ FloatMULT, 4, 1 },
-																					{ FloatDIV, 12, 12 },
-																					{ FloatSQRT, 24, 24 },
-																					{ RdPort, 1, 1 },
-																					{ WrPort, 1, 1 } 
-																				}, 
-																		}
+										{
+											{ IntALU, 1, 1 },
+											{ IntMULT, 3, 1 },
+											{ IntDIV, 20, 19 },
+											{ FloatADD, 2, 1 },
+											{ FloatCMP, 2, 1 },
+											{ FloatCVT, 2, 1 },
+											{ FloatMULT, 4, 1 },
+											{ FloatDIV, 12, 12 },
+											{ FloatSQRT, 24, 24 },
+											{ RdPort, 1, 1 },
+											{ WrPort, 1, 1 }
+										},
+									}
 };
 
 /* compact resource pool definition, NOTE: update FU_*_INDEX defs if you change this.
  * See sim_init for initialization */
 
 struct res_desc fu_compact_config[4] = { { "Integer-ALU", 1, 0,
-																					 {
-																							{ IntALU, 1, 1 }
-																					 }
-																				 },
+											{
+												{ IntALU, 1, 1 }
+											}
+										 },
                                          { "Div/Mult", 1, 0,
-																					 { 
-                                        	 		{ IntALU, 1, 1 },
-                                        	 		{ FloatADD, 2, 1 },
-                                        	 		{ FloatCMP, 2, 1 },
-                                        	 		{ FloatCVT, 2, 1 },
-                                        	 		{ IntMULT, 3, 1 },
-                                              { IntDIV, 20, 19 },
-                                              { FloatMULT, 4, 1 },
-                                              { FloatDIV, 12, 12 },
-                                              { FloatSQRT, 24, 24 } 
+                                        	{
+                                        		{ IntALU, 1, 1 },
+                                        		{ FloatADD, 2, 1 },
+                                        		{ FloatCMP, 2, 1 },
+                                        		{ FloatCVT, 2, 1 },
+                                        		{ IntMULT, 3, 1 },
+                                        		{ IntDIV, 20, 19 },
+                                        		{ FloatMULT, 4, 1 },
+                                        		{ FloatDIV, 12, 12 },
+                                        		{ FloatSQRT, 24, 24 }
                                             }
                                          },
                                          { "Memory-Port", 1, 0,
-                                        	 {
-                                        	 		{ RdPort, 1, 1 },
-                                        	 		{ WrPort, 1,1 }
-                                        	 	}
+                                        	{
+                                        		{ RdPort, 1, 1 },
+                                        	 	{ WrPort, 1,1 }
+                                        	}
                                          },
                                          { "FP-ALU", 1, 0,
                                         	 {
-                                        	 		{ FloatADD, 2, 1 },
-                                        	 		{ FloatCMP, 2, 1 },
-                                        	 		{ FloatCVT, 2, 1 } 
+                                        	 	{ FloatADD, 2, 1 },
+                                        	 	{ FloatCMP, 2, 1 },
+                                        	 	{ FloatCVT, 2, 1 }
                                         	 }
                                          }, 
 };
@@ -2282,7 +2282,7 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 
 	/* register baseline stats */
 
-	fprintf(stderr,"\nStarting sim_reg_stats...\n");
+	fprintf(stderr,"\nSS_SMT: Starting sim_reg_stats...\n");
 
 	sn = 0;
 
@@ -2641,7 +2641,6 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 			sprintf(formula_name, "%s + ifq_occupancy_%s", formula_name, itoa[sn]);
 			
 	sprintf(formula_name, "%s )/ %s", formula_name, itoa[process_num]);
-	// fprintf(stderr, formula_name);
 	stat_reg_formula(sdb, "ifq_occupancy_global_avg", "global avg of IFQ Occupancy (insn's)", formula_name, NULL, 0);
 	// --
 
@@ -2729,7 +2728,6 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 			sprintf(formula_name, "%s + ruu_occupancy_%s", formula_name, itoa[sn]);
 	
 	sprintf(formula_name, "%s )/ %s", formula_name, itoa[process_num]);
-	// fprintf(stderr, formula_name);
 	stat_reg_formula(sdb, "ruu_occupancy_global_avg", "global avg of RUU Occupancy (insn's)", formula_name, NULL, 0);
 	// --
 
@@ -2965,7 +2963,7 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 			
 			/* Include the power_reg_stats */
 
-			fprintf(stderr,"\nFinished sim_reg_stats...\n");
+			fprintf(stderr,"\nSS_SMT: Finished sim_reg_stats...\n");
 
 		}
 
@@ -3009,12 +3007,12 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		/* total RS links allocated at program start */
 #define MAX_RS_LINKS                    /* default */ 4096
 
-		/* load program into simulated state */
-		void sim_load_prog(char *fname, /* program to load */
+/* load program into simulated state */
+void sim_load_prog(char *fname, /* program to load */
 		                   int argc,
 		                   char **argv, /* program arguments */
 		                   char **envp) /* program environment */
-		{
+{
 			int i, j, line_number, sn; /* slot's number */
 			int file_analysed; /* logical variable to control the programs load */
 			int new_argc; /* argument number inside a command line */
@@ -3024,7 +3022,7 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 			char *FNAME;
 			FILE *fd;
 
-			fprintf(stderr,"\nStarting sim_load_prog...\n");
+			fprintf(stderr,"\nSS_SMT: Starting sim_load_prog...\n");
 
 			/* this code must identify inside from text file pointed by "fname" which are the programs to be executed. Each line from that file must contain one comand line for one program, including program name and argumentfnames. The file must has "process_num" lines at least. The applications which will be executed start in the "start_command_line" line and finish in the "last_command_line" linen. A part of this code was adapted from "process_file" function of the original SS 3.0 "options.c" file */
 
@@ -3111,20 +3109,20 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 					sim_inputname[sn] = mystrdup(new_argv[new_argc-1]);
 					sim_inputfd[sn] = fopen(sim_inputname[sn],"r");
 
-					fprintf(stderr,"\nfile = %s\n",sim_inputname[sn]);
+					fprintf(stderr," input file = %s\n", sim_inputname[sn]);
 
 					if (!sim_inputfd[sn])
-						fatal(sn,"it is not posible open the file = %s",sim_inputname[sn]);
+						fatal(sn,"it is not posible open the file = %s", sim_inputname[sn]);
 					
 					new_argc = new_argc - 2;
 				}
 
 				if ( (line_number >= start_command_line) &&(line_number <= last_command_line)) {
 					/* emit the command line for each program reuse */
-					fprintf(stderr, "sim: program %d: ",sn);
+					fprintf(stderr, " sim: program %d: ",sn);
 					for (i=0; i < new_argc; i++)
 						fprintf(stderr, "%s ", new_argv[i]);
-					fprintf(stderr, "\n");
+					fprintf(stderr, "\n\n");
 					/* load program text and data, set up environment, memory, and regs */
 
 					envp[0] = NULL;
@@ -3197,24 +3195,23 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 			           simoo_mem_obj,
 			           simoo_mstate_obj);
 			
-			fprintf(stderr,"\nFinished sim_load_prog...\n");
+			fprintf(stderr,"SS_SMT: Finished sim_load_prog...\n");
 
 		}
 
-				/* dump simulator-specific auxiliary simulator statistics */
-				void sim_aux_stats(FILE *stream) /* output stream */
-				{
-					/* nada */
-				}
+/* dump simulator-specific auxiliary simulator statistics */
+void sim_aux_stats(FILE *stream) /* output stream */
+{
+	/* nada */
+}
 
-				/* un-initialize the simulator */
-				void sim_uninit(void) {
-					int sn;
-
-					for (sn=0; sn<process_num; sn++)
-						if (ptrace_nelt > 0)
-							ptrace_close(sn);
-				}
+/* un-initialize the simulator */
+void sim_uninit(void) {
+	int sn;
+	for (sn=0; sn<process_num; sn++)
+		if (ptrace_nelt > 0)
+			ptrace_close(sn);
+}
 
 /*
  * processor core definitions and declarations
@@ -3306,7 +3303,7 @@ typedef unsigned int INST_SEQ_TYPE;
 					RUU[sn] = calloc(RUU_size, sizeof(struct RUU_station));
 					
 					if (!RUU[sn])
-					 fatal(sn,"out of virtual memory");
+					 fatal(sn,"Out of virtual memory");
 
   				RUU_num[sn] = 0;
 					RUU_head[sn] = RUU_tail[sn] = 0;
@@ -3451,7 +3448,7 @@ typedef unsigned int INST_SEQ_TYPE;
 					LSQ[sn] = calloc(LSQ_size,
 					                 sizeof(struct RUU_station));
 					if (!LSQ[sn])
-					fatal(sn,"out of virtual memory")
+					fatal(sn,"Out of virtual memory")
 ;
 
   																									LSQ_num[sn] = 0;
@@ -7019,25 +7016,20 @@ void BUSCA(void) {
 
 /* start simulation, program loaded, processor precise state initialized */
 void sim_main(void) {
-	
-	LOG(stderr, "sim_main\n");
+	LOG(stderr, ">sim_main()\n");
 
 	int sn; /* slot's number */
-
 	int exit_code;
 
 #ifdef HOST_HAS_QUAD
 	/* quad_T temp_quad; *//* " ditto " */
 #endif /* HOST_HAS_QUAD */
 
-	fprintf(stderr, "\nStarting sim_main ....\n");
-
+	fprintf(stderr, "\nSS_SMT: Starting sim_main ....\n");
 	fprintf(stderr,"il1_banks_num = %d dl1_banks_num = %d l2_banks_num = %d\n", il1_banks_num, dl1_banks_num, l2_banks_num);
-
 	fprintf(stderr,"IL1WIDTH = %d IL2WIDTH = %d  DL1WIDTH = %d DL2WIDTH = %d\n\n", IL1_BANK_WIDTH, IL2_BANK_WIDTH, DL1_BANK_WIDTH, DL2_BANK_WIDTH);
 
-	/* ignore any floating point exceptions, they may occur on mis-speculated
-	 execution paths */
+	/* ignore any floating point exceptions, they may occur on mis-speculated execution paths */
 
 	signal(SIGFPE, SIG_IGN);
 
@@ -7048,7 +7040,6 @@ void sim_main(void) {
 	}
 
 	/* Check for DLite debugger entry condition. Do it for all slots */
-
 	for (sn=0; sn<process_num; sn++)
 		if (dlite_check_break(regs[sn]->regs_PC, /*no access*/0, /*addr*/0, 0, 0))
 			dlite_main(regs[sn]->regs_PC,
@@ -7060,15 +7051,12 @@ void sim_main(void) {
 
 	/* fast forward simulator loop, performs functional simulation for
 	 FASTFWD_COUNT insts, then turns on performance (timing) simulation */
-
 	if (fastfwd_count > 0)
 		DESCARTA();
 
 	/* starting performance simulation for all slots */
-
 	for (sn=0; sn<process_num; sn++) {
 		fprintf(stderr, "SS_SMT: %d: ** TEST DONE: starting performance simulation **\n",sn);
-
 		/* set up timing simulation entry state */
 		fetch_regs_PC[sn] = regs[sn]->regs_PC - sizeof(md_inst_t);
 		fetch_pred_PC[sn] = regs[sn]->regs_PC;
@@ -7088,13 +7076,10 @@ void sim_main(void) {
 
 	/* main simulator loop, NOTE: the pipe stages are traverse in reverse order
 	 to eliminate this/next state synchronization and relaxation problems */
-
 	if (!finished)
-		for (;;) /* Loop Forever that simulates the machine cycles */
-		{
+		for (;;) { /* Loop Forever that simulates the machine cycles */
 			/* Each cycle, here is done some integrity checks for all slots */
-			for (sn=0; sn<process_num; sn++)
-			{
+			for (sn=0; sn<process_num; sn++){
 				/* to restore the error integrity */
 				errno = aux_errno[sn];
 
@@ -7105,7 +7090,6 @@ void sim_main(void) {
 					panic(sn,"RUU_head/RUU_tail wedged");
 				if (((LSQ_head[sn] + LSQ_num[sn]) % LSQ_size) != LSQ_tail[sn])
 					panic(sn,"LSQ_head/LSQ_tail wedged");
-				
 				
 				/* added for Wattch to clear hardware access counters */
 				clear_access_stats(sn);
@@ -7121,37 +7105,38 @@ void sim_main(void) {
 			} /* for */
 
 			/* try commit entries from all RUU/LSQ to respective architected register file */
-
+			LOG(stderr, ">CONCLUSAO()\n");
 			CONCLUSAO();
+			LOG(stderr, "~CONCLUSAO()\n");
 
-			/* fprintf(stderr, "\n saiu conclusao ...\n"); */
-
+			LOG(stderr, ">TERMINO()\n");
 			TERMINO();
+			LOG(stderr, "~TERMINO()\n");
 
-			/* fprintf(stderr, "\n saiu termino ...\n"); */
-
-			if (!bugcompat_mode)
+			if (!bugcompat_mode){
+				LOG(stderr, ">REMESSA()\n");
 				REMESSA();
-
-			/* fprintf(stderr, "\n saiu remessa ...\n"); */
+				LOG(stderr, "~REMESSA()\n");
+			}
 
 			/* decode and dispatch new operations */
 			/* ==> insert ops w/ no deps or all regs ready --> reg deps resolved */
-
+			LOG(stderr, ">DECOD_DESPACHA()\n");
 			DECOD_DESPACHA();
+			LOG(stderr, "~DECOD_DESPACHA()\n");
 
-			/* fprintf(stderr, "\n saiu decod_despa ...\n"); */
-
-			if (bugcompat_mode)
+			if (bugcompat_mode){
+				LOG(stderr, ">REMESSA()\n");
 				REMESSA();
+				LOG(stderr, "~REMESSA()\n");
+			}
 
+			LOG(stderr, ">BUSCA()\n");
 			BUSCA();
-
-			/* fprintf(stderr, "\n saiu busca ...\n"); */
+			LOG(stderr, "~BUSCA()\n");
 			
 			/* update buffer occupancy stats for all slots */
 			for (sn=0; sn<process_num; sn++){
-				
 				/* Added by Wattch to update per-cycle power statistics */
 				update_power_stats(sn);
 				
@@ -7166,13 +7151,14 @@ void sim_main(void) {
 			/* finish early? If all slots had finished, then the simulation finishes, but after all remainder slots had executed this same cycle */
 
 			int sum_insts_all_process = 0;
-      for (sn=0; sn<process_num; sn++)
-        sum_insts_all_process += sim_total_insn[sn];
+			for (sn=0; sn<process_num; sn++){
+				sum_insts_all_process += sim_total_insn[sn];
+			}
 
-      if ((max_insts && sum_insts_all_process >= max_insts)){
-        finished = TRUE;
-        break;
-      }
+			if ((max_insts && sum_insts_all_process >= max_insts)){
+				finished = TRUE;
+				break;
+			}
 
 			for (sn=0; sn<process_num; sn++)
 				prev_sim_total_insn[sn] = sim_total_insn[sn];
@@ -7183,7 +7169,6 @@ void sim_main(void) {
 			sim_cycle++; /* computes this cycle */
 
 			/* finish early? If there is one slot at least that had finished, then the simulation finishes, but after all remainder slots had executed this same cycle */
-
 			if (max_cycles && sim_cycle >= max_cycles){
 				LOG(stderr, "~sim_main\n");
 				finished = TRUE;
@@ -7192,23 +7177,18 @@ void sim_main(void) {
 			/* just after all slot have completed the same cycle, the simulation can be file_analysed */
 
 			if (finished){
-				LOG(stderr, "~sim_main\n");
+				LOG(stderr, "~sim_main()\n");
 				return;
 			}
-
-			/* if (sim_cycle > 100000)
-			 fprintf(stderr, "\n cycle = %d ...\n", (int)sim_cycle); */
-
 		} /* end of "for (;;)" */
 
 		if (finished)
 			return;
 
-	} /* end of sim_main */
+} /* end of sim_main */
 
-	/* To initialize all global variables from all banks, because after 
-	 * the replication they din't can be initialized on their declaration.*/
-
+/* To initialize all global variables from all banks, because after
+ * the replication they din't can be initialized on their declaration.*/
 void sim_init_declarations(void) {
 	int sn; /* slot's number */
 
@@ -7292,8 +7272,6 @@ void sim_init_declarations(void) {
 
 	/* from libexo.c */
 	libexo_init_declarations();
-	
-
 }
 
 /* initialize the simulator */
@@ -7301,7 +7279,7 @@ void sim_init(void) {
 	int sn; /* slot's number */
 	char mem_name[128];
 	
-	LOG(stderr, "sim_init\n");
+	LOG(stderr, ">sim_init\n");
 
 	/* allocate and initialize all register file and memory space and more */
 	for (sn=0; sn<process_num; sn++) {
@@ -7317,14 +7295,15 @@ void sim_init(void) {
 	}
 	
 	/* Initialize the power technology parameters */
+	fprintf(stderr, "PowerSMT: ** Initialize the Power Technology Parameters **\n");
 	power_init();
 	  
 	/* initialize variables of power model */
 	init_all_variables_power_model();
 				
 	/* compute static power estimates */
+	fprintf(stderr, "PowerSMT: ** Calculate Power Reference Values **\n");
 	calculate_power(&power);
 	
 	LOG(stderr, "~sim_init\n");
-	
 }
