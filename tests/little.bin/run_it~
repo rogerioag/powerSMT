@@ -1,0 +1,14 @@
+#/bin/bash
+
+echo Running anagram...
+../powerSMT 1 1 -redir:sim /dev/null -redir:prog ../results/anagram run.in
+echo Running fmath
+../powerSMT 2 2 -redir:sim /dev/null -redir:prog ../results/fmath run.in
+echo Running llong
+../powerSMT 3 3 -redir:sim /dev/null -redir:prog ../results/llong run.in
+echo Running lslwr
+../powerSMT 4 4 -redir:sim /dev/null -redir:prog ../results/lslwr run.in
+echo Running math
+../powerSMT 5 5 -redir:sim /dev/null -redir:prog ../results/math run.in
+echo Running printf
+../powerSMT 6 6 -redir:sim /dev/null -redir:prog ../results/printf run.in

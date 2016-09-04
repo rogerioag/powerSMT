@@ -321,13 +321,13 @@ CFLAGS = $(MFLAGS) $(FFLAGS) $(OFLAGS) $(BINUTILS_INC) $(BINUTILS_LIB) $(ADD_INC
 SRCS =	main.c powerSMT.c \
         memory.c regs.c cache.c bpred.c ptrace.c \
 	resource.c endian.c dlite.c symbol.c eval.c options.c range.c \
-	eio.c stats.c misc.c machine.c loader.c syscall.c libexo.c power.c
+	eio.c stats.c misc.c machine.c loader.c syscall.c libexo.c power.c activationctrl.c
 
 
 HDRS =	syscall.h memory.h regs.h sim.h loader.h cache.h bpred.h ptrace.h \
 	resource.h endian.h dlite.h symbol.h eval.h bitmap.h eio.h \
     range.h version.h misc.h machine.h machine.def ecoff.h \
-    power.h
+    power.h activationctrl.h
 
 #
 # common objects
@@ -335,7 +335,8 @@ HDRS =	syscall.h memory.h regs.h sim.h loader.h cache.h bpred.h ptrace.h \
 OBJS =	main.$(OEXT) syscall.$(OEXT) memory.$(OEXT) regs.$(OEXT) \
 	loader.$(OEXT) endian.$(OEXT) dlite.$(OEXT) symbol.$(OEXT) \
 	eval.$(OEXT) options.$(OEXT) stats.$(OEXT) eio.$(OEXT) \
-	range.$(OEXT) misc.$(OEXT) machine.$(OEXT) power.$(OEXT)
+	range.$(OEXT) misc.$(OEXT) machine.$(OEXT) power.$(OEXT) \
+	activationctrl.$(OEXT)
 
 #
 # programs to build
@@ -351,7 +352,7 @@ all: $(PROGS)
 
 
 clean: 
-	$(RM) *.o $(PROGS) sysprobe$(EEXT) *~ Makefile.bak
+	$(RM) *.o *.a $(PROGS) sysprobe$(EEXT) *~ Makefile.bak
 	cd cacti $(CS) $(MAKE) "RM=$(RM)" "CS=$(CS)" clean $(CS) cd ..
 
 powerSMT$(EEXT):	sysprobe$(EEXT) powerSMT.$(OEXT) cache.$(OEXT) bpred.$(OEXT) resource.$(OEXT) ptrace.$(OEXT) $(OBJS) libexo.$(LEXT) cacti/libcacti.$(LEXT)
@@ -375,7 +376,6 @@ cacti cacti/libcacti.$(LEXT): sysprobe$(EEXT)
 power$(EEXT):	power.c
 	$(CC) $(SAFECFLAGS) -c power.c
 
-
 .c.$(OEXT):
 	$(CC) $(CFLAGS) -c $*.c
 
@@ -397,6 +397,7 @@ powerSMT.$(OEXT): host.h misc.h machine.h machine.def regs.h memory.h
 powerSMT.$(OEXT): options.h stats.h eval.h cache.h loader.h syscall.h
 powerSMT.$(OEXT): bpred.h resource.h bitmap.h ptrace.h range.h dlite.h
 powerSMT.$(OEXT): sim.h
+powerSMT.$(OEXT): activationctrl.h
 memory.$(OEXT): host.h misc.h machine.h machine.def options.h stats.h eval.h
 memory.$(OEXT): memory.h
 regs.$(OEXT): host.h misc.h machine.h machine.def loader.h regs.h memory.h

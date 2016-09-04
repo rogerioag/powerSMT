@@ -352,16 +352,15 @@ mystricmp(char *s1, char *s2)	/* strings to compare, case insensitive */
 {
   unsigned char u1, u2;
 
-  for (;;)
-    {
-      u1 = (unsigned char)*s1++; u1 = tolower(u1);
-      u2 = (unsigned char)*s2++; u2 = tolower(u2);
+  for (;;){
+    u1 = (unsigned char)*s1++; u1 = tolower(u1);
+    u2 = (unsigned char)*s2++; u2 = tolower(u2);
 
-      if (u1 != u2)
-	return u1 - u2;
-      if (u1 == '\0')
-	return 0;
-    }
+    if (u1 != u2)
+    	return u1 - u2;
+    if (u1 == '\0')
+    	return 0;
+  }
 }
 
 /* allocate some core, this memory has overhead no larger than a page

@@ -127,10 +127,7 @@ extern int res_memport;
 extern int res_imult;
 extern int res_fpmult;
 extern int res_divmult;
-
 /* Added by PowerSMT */
-
-
 
 int nvreg_width;
 int npreg_width;
@@ -2598,11 +2595,11 @@ void calculate_power(power)
 	power->falu_power = res_fpalu * F_ADD;
 		
 	/* Others PowerSMT functional units */
-	power->imult_power = res_imult * I_MULT16;
+	power->imult_power = res_imult * I_MULT;
 	power->fpmult_power = res_fpmult * F_MULT;
 	
 	/* DIVMULT calcute as MULT */
-	power->divmult_power = res_divmult * F_MULT;
+	power->divmult_power = res_divmult * F_DIV_MULT;
 	
 	/* IMPLEMENTAR */
 	// power->homo_power = res_homo * 

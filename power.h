@@ -413,12 +413,24 @@
 #define F_ADD          ((1.307-.452)*POWER_SCALE)
 #define F_MULT         ((1.307-.452)*POWER_SCALE)
 
+/* Added by PowerSMT */
+#define F_DIV_MULT     ((1.307-.452)*POWER_SCALE)
+#define I_MULT         I_MULT16
+#define HOMO           
+/* Added by PowerSMT */
+
 #define I_ADD_CLOCK    (.091*POWER_SCALE)
 #define I_MULT_CLOCK   (.095*POWER_SCALE)
 #define I_SHIFT_CLOCK  (.089*POWER_SCALE)
 #define I_LOGIC_CLOCK  (.015*POWER_SCALE)
 #define F_ADD_CLOCK    (.452*POWER_SCALE)
 #define F_MULT_CLOCK   (.452*POWER_SCALE)
+
+/* Added by PowerSMT */
+
+/* Added by PowerSMT */
+
+
 
 /* Used to pass values around the program */
 
