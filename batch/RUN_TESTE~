@@ -5,7 +5,7 @@
 /home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/little.bin/test-printf
 
 #3 anagram
-/home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/little.bin/anagram ./tests/in/words < ./tests/in/input.txt
+/home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/little.bin/anagram /home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/in/words < /home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/in/input.txt
 
 #4 test-fmath
 /home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/little.bin/test-fmath

@@ -321,7 +321,7 @@ CFLAGS = $(MFLAGS) $(FFLAGS) $(OFLAGS) $(BINUTILS_INC) $(BINUTILS_LIB) $(ADD_INC
 SRCS =	main.c powerSMT.c \
         memory.c regs.c cache.c bpred.c ptrace.c \
 	resource.c endian.c dlite.c symbol.c eval.c options.c range.c \
-	eio.c stats.c misc.c machine.c loader.c syscall.c libexo.c power.c activationctrl.c
+	eio.c stats.c misc.c machine.c loader.c syscall.c libexo.c powerinit.c power.c activationctrl.c
 
 
 HDRS =	syscall.h memory.h regs.h sim.h loader.h cache.h bpred.h ptrace.h \
@@ -355,8 +355,8 @@ clean:
 	$(RM) *.o *.a $(PROGS) sysprobe$(EEXT) *~ Makefile.bak
 	cd cacti $(CS) $(MAKE) "RM=$(RM)" "CS=$(CS)" clean $(CS) cd ..
 
-powerSMT$(EEXT):	sysprobe$(EEXT) powerSMT.$(OEXT) cache.$(OEXT) bpred.$(OEXT) resource.$(OEXT) ptrace.$(OEXT) $(OBJS) libexo.$(LEXT) cacti/libcacti.$(LEXT)
-	$(CC) -o powerSMT$(EEXT) $(CFLAGS) powerSMT.$(OEXT) cache.$(OEXT) bpred.$(OEXT) resource.$(OEXT) ptrace.$(OEXT) $(OBJS) libexo.$(LEXT) cacti/libcacti.$(LEXT) $(MLIBS)
+powerSMT$(EEXT):	sysprobe$(EEXT) powerSMT.$(OEXT) cache.$(OEXT) bpred.$(OEXT) resource.$(OEXT) ptrace.$(OEXT) powerinit.$(OEXT) $(OBJS) libexo.$(LEXT) cacti/libcacti.$(LEXT)
+	$(CC) -o powerSMT$(EEXT) $(CFLAGS) powerSMT.$(OEXT) cache.$(OEXT) bpred.$(OEXT) resource.$(OEXT) ptrace.$(OEXT) powerinit.$(OEXT) $(OBJS) libexo.$(LEXT) cacti/libcacti.$(LEXT) $(MLIBS)
 
 sysprobe$(EEXT):	sysprobe.c
 	$(CC) $(FFLAGS) -o sysprobe$(EEXT) sysprobe.c
@@ -423,6 +423,7 @@ eio.$(OEXT): stats.h eval.h loader.h libexo.h host.h misc.h machine.h
 eio.$(OEXT): syscall.h sim.h endian.h eio.h
 stats.$(OEXT): host.h misc.h machine.h machine.def eval.h stats.h
 endian.$(OEXT): endian.h loader.h host.h misc.h machine.h machine.def regs.h
+powerinit.$(OEXT): power.h stats.h options.h
 endian.$(OEXT): memory.h options.h stats.h eval.h
 misc.$(OEXT): host.h misc.h machine.h machine.def
 power.$(OEXT): host.h misc.h machine.h machine.def cache.h memory.h options.h

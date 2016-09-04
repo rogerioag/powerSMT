@@ -530,10 +530,10 @@ char *fu_pool_type = "hetero";
 /* hetero resource pool definition, NOTE: update FU_*_INDEX defs if you change this.See sim_init for initialization */
 
 struct res_desc fu_hetero_config[5] = { { "integer-ALU", 4, 0,
-											{ 
-												{ IntALU, 1,1 } 
-											} 
-										},
+																					{ 
+																						{ IntALU, 1,1 } 
+																					} 
+																				},
                                         { "integer-MULT/DIV", 1, 0,
                                           { 
                                         			{ IntMULT, 3, 1 },
@@ -7026,7 +7026,7 @@ void sim_main(void) {
 //				}
 				
 				/* Added by Wattch to update per-cycle power statistics */
-				update_power_stats(sn, sim_cycle);
+				update_power_stats(sn);
 				
 				IFQ_count[sn] += fetch_num[sn];
 				IFQ_fcount[sn] += ((fetch_num[sn] == ruu_ifq_size) ? 1 : 0);
@@ -7181,6 +7181,9 @@ void sim_init(void) {
 		sim_num_refs[sn] = 0;
 	}
 	
+	/* Initialize the power technology parameters */
+	power_init();
+	  
 	/* initialize variables of power model */
 	init_all_variables_power_model();
 				

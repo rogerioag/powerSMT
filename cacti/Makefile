@@ -3,13 +3,14 @@
 #
 # all the sources
 #
-SRC	= time.c io.c main.c
-HDR	= def.h
+
+SRC	= main.c time.c area.c io.c leakage.c basic_circuit.c
+HDR	= def.h areadef.h leakage.h basic_circuit.h io.h time.h cacti_interface.h
 
 #
 # common objects
 #
-OBJ = time.$(OEXT) io.$(OEXT) main.$(OEXT)
+OBJ = time.$(OEXT) area.$(OEXT) io.$(OEXT) leakage.$(OEXT) basic_circuit.$(OEXT) main.$(OEXT)
 
 #
 # all targets
@@ -21,6 +22,27 @@ libcacti.$(LEXT):	$(OBJ)
 	$(RM) libcacti.$(LEXT)
 	$(AR) $(AROPT)libcacti.$(LEXT) $(OBJ)
 	$(RANLIB) libcacti.$(LEXT)
+	
+cacti : main.o time.o area.o io.o leakage.o basic_circuit.o
+	  $(CC) $(FLAGS) $(OBJS) -o cacti $(LIBS)
+
+main.o : main.c def.h areadef.h leakage.h basic_circuit.h
+	  $(CC) $(FLAGS) -c main.c -o main.o
+
+leakage.o : leakage.h leakage.c
+	  $(CC) $(FLAGS) -c leakage.c -o leakage.o
+
+time.o :  time.c def.h areadef.h leakage.h basic_circuit.h cacti_interface.h
+	   $(CC) $(FLAGS) -c time.c -o time.o
+
+area.o : area.c def.h areadef.h cacti_interface.h
+	   $(CC) $(FLAGS) -c area.c -o area.o 
+
+io.o : def.h io.c areadef.h cacti_interface.h
+	  $(CC) $(FLAGS) -c io.c -o io.o
+
+basic_circuit.o : basic_circuit.h basic_circuit.c
+		   $(CC) $(FLAGS) -c basic_circuit.c -o basic_circuit.o 
 
 .c.$(OEXT):
 	$(CC) $(CFLAGS) -c $*.c
@@ -45,4 +67,9 @@ depend:
 
 cacti.$(OEXT): def.h
 io.$(OEXT): def.h
+ 
+
+
+
+
 

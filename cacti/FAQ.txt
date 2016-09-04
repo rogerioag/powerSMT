@@ -1,0 +1,24 @@
+Q1: 	 What do the buttons for Normal/Serial/Fast mean?
+A1:	CACTI 4.0 has 3 ways in which a cache access can be organized:
+Normal: This is the way standard cache access organization as implemented in CACTI 1.0 to 3.2.
+Serial: With this cache organization the cache tags are accessed first and only the one way which has a match is then read out. 
+		A cache organized in in this way usually has a longer access time, since it fully serializes the tag and data lookups, but 
+		takes less energy per access than a "normal" cache. This organization is employed on some level 2 and 3 which are highly 
+		associative and don't lie on the critical path of the processor.
+Fast: This cache organization trades of extra energy for a potentially faster access time. Instead of waiting for the way select 
+		signal and doing way selection (a big mux basically) at the data subarray, all N ways are routed to the edge of the data 
+		array and only there is way selection done. This means that N times more wires are used on the data output path of this 
+		organization in comparison to the "normal" organization.
+
+Q2: 	What does "Change Tag" mean?
+A2: 	CACTI 4.0 per default assumes a physical address space of 42 bits and calculates tag lengths accordingly. 
+		If your processor uses a bigger or smaller address space, than you should change the tag length to what is right for you. 
+		The same applies for things like branch target buffers and other structures which don't store cache lines and have their own 
+		rules for tag lengths.
+
+Q3: 	Are the displayed "decode_data dyn. energy", "decode_data leak. power" etc. for a single read or write access?
+A3: 	Yes. Components like "decode_data dyn. energy", "decode_data leak. power" etc. are for a single read or write access.
+
+Q4: 	How is a metric like "Total dynamic Read Energy all Banks" calculated?
+A4: 	This metric is calculated by multiplying each dynamic read energy component (decode_data dyn. energy, data wordline dyn. energy etc.) by the total number of read ports and then by the total number of banks. Suppose you have one bank and you have specified 1 R/W port and 2 R ports, then "Total dynamic Read Energy all Banks" is calculated by multiplying the total dynamic read energy per read port by 3 (since total number of read ports is 3). "Total dynamic Write Energy all Banks" is also calculated in a similar way by considering dynamic write energy components.
+	(Last updated on Aug 15, 2006)

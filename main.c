@@ -472,6 +472,15 @@ int main(int argc, char **argv, char **envp) {
 
 			/* register all simulator-specific options */
 			sim_reg_options(sim_odb);
+			
+			
+			/* Leakage: register options	*/
+			  power_reg_options(sim_odb);
+			     
+			/* register HotLeakage -specific options */
+			// power_init();
+			// Moved to sim_init().  
+			
 
 			/* parse simulator options */
 			exec_index = -1;

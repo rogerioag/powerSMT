@@ -256,17 +256,17 @@ extern char *md_op2format[];
 /* function unit classes, update md_fu2name if you update this definition */
 enum md_fu_class {
   FUClass_NA = 0,	/* inst does not use a functional unit */
-  IntALU,		/* integer ALU */
-  IntMULT,		/* integer multiplier */
-  IntDIV,		/* integer divider */
-  FloatADD,		/* floating point adder/subtractor */
-  FloatCMP,		/* floating point comparator */
-  FloatCVT,		/* floating point<->integer converter */
-  FloatMULT,		/* floating point multiplier */
-  FloatDIV,		/* floating point divider */
-  FloatSQRT,		/* floating point square root */
-  RdPort,		/* memory read port */
-  WrPort,		/* memory write port */
+  IntALU,					/* integer ALU */
+  IntMULT,				/* integer multiplier */
+  IntDIV,					/* integer divider */
+  FloatADD,				/* floating point adder/subtractor */
+  FloatCMP,				/* floating point comparator */
+  FloatCVT,				/* floating point<->integer converter */
+  FloatMULT,			/* floating point multiplier */
+  FloatDIV,				/* floating point divider */
+  FloatSQRT,			/* floating point square root */
+  RdPort,					/* memory read port */
+  WrPort,					/* memory write port */
   NUM_FU_CLASSES	/* total functional unit classes */
 };
 
@@ -279,24 +279,24 @@ extern enum md_fu_class md_op2fu[];
 extern char *md_fu2name[];
 
 /* instruction flags */
-#define F_ICOMP		0x00000001	/* integer computation */
-#define F_FCOMP		0x00000002	/* FP computation */
-#define F_CTRL		0x00000004	/* control inst */
-#define F_UNCOND	0x00000008	/*   unconditional change */
-#define F_COND		0x00000010	/*   conditional change */
-#define F_MEM		0x00000020	/* memory access inst */
-#define F_LOAD		0x00000040	/*   load inst */
-#define F_STORE		0x00000080	/*   store inst */
-#define F_DISP		0x00000100	/*   displaced (R+C) addr mode */
-#define F_RR		0x00000200	/*   R+R addr mode */
-#define F_DIRECT	0x00000400	/*   direct addressing mode */
-#define F_TRAP		0x00000800	/* traping inst */
-#define F_LONGLAT	0x00001000	/* long latency inst (for sched) */
-#define F_DIRJMP	0x00002000	/* direct jump */
+#define F_ICOMP			0x00000001	/* integer computation */
+#define F_FCOMP			0x00000002	/* FP computation */
+#define F_CTRL			0x00000004	/* control inst */
+#define F_UNCOND		0x00000008	/* unconditional change */
+#define F_COND			0x00000010	/* conditional change */
+#define F_MEM				0x00000020	/* memory access inst */
+#define F_LOAD			0x00000040	/* load inst */
+#define F_STORE			0x00000080	/* store inst */
+#define F_DISP			0x00000100	/* displaced (R+C) addr mode */
+#define F_RR				0x00000200	/* R+R addr mode */
+#define F_DIRECT		0x00000400	/* direct addressing mode */
+#define F_TRAP			0x00000800	/* traping inst */
+#define F_LONGLAT		0x00001000	/* long latency inst (for sched) */
+#define F_DIRJMP		0x00002000	/* direct jump */
 #define F_INDIRJMP	0x00004000	/* indirect jump */
-#define F_CALL		0x00008000	/* function call */
-#define F_FPCOND	0x00010000	/* FP conditional branch */
-#define F_IMM		0x00020000	/* instruction has immediate operand */
+#define F_CALL			0x00008000	/* function call */
+#define F_FPCOND		0x00010000	/* FP conditional branch */
+#define F_IMM				0x00020000	/* instruction has immediate operand */
 
 /* enum md_opcode -> opcode flags, used by simulators */
 #define MD_OP_FLAGS(OP)		(md_op2flags[OP])

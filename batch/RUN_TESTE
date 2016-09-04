@@ -1,18 +1,18 @@
 #1 test-math
-/home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/little.bin/test-math
+/dados/desenvolvimento/projetos.eclipse/projetos.cpp/powerSMT_impl_v_4/tests/little.bin/test-math
 
 #2 test-printf
-/home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/little.bin/test-printf
+/dados/desenvolvimento/projetos.eclipse/projetos.cpp/powerSMT_impl_v_4/tests/little.bin/test-printf
 
 #3 anagram
-/home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/little.bin/anagram /home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/in/words < /home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/in/input.txt
+/dados/desenvolvimento/projetos.eclipse/projetos.cpp/powerSMT_impl_v_4/tests/little.bin/anagram /dados/desenvolvimento/projetos.eclipse/projetos.cpp/powerSMT_impl_v_4/tests/in/words < /dados/desenvolvimento/projetos.eclipse/projetos.cpp/powerSMT_impl_v_4/tests/in/input.txt
 
 #4 test-fmath
-/home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/little.bin/test-fmath
+/dados/desenvolvimento/projetos.eclipse/projetos.cpp/powerSMT_impl_v_4/tests/little.bin/test-fmath
 
 #5 test-llong
-/home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/little.bin/test-llong
+/dados/desenvolvimento/projetos.eclipse/projetos.cpp/powerSMT_impl_v_4/tests/little.bin/test-llong
 
 #6 test-lswlr
-/home/rogerio/projetos.eclipse/projetos.cpp/powerSMT_impl_v_2/tests/little.bin/test-lswlr
+/dados/desenvolvimento/projetos.eclipse/projetos.cpp/powerSMT_impl_v_4/tests/little.bin/test-lswlr
 

@@ -36,9 +36,9 @@ struct activationctrl_t *activationctrl_create() {
 	return actctrl;	
 }
 
-/* 
-   /* Activation Control */
-/* Inicializa o Controle de Ativação */
+ 
+   // Activation Control
+// Inicializa o Controle de Ativação
 
 //if(b_create_ctrl_act) {
 //	// fprintf(stderr,"Init Activation Control to Cache %s \n", cp->name);
@@ -53,7 +53,7 @@ struct activationctrl_t *activationctrl_create() {
 //
 //	fprintf(stderr,"Inicializando %s->ctrl_ativacao->lines_activation\n", cp->name);
 //
-//	/* Inicializa a estrutura */
+// Inicializa a estrutura
 //	for (ind=0; ind < cp->nsets; ind++) {
 //		struct ctrl_elem_t *nwElem = (struct ctrl_elem_t *) calloc(1, sizeof(struct ctrl_elem_t));
 //		nwElem->ativado = FALSE;
@@ -73,7 +73,7 @@ struct activationctrl_t *activationctrl_create() {
 //	nwCtrlAtivacao->last_address = 0;
 //	nwCtrlAtivacao->activation_errors = 0;
 //
-//	/* Inicializa a line activation latency */
+// Inicializa a line activation latency 
 //	nwCtrlAtivacao->line_act_latency = line_act_latency;
 //
 //	nwCtrlAtivacao->numActiveLines = 0;
@@ -84,9 +84,9 @@ struct activationctrl_t *activationctrl_create() {
 //	if (!cp->ctrl_ativacao->lines_activation)
 //	fprintf(stderr,"out of virtual memory to allocate %s->ctrl_ativacao->lines_activation\n", cp->name);
 //
-//	/* Aloca o registro para armazenamento de informações sobre o conjunto de linhas ativas
-//	 * O global e os números acima do ideal 2
-//	 */
+// Aloca o registro para armazenamento de informações sobre o conjunto de linhas ativas
+// O global e os números acima do ideal 2
+	 
 //	struct ctrl_register_t *registro = (struct ctrl_register_t *) calloc(1, sizeof(struct ctrl_register_t));
 //
 //	registro->acumNumActiveLines = 0;
@@ -101,23 +101,23 @@ struct activationctrl_t *activationctrl_create() {
 //	cp->ctrl_ativacao = NULL;
 //}
 //
-///* Activation Control */
+// Activation Control 
 //
-///* Utilização */
+// Utilização 
 //
-///* Line Activation Control */
-///* Se esta definido um controle de ativacao para a cache */
+// Line Activation Control 
+// Se esta definido um controle de ativacao para a cache 
 //if(cp->ctrl_ativacao) {
 //	// fprintf(stdout,"Acessando controle de ativacao.\n");
 //
 //	// Ativação do Atual e do Proximo movido para o final.
 //
-//	/* Desativa a anterior */
-//	/* Recupera o numero do ultimo conjunto acessado */
+	// Desativa a anterior 
+	// Recupera o numero do ultimo conjunto acessado 
 //
 //	// fprintf(stderr, "Last_address: %d\n", cp->ctrl_ativacao->last_address);
 //
-//	/* Se ja teve um acesso e o ultimo endereco é valido para ser desativado */
+	// Se ja teve um acesso e o ultimo endereco é valido para ser desativado 
 //	if(cp->ctrl_ativacao->is_valid_last_address) {
 //
 //		md_addr_t conjAnt = CACHE_SET(cp, cp->ctrl_ativacao->last_address);
@@ -132,8 +132,8 @@ struct activationctrl_t *activationctrl_create() {
 //		}
 //
 //		// Desativa o proximo do anterior.
-//		/* Se o conjunto atual não é o proximo desejado, o proximo do anterior
-//		 * Ocorreu um erro na ativação. A quantidade de erros deve ser igual ao número de linhas ativas */
+		// Se o conjunto atual não é o proximo desejado, o proximo do anterior
+		//	Ocorreu um erro na ativação. A quantidade de erros deve ser igual ao número de linhas ativas 
 //		md_addr_t proximoAdjacenteDoAnterior = incrementoCircular(conjAnt, cp->nsets);
 //
 //		if((set != conjAnt) && (set != proximoAdjacenteDoAnterior)) {
@@ -147,19 +147,19 @@ struct activationctrl_t *activationctrl_create() {
 //		}
 //	}
 //
-//	/* Ativa a corrente */
-//	/* Se a linha corrente está desativada */
+	// Ativa a corrente 
+	// Se a linha corrente está desativada 
 //	if(!cp->ctrl_ativacao->lines_activation[set]->ativado) {
-//		/* Ativa a linha corrente */
+//		// Ativa a linha corrente 
 //		// fprintf(stderr, "Ativando: %d\n", set);
 //		cp->ctrl_ativacao->lines_activation[set]->ativado = TRUE;
 //		cp->ctrl_ativacao->numActiveLines += 1;
-//		/* Acrescenta a penalidade */
+//		// Acrescenta a penalidade 
 //		lat += cp->ctrl_ativacao->line_act_latency;
 //		cp->ctrl_ativacao->tryAccessInInactiveMode++;
 //	}
 //
-//	/* Ativa a proxima */
+	// Ativa a proxima 
 //	md_addr_t conjProximoAdjacente = incrementoCircular(set, cp->nsets);
 //	if(!cp->ctrl_ativacao->lines_activation[conjProximoAdjacente]->ativado) {
 //		// fprintf(stderr, "Ativando Prox: %d\n", conjProximoAdjacente);
@@ -169,10 +169,10 @@ struct activationctrl_t *activationctrl_create() {
 //		cp->ctrl_ativacao->tryActivateActivatedLine++;
 //	}
 //
-//	/* Armazena o ultimo endereco acessado */
+	// Armazena o ultimo endereco acessado 
 //	cp->ctrl_ativacao->last_address = addr;
 //
-//	/* Seta o last address como válido para as desativacoes */
+//	// Seta o last address como válido para as desativacoes 
 //	// fprintf(stderr, "Antes is valid Last_address: %d\n", cp->ctrl_ativacao->is_valid_last_address);
 //	cp->ctrl_ativacao->is_valid_last_address = TRUE;
 //	// fprintf(stderr, "Depois is valid Last_address: %d\n", cp->ctrl_ativacao->is_valid_last_address);
@@ -180,11 +180,10 @@ struct activationctrl_t *activationctrl_create() {
 //	registrarAcessoConjunto(cp, set);
 //
 //}
-///* Line Activation Control */
+// Line Activation Control 
+// Activation Control 
 //
-///* Activation Control */
-//
-///* Inicializa o controle de ativação */
+// Inicializa o controle de ativação 
 ////void initActivationControl(struct cache_t *cache, unsigned int line_act_latency){
 ////	
 ////	  int ind = 0;
@@ -197,7 +196,7 @@ struct activationctrl_t *activationctrl_create() {
 ////	  
 ////	  fprintf(stderr,"Inicializando %s->ctrl_ativacao->lines_activation\n", cache->name);
 ////	  	    
-////	  /* Inicializa a estrutura */ 
+////	  // Inicializa a estrutura  
 ////	  for (ind=0; ind < cache->nsets; ind++){
 ////	   	struct ctrl_elem_t *nwElem = (struct ctrl_elem_t *) calloc(1, sizeof(struct ctrl_elem_t));
 ////	   	nwElem->ativado = FALSE;
@@ -217,7 +216,7 @@ struct activationctrl_t *activationctrl_create() {
 ////	  nwCtrlAtivacao->last_address = 0;
 ////	  nwCtrlAtivacao->activation_errors = 0;
 ////	  
-////	  /* Inicializa a line activation latency */
+////	  // Inicializa a line activation latency 
 ////	  nwCtrlAtivacao->line_act_latency = line_act_latency;
 ////	  
 ////	  cache->ctrl_ativacao = nwCtrlAtivacao;
@@ -225,9 +224,9 @@ struct activationctrl_t *activationctrl_create() {
 ////	  if (!cache->ctrl_ativacao->lines_activation)
 ////	  	fprintf(stderr,"out of virtual memory to allocate %s->ctrl_ativacao->lines_activation\n", cache->name);
 ////	  
-////	  /* Aloca o registro para armazenamento de informações sobre o conjunto de linhas ativas
+////	  // Aloca o registro para armazenamento de informações sobre o conjunto de linhas ativas
 ////	   * O global e os números acima do ideal 2
-////	   */
+////	   
 ////	  struct ctrl_register_t *registro = (struct ctrl_register_t *) calloc(1, sizeof(struct ctrl_register_t));
 ////	  
 ////	  registro->acumNumActiveLines = 0;
@@ -240,8 +239,8 @@ struct activationctrl_t *activationctrl_create() {
 ////}
 //
 //
-///* Activation Controle */
+// Activation Controle 
 //   
-// */
+
   
 
