@@ -99,7 +99,11 @@ update the "#define itoa" in misc.h file */
 /* usual number of slots (replicated structures) */
 extern int process_num;
 
-/* This variable is set or when one program try to execute a "exit" instruction either when one program reaches its "max:inst option". In these cases, the architectiure continues to processing the other applications on the other slot for the current cycle in order to all applications to be executed the same quantity of cycle */  
+/* This variable is set or when one program try to execute a "exit" instruction
+ * either when one program reaches its "max:inst option". In these cases, the
+ * architectiure continues to processing the other applications on the other slot
+ * for the current cycle in order to all applications to be executed the same quantity
+ * of cycle */
 extern int finished;
 
 /* when a instruction exit ocurres the exit_slot receives the current slot */
