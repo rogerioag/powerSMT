@@ -281,11 +281,7 @@ int l2_banks_num = 1;
 
 int decode_depth = 0; /* see sim_check_opt for initialization */
 
-/* This variable is set or when one program try to execute a "exit" instruction
- * either when one program reaches its "max:inst option". In these cases, the
- * architectiure continues to processing the other applications on the other slot
- * for the current cycle in order to all applications to be executed the same quantity
- * of cycle */
+/* This variable is set or when one program try to execute a "exit" instruction either when one program reaches its "max:inst option". In these cases, the architectiure continues to processing the other applications on the other slot for the current cycle in order to all applications to be executed the same quantity of cycle */
 int finished = FALSE;
 
 /* when a instruction exit ocurres the exit_slot receives the current slot's number */
@@ -2366,7 +2362,7 @@ void sim_reg_stats(struct stat_sdb_t *sdb) /* stats database */
 		        itoa[sn]); /* sim_num_insn is defined in sim.h */
 		stat_reg_counter(sdb, stat_name, /* and it is declared in main.c */
 				"total number of instructions committed",
-				&sim_num_insn[sn], sim_num_insn[sn], NULL, sn);
+				&sim_num_insn[sn], sim_num_insn[sn], NULL,sn);
 	}
 
 	for (sn=0; sn<process_num; sn++) {
@@ -6852,8 +6848,8 @@ void DESCARTA(void) {
 	         { fault = (FAULT); break; }
 #include "machine.def"
 				default:
-					panic(sn,"attempted to execute a bogus opcode");
-			} /* end of switch (op) */
+					panic(sn,"attempted to execute a bogus opcode")
+;		} /* end of switch (op) */
 
 		if (fault != md_fault_none)
 		fatal(sn,"fault (%d) detected @ 0x%08p", fault, regs[sn]->regs_PC);
@@ -7167,17 +7163,16 @@ void sim_main(void) {
 				LSQ_fcount[sn] += ((LSQ_num[sn] == LSQ_size) ? 1 : 0);
 			}
 
-			/* finish early? If all slots had finished,
-			 * then the simulation finishes, but after all
-			 * remainder slots had executed this same cycle
-			 */
+			/* finish early? If all slots had finished, then the simulation finishes, but after all remainder slots had executed this same cycle */
 
-			for (sn=0; sn<process_num; sn++)
-				if ((max_insts && sim_total_insn[sn] >= max_insts))
-				{
-					finished = TRUE;
-					break;
-				}
+			int sum_insts_all_process = 0;
+      for (sn=0; sn<process_num; sn++)
+        sum_insts_all_process += sim_total_insn[sn];
+
+      if ((max_insts && sum_insts_all_process >= max_insts)){
+        finished = TRUE;
+        break;
+      }
 
 			for (sn=0; sn<process_num; sn++)
 				prev_sim_total_insn[sn] = sim_total_insn[sn];
@@ -7331,4 +7326,5 @@ void sim_init(void) {
 	calculate_power(&power);
 	
 	LOG(stderr, "~sim_init\n");
+	
 }
